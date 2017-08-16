@@ -6,6 +6,7 @@ reated by https://www.gitignore.io/api/java,maven,intellij+all
 
 # User-specific stuff:
 .idea/*
+*.iml
 
 # CMake
 cmake-build-debug/
