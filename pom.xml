@@ -17,12 +17,15 @@
 
     <modules>
         <module>botrest</module>
+        <module>crawler</module>
     </modules>
 
     <url>none</url>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
         <mavenVersion>3.5.0</mavenVersion>
         <testngVersion>6.11</testngVersion>
         <mockitoVersion>1.10.19</mockitoVersion>

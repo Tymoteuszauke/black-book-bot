@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/BlackBookRobotDB
+    url: jdbc:mysql://localhost:3306/blackbookrobotdb
     username: root
-    password: 123ZOOMzoom890
+    password: 123
