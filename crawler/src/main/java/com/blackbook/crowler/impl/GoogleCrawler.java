@@ -11,30 +11,27 @@ import com.blackbook.processor.CrawlerProcessorListener;
 import java.util.List;
 
 /**
- * @author Sergey Shevchenko
- * @since 16.08.2017
+ * @author Siarhei Shauchenka
+ * @since 17.08.17
  */
-public class ISBNdbCrawler extends AbstractCrawler implements KeyAccess{
+public class GoogleCrawler extends AbstractCrawler implements KeyAccess{
 
-    private final String BASE_URL = "http://isbndb.com/api/v2/json";
-    private final String CRITERIA = "books?q=science";
+    private final String BASE_URL = "https://www.googleapis.com/books/v1";
+    private final String KEY_STRING = "key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
+    private final String CRITERIA = "";
 
-    private final String devKey;
     private final CrawlerProcessor processor;
 
-    public ISBNdbCrawler(String devKey, CrawlerProcessor crawlerProcessor) {
-        super();
-        this.devKey = devKey;
-        this.processor = crawlerProcessor;
-        processor.initProcessor(getRequest());
+    public GoogleCrawler(CrawlerProcessor processor) {
+        this.processor = processor;
     }
 
     @Override
     public void start(CrawlerActionListener actionListener) {
         processor.process(new CrawlerProcessorListener() {
             @Override
-            public void success(List<BookCreationData> booksData, Paginator paginator) {
-                saveToDBAll(booksData);
+            public void success(List<BookCreationData> bookData, Paginator paginator) {
+
             }
 
             @Override
@@ -46,7 +43,7 @@ public class ISBNdbCrawler extends AbstractCrawler implements KeyAccess{
 
     @Override
     public String getId() {
-        return ISBNdbCrawler.class.getSimpleName();
+        return getClass().getSimpleName();
     }
 
     @Override
@@ -58,8 +55,8 @@ public class ISBNdbCrawler extends AbstractCrawler implements KeyAccess{
     public String getRequest() {
         StringBuilder builder = new StringBuilder();
         builder.append(getBaseUrl()).append("/");
-        builder.append(getKey()).append("/");
-        builder.append(getCriteria());
+        builder.append(getCriteria()).append("/");
+        builder.append(getKey());
         return builder.toString();
     }
 
@@ -75,6 +72,6 @@ public class ISBNdbCrawler extends AbstractCrawler implements KeyAccess{
 
     @Override
     public String getKey() {
-        return devKey;
+        return KEY_STRING;
     }
 }

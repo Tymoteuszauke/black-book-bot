@@ -3,8 +3,8 @@ package com.blackbook.controller;
 
 import com.blackbook.crowler.CrawlersManager;
 import com.blackbook.crowler.core.ICrawlersManager;
-import com.blackbook.crowler.impl.ISBNdbCrawler;
-import com.blackbook.processor.impl.ISBNdbProcessor;
+import com.blackbook.crowler.impl.GoogleCrawler;
+import com.blackbook.processor.impl.GoogleProcessor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +25,7 @@ public class CrawlerRequestController {
 
     public CrawlerRequestController() {
         crawlersManager = new CrawlersManager();
-        crawlersManager.addCrawler(new ISBNdbCrawler("E466PBHL", new ISBNdbProcessor()));
+        crawlersManager.addCrawler(new GoogleCrawler(new GoogleProcessor()));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/start")
@@ -33,7 +33,7 @@ public class CrawlerRequestController {
         crawlersManager.startAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/start/{id}", consumes = "text/html")
+    @RequestMapping(method = RequestMethod.POST, value = "/start/{id}")
     public void startCrawler(@PathParam("id") String crawlerId) {
         crawlersManager.startCrawler(crawlerId);
     }
