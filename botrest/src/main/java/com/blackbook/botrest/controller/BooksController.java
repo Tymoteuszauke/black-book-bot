@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 /**
  * @author Siarhei Shauchenka
  * @since 16.08.17
@@ -29,6 +28,16 @@ public class BooksController {
     @RequestMapping(method = RequestMethod.GET, value = "/by-author")
     public List<Book> getBooksByAuthor(@RequestParam String author) {
         return booksRepository.findAllByAuthor(author);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/more-expensive")
+    public List<Book> getBooksMoreExpensiveThan(@RequestParam double price) {
+        return booksRepository.findByPriceGreaterThan(price);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/cheaper")
+    public List<Book> getBooksCheaperThan(@RequestParam double price) {
+        return booksRepository.findByPriceLessThan(price);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
