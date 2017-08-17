@@ -3,6 +3,7 @@ package com.blackbook.botrest.controller;
 import com.blackbook.botrest.dao.BooksRepository;
 import com.blackbook.botrest.model.Book;
 import com.blackbook.botrest.model.BookCreationData;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @since 16.08.17
  */
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/books")
 public class BooksController {
