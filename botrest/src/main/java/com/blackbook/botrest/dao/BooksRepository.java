@@ -17,4 +17,5 @@ public interface BooksRepository extends CrudRepository<Book, Long> {
     List<Book> findAll();
     List<Book> findByPriceGreaterThan(double price);
     List<Book> findByPriceLessThan(double price);
+    List<Book> findByPriceBetween(double minPrice, double maxPrice);
 }

@@ -40,6 +40,11 @@ public class BooksController {
         return booksRepository.findByPriceLessThan(price);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/in-range")
+    public List<Book> getBooksWithPriceInRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
+        return booksRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     public Book addBook(@RequestBody BookCreationData data) {
 
