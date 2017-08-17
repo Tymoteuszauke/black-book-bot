@@ -1,7 +1,9 @@
 package com.blackbook.crowler.core;
 
+import com.blackbook.botrest.model.BookCreationData;
 import com.blackbook.processor.CrawlerProcessor;
-import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * @author Sergey Shevchenko
@@ -14,4 +16,6 @@ public interface ICrawler {
     String getRequest();
     String getCriteria();
     CrawlerProcessor getProcessor();
+    void saveToDB(BookCreationData bookCreationData);
+    void saveToDBAll(List<BookCreationData> dataList);
 }

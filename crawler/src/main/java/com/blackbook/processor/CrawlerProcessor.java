@@ -1,7 +1,5 @@
 package com.blackbook.processor;
 
-import com.blackbook.crowler.core.CrawlerActionListener;
-
 /**
  * @author Siarhei Shauchenka
  * @since 17.08.17
