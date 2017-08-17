@@ -30,6 +30,11 @@ public class BooksController {
         return booksRepository.findAllByAuthor(author);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/by-title")
+    public List<Book> getBooksByTitle(@RequestParam String title) {
+        return booksRepository.findAllByTitle(title);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/more-expensive")
     public List<Book> getBooksMoreExpensiveThan(@RequestParam double price) {
         return booksRepository.findByPriceGreaterThan(price);

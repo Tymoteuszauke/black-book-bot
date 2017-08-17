@@ -13,8 +13,9 @@ import java.util.List;
  */
 public interface BooksRepository extends CrudRepository<Book, Long> {
 
-    List<Book> findAllByAuthor(String author);
     List<Book> findAll();
+    List<Book> findAllByAuthor(String author);
+    List<Book> findAllByTitle(String title);
     List<Book> findByPriceGreaterThan(double price);
     List<Book> findByPriceLessThan(double price);
     List<Book> findByPriceBetween(double minPrice, double maxPrice);
