@@ -35,6 +35,11 @@ public class BooksController {
         return booksRepository.findAllByTitle(title);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/by-title-fragment")
+    public List<Book> getBooksByTitleFragment(@RequestParam String titleFragment) {
+        return booksRepository.findAllByTitleContaining(titleFragment);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/more-expensive")
     public List<Book> getBooksMoreExpensiveThan(@RequestParam double price) {
         return booksRepository.findByPriceGreaterThan(price);
