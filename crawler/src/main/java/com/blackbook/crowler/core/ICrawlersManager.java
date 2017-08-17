@@ -7,11 +7,11 @@ import java.util.List;
  * @since 16.08.2017
  */
 public interface ICrawlersManager {
-    void startCrawler(String crawlerId, CrawlerActionListener actionListener);
+    void startCrawler(String crawlerId);
     List<ICrawler> getCrawlersList();
     List<String> getCrawlersId();
     void addCrawler(ICrawler crawler);
     void removeCrawler(String crawlerId);
     ICrawler getCrawlerById(String id);
-    void startAll(CrawlerActionListener actionListener);
+    void startAll();
 }

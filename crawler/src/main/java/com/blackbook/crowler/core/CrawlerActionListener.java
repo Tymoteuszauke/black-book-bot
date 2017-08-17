@@ -1,6 +1,6 @@
 package com.blackbook.crowler.core;
 
-import com.mashape.unirest.http.JsonNode;
+import org.json.JSONObject;
 
 /**
  * @author Sergey Shevchenko
@@ -9,5 +9,5 @@ import com.mashape.unirest.http.JsonNode;
 public interface CrawlerActionListener {
 
     void crawlerStarted(String crawlerId);
-    void crawlerFinished(String crawlerId, JsonNode result);
+    void crawlerFinished(String crawlerId, JSONObject result);
 }

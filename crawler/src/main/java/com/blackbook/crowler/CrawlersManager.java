@@ -3,8 +3,12 @@ package com.blackbook.crowler;
 import com.blackbook.crowler.core.CrawlerActionListener;
 import com.blackbook.crowler.core.ICrawler;
 import com.blackbook.crowler.core.ICrawlersManager;
+import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Sergey Shevchenko
@@ -20,8 +24,18 @@ public class CrawlersManager implements ICrawlersManager {
     }
 
     @Override
-    public void startCrawler(String crawlerId, CrawlerActionListener actionListener) {
-        getCrawlerById(crawlerId).start(actionListener);
+    public void startCrawler(String crawlerId) {
+        getCrawlerById(crawlerId).start(new CrawlerActionListener() {
+            @Override
+            public void crawlerStarted(String crawlerId) {
+
+            }
+
+            @Override
+            public void crawlerFinished(String crawlerId, JSONObject result) {
+
+            }
+        });
     }
 
     @Override
@@ -50,7 +64,17 @@ public class CrawlersManager implements ICrawlersManager {
     }
 
     @Override
-    public void startAll(CrawlerActionListener actionListener) {
-        crawlers.forEach((key, crawler) ->  crawler.start(actionListener));
+    public void startAll() {
+        crawlers.forEach((key, crawler) ->  crawler.start(new CrawlerActionListener() {
+            @Override
+            public void crawlerStarted(String crawlerId) {
+
+            }
+
+            @Override
+            public void crawlerFinished(String crawlerId, JSONObject result) {
+
+            }
+        }));
     }
 }

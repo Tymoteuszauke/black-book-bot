@@ -2,14 +2,12 @@ package com.blackbook.controller;
 
 
 import com.blackbook.crowler.CrawlersManager;
-import com.blackbook.crowler.core.CrawlerActionListener;
-import com.blackbook.crowler.core.ICrawler;
 import com.blackbook.crowler.core.ICrawlersManager;
 import com.blackbook.crowler.impl.ISBNdbCrawler;
-import com.mashape.unirest.http.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.web.bind.annotation.*;
+import com.blackbook.processor.impl.ISBNdbProcessor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -23,41 +21,21 @@ import java.util.List;
 @RequestMapping(value = "/api/crawlers")
 public class CrawlerRequestController {
 
-    ICrawlersManager crawlersManager;
+    private final ICrawlersManager crawlersManager;
 
     public CrawlerRequestController() {
         crawlersManager = new CrawlersManager();
-        crawlersManager.addCrawler(new ISBNdbCrawler("E466PBHL"));
+        crawlersManager.addCrawler(new ISBNdbCrawler("E466PBHL", new ISBNdbProcessor()));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/start")
     public void startAllCrawlers() {
-        crawlersManager.startAll(new CrawlerActionListener() {
-            @Override
-            public void crawlerStarted(String crawlerId) {
-
-            }
-
-            @Override
-            public void crawlerFinished(String crawlerId, JsonNode result) {
-                System.out.println(crawlerId + " " + result.getObject().toString());
-            }
-        });
+        crawlersManager.startAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/start", consumes = "text/html")
-    public void startCrawler(@RequestBody String crawlerId) {
-        crawlersManager.startCrawler(crawlerId, new CrawlerActionListener() {
-            @Override
-            public void crawlerStarted(String crawlerId) {
-
-            }
-
-            @Override
-            public void crawlerFinished(String crawlerId, JsonNode result) {
-                System.out.println(crawlerId + " " + result.getObject().toString());
-            }
-        });
+    @RequestMapping(method = RequestMethod.POST, value = "/start/{id}", consumes = "text/html")
+    public void startCrawler(@PathParam("id") String crawlerId) {
+        crawlersManager.startCrawler(crawlerId);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
