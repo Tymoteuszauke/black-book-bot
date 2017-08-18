@@ -1,4 +1,4 @@
-package com.blackbook.crowler.paginator.core;
+package com.blackbook.crawler.paginator.core;
 
 /**
  * @author Siarhei Shauchenka
@@ -6,6 +6,7 @@ package com.blackbook.crowler.paginator.core;
  */
 public interface Paginator {
 
-     int getTotalPage();
+     int getNumberOfPages();
+     int getItemsOnPage();
      int getCurrentPage();
 }

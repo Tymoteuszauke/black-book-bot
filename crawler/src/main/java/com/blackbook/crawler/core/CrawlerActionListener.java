@@ -1,6 +1,4 @@
-package com.blackbook.crowler.core;
-
-import org.json.JSONObject;
+package com.blackbook.crawler.core;
 
 /**
  * @author Sergey Shevchenko
@@ -9,5 +7,5 @@ import org.json.JSONObject;
 public interface CrawlerActionListener {
 
     void crawlerStarted(String crawlerId);
-    void crawlerFinished(String crawlerId, JSONObject result);
+    void crawlerFinished(String crawlerId);
 }

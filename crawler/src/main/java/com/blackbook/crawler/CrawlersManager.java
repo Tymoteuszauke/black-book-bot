@@ -1,9 +1,8 @@
-package com.blackbook.crowler;
+package com.blackbook.crawler;
 
-import com.blackbook.crowler.core.CrawlerActionListener;
-import com.blackbook.crowler.core.ICrawler;
-import com.blackbook.crowler.core.ICrawlersManager;
-import org.json.JSONObject;
+import com.blackbook.crawler.core.CrawlerActionListener;
+import com.blackbook.crawler.core.ICrawler;
+import com.blackbook.crawler.core.ICrawlersManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class CrawlersManager implements ICrawlersManager {
             }
 
             @Override
-            public void crawlerFinished(String crawlerId, JSONObject result) {
+            public void crawlerFinished(String crawlerId) {
 
             }
         });
@@ -72,7 +71,7 @@ public class CrawlersManager implements ICrawlersManager {
             }
 
             @Override
-            public void crawlerFinished(String crawlerId, JSONObject result) {
+            public void crawlerFinished(String crawlerId) {
 
             }
         }));

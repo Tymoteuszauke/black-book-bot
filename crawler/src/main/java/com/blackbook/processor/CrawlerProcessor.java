@@ -9,5 +9,4 @@ public interface CrawlerProcessor {
     public static final int OK_STATUS = 200;
 
     void process(CrawlerProcessorListener actionListener);
-    void initProcessor(String request);
 }

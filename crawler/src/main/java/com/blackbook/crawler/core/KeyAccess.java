@@ -1,4 +1,4 @@
-package com.blackbook.crowler.core;
+package com.blackbook.crawler.core;
 
 /**
  * @author Sergey Shevchenko

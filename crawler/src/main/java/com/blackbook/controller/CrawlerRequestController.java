@@ -1,10 +1,9 @@
 package com.blackbook.controller;
 
 
-import com.blackbook.crowler.CrawlersManager;
-import com.blackbook.crowler.core.ICrawlersManager;
-import com.blackbook.crowler.impl.GoogleCrawler;
-import com.blackbook.processor.impl.GoogleProcessor;
+import com.blackbook.crawler.CrawlersManager;
+import com.blackbook.crawler.core.ICrawlersManager;
+import com.blackbook.crawler.impl.GoogleCrawler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +24,7 @@ public class CrawlerRequestController {
 
     public CrawlerRequestController() {
         crawlersManager = new CrawlersManager();
-        crawlersManager.addCrawler(new GoogleCrawler(new GoogleProcessor()));
+        crawlersManager.addCrawler(new GoogleCrawler());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/start")

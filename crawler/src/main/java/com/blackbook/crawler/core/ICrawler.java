@@ -1,7 +1,6 @@
-package com.blackbook.crowler.core;
+package com.blackbook.crawler.core;
 
 import com.blackbook.botrest.model.BookCreationData;
-import com.blackbook.processor.CrawlerProcessor;
 
 import java.util.List;
 
@@ -13,9 +12,9 @@ public interface ICrawler {
     void start(CrawlerActionListener actionListener);
     String getId();
     String getBaseUrl();
-    String getRequest();
+    String getRequest(int page, int numberOfItemsOnPage);
     String getCriteria();
-    CrawlerProcessor getProcessor();
     void saveToDB(BookCreationData bookCreationData);
     void saveToDBAll(List<BookCreationData> dataList);
+
 }

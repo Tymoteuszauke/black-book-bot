@@ -1,7 +1,7 @@
 package com.blackbook.processor;
 
 import com.blackbook.botrest.model.BookCreationData;
-import com.blackbook.crowler.paginator.core.Paginator;
+import com.blackbook.crawler.paginator.core.Paginator;
 
 import java.util.List;
 
