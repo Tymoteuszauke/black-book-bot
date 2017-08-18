@@ -5,6 +5,9 @@ import com.blackbook.botrest.model.Book;
 import com.blackbook.botrest.model.BookCreationData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,25 +25,25 @@ public class BooksController {
     @Autowired
     private BooksRepository booksRepository;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Book> getBooks() {
-        return booksRepository.findAll();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/by-author")
-    public List<Book> getBooksByAuthor(@RequestParam String author) {
-        return booksRepository.findAllByAuthor(author);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/by-title")
-    public List<Book> getBooksByTitle(@RequestParam String title) {
-        return booksRepository.findAllByTitle(title);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/by-title-fragment")
-    public List<Book> getBooksByTitleFragment(@RequestParam String titleFragment) {
-        return booksRepository.findAllByTitleContaining(titleFragment);
-    }
+//    @RequestMapping(method = RequestMethod.GET)
+//    public List<Book> getBooks() {
+//        return booksRepository.findAll();
+//    }
+//
+//    @RequestMapping(method = RequestMethod.GET, value = "/by-author")
+//    public List<Book> getBooksByAuthor(@RequestParam String author) {
+//        return booksRepository.findAllByAuthor(author);
+//    }
+//
+//    @RequestMapping(method = RequestMethod.GET, value = "/by-title")
+//    public List<Book> getBooksByTitle(@RequestParam String title) {
+//        return booksRepository.findAllByTitle(title);
+//    }
+//
+//    @RequestMapping(method = RequestMethod.GET, value = "/by-title-fragment")
+//    public List<Book> getBooksByTitleFragment(@RequestParam String titleFragment) {
+//        return booksRepository.findAllByTitleContaining(titleFragment);
+//    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/more-expensive")
     public List<Book> getBooksMoreExpensiveThan(@RequestParam double price) {
@@ -55,6 +58,14 @@ public class BooksController {
     @RequestMapping(method = RequestMethod.GET, value = "/in-range")
     public List<Book> getBooksWithPriceInRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
         return booksRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET)
+    public Page<Book> getBooks(@RequestParam(defaultValue = "false") String query,
+                               Pageable pageable) {
+
+        return booksRepository.findBooksWithTextualSearch(query, pageable);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
