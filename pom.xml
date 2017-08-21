@@ -27,6 +27,13 @@
 
     <url>none</url>
 
+    <distributionManagement>
+        <site>
+            <id>blackbot</id>
+            <url>file:///home/area/</url>
+        </site>
+    </distributionManagement>
+
     <properties>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -41,6 +48,9 @@
         <sonarPluginVersion>3.3.0.603</sonarPluginVersion>
         <jxrPluginVersion>2.5</jxrPluginVersion>
         <checkstyleVersion>2.17</checkstyleVersion>
+        <jacocoVersion>0.7.9</jacocoVersion>
+        <failsafeVersion>2.20</failsafeVersion>
+        <siteVersion>3.6</siteVersion>
     </properties>
 
     <description>
@@ -89,6 +99,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <reporting>
         <plugins>
             <plugin>
@@ -107,10 +118,43 @@
                 <artifactId>maven-jxr-plugin</artifactId>
                 <version>${jxrPluginVersion}</version>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacocoVersion}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyleVersion}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                </configuration>
+            </plugin>
         </plugins>
     </reporting>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${siteVersion}</version>
+            </plugin>
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
@@ -119,7 +163,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.9</version>
+                <version>${jacocoVersion}</version>
                 <executions>
                     <execution>
                         <id>jacoco-initialize</id>
@@ -128,21 +172,13 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>jacoco-verify</id>
-                        <phase>verify</phase>
+                        <id>jacoco-site</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${checkstyleVersion}</version>
-                <configuration>
-                    <configLocation>google_checks.xml</configLocation>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -164,8 +200,24 @@
                         <requireJavaVersion>
                             <version>${maven.compiler.source}</version>
                         </requireJavaVersion>
+                        <dependencyConvergence>
+                            <uniqueVersions>true</uniqueVersions>
+                        </dependencyConvergence>
                     </rules>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafeVersion}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

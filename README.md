@@ -33,11 +33,12 @@ and free books on bookstore websites.
 go to localhost:8080/api/books to see records from database
 
 # Code quality
- For running code quality tools type **mvn clean install** from terminal in project directory
- 
- Reports will be created in:
- - **/target/site/index.html** (Checkstyle, Findbugs report)
- - **/target/site/jacoco/** (directory with JaCoCo reports)
- 
- **TODO:**
- - Add sonar to project
+- Run SonarQube server on default port (9000)
+- Run **checkQuality.sh**
+This script will generate Checkstyle, Findbugs, JaCoCo and Sonar reports. 
+It also opens index.html and sonar reports in Mozilla browser.
+
+Reports will be created in:
+- **/target/site/index.html** (Checkstyle, Findbugs report)
+- **/target/site/jacoco/** (directory with JaCoCo reports)
+- **/target/sonar/** (directory with sonar generated files)
