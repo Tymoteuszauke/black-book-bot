@@ -25,26 +25,6 @@ public class BooksController {
     @Autowired
     private BooksRepository booksRepository;
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    public List<Book> getBooks() {
-//        return booksRepository.findAll();
-//    }
-//
-//    @RequestMapping(method = RequestMethod.GET, value = "/by-author")
-//    public List<Book> getBooksByAuthor(@RequestParam String author) {
-//        return booksRepository.findAllByAuthor(author);
-//    }
-//
-//    @RequestMapping(method = RequestMethod.GET, value = "/by-title")
-//    public List<Book> getBooksByTitle(@RequestParam String title) {
-//        return booksRepository.findAllByTitle(title);
-//    }
-//
-//    @RequestMapping(method = RequestMethod.GET, value = "/by-title-fragment")
-//    public List<Book> getBooksByTitleFragment(@RequestParam String titleFragment) {
-//        return booksRepository.findAllByTitleContaining(titleFragment);
-//    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/more-expensive")
     public List<Book> getBooksMoreExpensiveThan(@RequestParam double price) {
         return booksRepository.findByPriceGreaterThan(price);
@@ -55,20 +35,26 @@ public class BooksController {
         return booksRepository.findByPriceLessThan(price);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/in-range")
-    public List<Book> getBooksWithPriceInRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
-        return booksRepository.findByPriceBetween(minPrice, maxPrice);
-    }
-
-
     @RequestMapping(method = RequestMethod.GET)
-    public Page<Book> getBooks(@RequestParam(defaultValue = "false") String query,
+    public Page<Book> getBooks(@RequestParam(defaultValue = "") String query,
+                               @RequestParam(required = false) String priceFrom,
+                               @RequestParam(required = false) String priceTo,
                                Pageable pageable) {
 
+        if (priceFrom != null && priceTo != null) {
+            Double fromPrice = Double.parseDouble(priceFrom);
+            Double toPrice = Double.parseDouble(priceTo);
+            return booksRepository.findBooksWithTextualSearchAndBetweenPrices(query, fromPrice, toPrice, pageable);
+        }
         return booksRepository.findBooksWithTextualSearch(query, pageable);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    public Book getBook(@PathVariable long id) {
+        return booksRepository.findOne(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
     public Book addBook(@RequestBody BookCreationData data) {
 
         Book book = new Book();

@@ -14,14 +14,12 @@ import java.util.List;
  */
 public interface BooksRepository extends CrudRepository<Book, Long> {
 
-    List<Book> findAll();
-    List<Book> findAllByAuthor(String author);
-    List<Book> findAllByTitle(String title);
-    List<Book> findAllByTitleContaining(String titleFragment);
     List<Book> findByPriceGreaterThan(double price);
     List<Book> findByPriceLessThan(double price);
-    List<Book> findByPriceBetween(double minPrice, double maxPrice);
 
     @Query("SELECT b FROM Book b WHERE b.author LIKE %?1% OR b.title LIKE %?1%")
     Page<Book> findBooksWithTextualSearch(String query, Pageable pageable);
+
+    @Query("SELECT b FROM Book b WHERE (b.author LIKE %?1% OR b.title LIKE %?1%) AND (b.price BETWEEN ?2 AND ?3)")
+    Page<Book> findBooksWithTextualSearchAndBetweenPrices(String query, Double priceFrom, Double priceTo, Pageable pageable);
 }
