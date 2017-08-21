@@ -15,7 +15,7 @@ public class BotApplication {
         servletRegistrationBean.addUrlMappings("/console/*");
         return servletRegistrationBean;
     }
-
+  
     public static void main(String[] args) {
         SpringApplication.run(BotApplication.class, args);
     }

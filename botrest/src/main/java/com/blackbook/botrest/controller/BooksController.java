@@ -5,6 +5,9 @@ import com.blackbook.botrest.model.Book;
 import com.blackbook.botrest.model.BookCreationData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,32 +18,13 @@ import java.util.List;
  */
 
 @Slf4j
+@Transactional
 @RestController
 @RequestMapping(value = "/api/books")
 public class BooksController {
 
     @Autowired
     private BooksRepository booksRepository;
-
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Book> getBooks() {
-        return booksRepository.findAll();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/by-author")
-    public List<Book> getBooksByAuthor(@RequestParam String author) {
-        return booksRepository.findAllByAuthor(author);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/by-title")
-    public List<Book> getBooksByTitle(@RequestParam String title) {
-        return booksRepository.findAllByTitle(title);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/by-title-fragment")
-    public List<Book> getBooksByTitleFragment(@RequestParam String titleFragment) {
-        return booksRepository.findAllByTitleContaining(titleFragment);
-    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/more-expensive")
     public List<Book> getBooksMoreExpensiveThan(@RequestParam double price) {
@@ -52,13 +36,30 @@ public class BooksController {
         return booksRepository.findByPriceLessThan(price);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/in-range")
-    public List<Book> getBooksWithPriceInRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
-        return booksRepository.findByPriceBetween(minPrice, maxPrice);
+    @RequestMapping(method = RequestMethod.GET)
+    public Page<Book> getBooks(@RequestParam(defaultValue = "") String query,
+                               @RequestParam(required = false) String priceFrom,
+                               @RequestParam(required = false) String priceTo,
+                               Pageable pageable) {
+        log.info("TRANSACTION: GET /api/books");
+
+        if (priceFrom != null && priceTo != null) {
+            Double fromPrice = Double.parseDouble(priceFrom);
+            Double toPrice = Double.parseDouble(priceTo);
+            return booksRepository.findBooksWithTextualSearchAndBetweenPrices(query, fromPrice, toPrice, pageable);
+        }
+        return booksRepository.findBooksWithTextualSearch(query, pageable);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    public Book getBook(@PathVariable long id) {
+        log.info(String.format("TRANSACTION: GET /api/books/%d", id));
+        return booksRepository.findOne(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
     public Book addBook(@RequestBody BookCreationData data) {
+        log.info("TRANSACTION: POST /api/books");
 
         Book book = new Book();
         book.setAuthor(data.getAuthor());
