@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * @author Siarhei Shauchenka
  * @since 16.08.17
@@ -26,16 +24,6 @@ public class BooksController {
     @Autowired
     private BooksRepository booksRepository;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/more-expensive")
-    public List<Book> getBooksMoreExpensiveThan(@RequestParam double price) {
-        return booksRepository.findByPriceGreaterThan(price);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/cheaper")
-    public List<Book> getBooksCheaperThan(@RequestParam double price) {
-        return booksRepository.findByPriceLessThan(price);
-    }
-
     @RequestMapping(method = RequestMethod.GET)
     public Page<Book> getBooks(@RequestParam(defaultValue = "") String query,
                                @RequestParam(required = false) String priceFrom,
@@ -43,7 +31,7 @@ public class BooksController {
                                Pageable pageable) {
         log.info("TRANSACTION: GET /api/books");
 
-        if (priceFrom != null && priceTo != null) {
+        if (priceFrom != null && priceTo != null && !priceFrom.isEmpty() && !priceTo.isEmpty()) {
             Double fromPrice = Double.parseDouble(priceFrom);
             Double toPrice = Double.parseDouble(priceTo);
             return booksRepository.findBooksWithTextualSearchAndBetweenPrices(query, fromPrice, toPrice, pageable);
