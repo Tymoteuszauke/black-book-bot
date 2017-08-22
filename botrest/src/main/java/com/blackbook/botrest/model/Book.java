@@ -26,5 +26,4 @@ public class Book {
 
     @Column(name = "price")
     private Double price;
-
 }
