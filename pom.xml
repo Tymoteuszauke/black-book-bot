@@ -30,7 +30,7 @@
     <distributionManagement>
         <site>
             <id>blackbot</id>
-            <url>file:///home/area/</url>
+            <url>scp:http://localhost:9000/about</url>
         </site>
     </distributionManagement>
 
@@ -51,6 +51,8 @@
         <jacocoVersion>0.7.9</jacocoVersion>
         <failsafeVersion>2.20</failsafeVersion>
         <siteVersion>3.6</siteVersion>
+        <reportVersion>2.9</reportVersion>
+        <compilerVersion>3.6.1</compilerVersion>
     </properties>
 
     <description>
@@ -103,6 +105,33 @@
     <reporting>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${reportVersion}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>dependency-convergence</report>
+                            <report>cim</report>
+                            <report>dependencies</report>
+                            <report>dependency-info</report>
+                            <report>dependency-management</report>
+                            <report>distribution-management</report>
+                            <report>issue-tracking</report>
+                            <report>license</report>
+                            <report>mailing-list</report>
+                            <report>modules</report>
+                            <report>plugin-management</report>
+                            <report>plugins</report>
+                            <report>project-team</report>
+                            <report>scm</report>
+                            <report>summary</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>${findbugsPluginVersion}</version>
@@ -150,6 +179,15 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compilerVersion}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
