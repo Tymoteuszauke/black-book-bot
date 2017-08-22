@@ -1,4 +1,4 @@
-package com.blackbook.crawler.db.parser;
+package com.blackbook.crawler.db.parser.impl;
 
 import com.blackbook.crawler.db.model.BookCreationData;
 import com.blackbook.crawler.db.parser.core.DataParser;
@@ -21,7 +21,9 @@ public class GoogleParser implements DataParser<JSONObject> {
     private final String PRICE_KEY = "amount";
     private final String VOLUME_INFO_KEY = "volumeInfo";
     private final String SALE_INFO = "saleInfo";
-    private final String LIST_PRICE_KEY = "listPrice";
+    private final String RETAIL_PRICE = "retailPrice";
+    private final String IS_FOR_SALE_KEY = "saleability";
+    private final String NOT_FOR_SALE = "NOT_FOR_SALE";
 
     @Override
     public BookCreationData parseBook(JSONObject objectToParse) {
@@ -29,15 +31,15 @@ public class GoogleParser implements DataParser<JSONObject> {
         if (objectToParse.has(VOLUME_INFO_KEY)) {
             JSONObject volumeInfoObject = objectToParse.getJSONObject(VOLUME_INFO_KEY);
             bookCreationData.setTitle(volumeInfoObject.getString(TITLE_KEY));
-            bookCreationData.setAuthor(volumeInfoObject.getJSONArray(AUTHOR_KEY).toString());
-        }
-        if(objectToParse.has(SALE_INFO)){
-            JSONObject saleInfoObject = objectToParse.getJSONObject(SALE_INFO);
-            if (saleInfoObject.has(LIST_PRICE_KEY)){
-                JSONObject listPriceObject = saleInfoObject.getJSONObject(LIST_PRICE_KEY);
-                bookCreationData.setPrice(listPriceObject.getDouble(PRICE_KEY));
+            if (volumeInfoObject.has(AUTHOR_KEY)){
+                bookCreationData.setAuthor(volumeInfoObject.getJSONArray(AUTHOR_KEY).toString());
             }
         }
+
+        JSONObject saleInfoObject = objectToParse.getJSONObject(SALE_INFO);
+        JSONObject listPriceObject = saleInfoObject.getJSONObject(RETAIL_PRICE);
+        bookCreationData.setPrice(listPriceObject.getDouble(PRICE_KEY));
+
         return bookCreationData;
     }
 
@@ -48,10 +50,20 @@ public class GoogleParser implements DataParser<JSONObject> {
             JSONArray booksArray = objectToParse.getJSONArray(BOOKS_ARRAY_KEY);
             for (int i = 0; i < booksArray.length(); i++) {
                 JSONObject bookObject = booksArray.getJSONObject(i);
-                bookCreationDataList.add(parseBook(bookObject));
+                if (isForSaleAndRetail(bookObject)) {
+                    bookCreationDataList.add(parseBook(bookObject));
+                }
             }
             return bookCreationDataList;
         }
         return Collections.emptyList();
+    }
+
+    private boolean isForSaleAndRetail(JSONObject bookObject) {
+        if (!bookObject.has(SALE_INFO)) {
+            return false;
+        }
+        JSONObject saleInfoObject = bookObject.getJSONObject(SALE_INFO);
+        return !saleInfoObject.getString(IS_FOR_SALE_KEY).equals(NOT_FOR_SALE) && saleInfoObject.has(RETAIL_PRICE);
     }
 }

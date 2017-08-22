@@ -6,7 +6,7 @@ import com.blackbook.crawler.core.KeyAccess;
 import com.blackbook.crawler.db.CrawlerBooksRepository;
 import com.blackbook.crawler.db.model.BookCreationData;
 import com.blackbook.crawler.paginator.core.Paginator;
-import com.blackbook.crawler.processor.CrawlerProcessorListener;
+import com.blackbook.crawler.processor.core.CrawlerProcessorListener;
 import com.blackbook.crawler.processor.impl.GoogleProcessor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
 
     private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     private final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
-    private final String CRITERIA = "flowers+inauthor:keyes";
+    private final String CRITERIA = "\'\'";
 
 
     @Override
@@ -63,8 +63,7 @@ public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
 
                 }
             });
-            //TODO I am not sure that it is correct
-            position += firsPaginator.getItemsOnPage() + 1;
+            position += firsPaginator.getItemsOnPage();
             execute(processor);
         }
     }

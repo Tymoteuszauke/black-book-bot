@@ -1,4 +1,4 @@
-package com.blackbook.crawler.processor;
+package com.blackbook.crawler.processor.core;
 
 import com.blackbook.crawler.db.model.BookCreationData;
 import com.blackbook.crawler.paginator.core.Paginator;

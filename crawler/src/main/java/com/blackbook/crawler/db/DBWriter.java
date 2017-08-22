@@ -25,14 +25,11 @@ public class DBWriter {
         book.setTitle(bookData.getTitle());
         book.setPrice(bookData.getPrice());
         booksRepository.save(book);
-
         return true;
     }
 
     public boolean writeAll(List<BookCreationData> booksData) {
-
         List<Book> books = new ArrayList<>();
-
         booksData.forEach(data -> {
             Book book = new Book();
             book.setAuthor(data.getAuthor());
@@ -41,9 +38,7 @@ public class DBWriter {
             books.add(book);
         });
         booksRepository.save(books);
-
         return true;
-
     }
 
 }

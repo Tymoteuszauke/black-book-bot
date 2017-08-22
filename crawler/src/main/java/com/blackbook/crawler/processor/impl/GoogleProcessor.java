@@ -1,10 +1,10 @@
 package com.blackbook.crawler.processor.impl;
 
-import com.blackbook.crawler.db.parser.GoogleParser;
+import com.blackbook.crawler.db.parser.impl.GoogleParser;
 import com.blackbook.crawler.db.parser.core.DataParser;
-import com.blackbook.crawler.paginator.GooglePaginator;
-import com.blackbook.crawler.processor.CrawlerProcessor;
-import com.blackbook.crawler.processor.CrawlerProcessorListener;
+import com.blackbook.crawler.paginator.impl.GooglePaginator;
+import com.blackbook.crawler.processor.core.CrawlerProcessor;
+import com.blackbook.crawler.processor.core.CrawlerProcessorListener;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;

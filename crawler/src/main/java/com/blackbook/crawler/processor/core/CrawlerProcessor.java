@@ -1,4 +1,4 @@
-package com.blackbook.crawler.processor;
+package com.blackbook.crawler.processor.core;
 
 /**
  * @author Siarhei Shauchenka

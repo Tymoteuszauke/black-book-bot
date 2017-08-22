@@ -1,4 +1,4 @@
-package com.blackbook.crawler.paginator;
+package com.blackbook.crawler.paginator.impl;
 
 import com.blackbook.crawler.paginator.core.Paginator;
 import org.json.JSONObject;
