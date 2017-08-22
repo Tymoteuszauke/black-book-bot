@@ -1,6 +1,7 @@
 package com.blackbook.crawler.core;
 
-import com.blackbook.botrest.model.BookCreationData;
+import com.blackbook.crawler.db.CrawlerBooksRepository;
+import com.blackbook.crawler.db.model.BookCreationData;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @since 16.08.2017
  */
 public interface ICrawler {
-    void start(CrawlerActionListener actionListener);
+    void start(CrawlerBooksRepository crawlerBooksRepository, CrawlerActionListener actionListener);
     String getId();
     String getBaseUrl();
     String getRequest(int page, int numberOfItemsOnPage);

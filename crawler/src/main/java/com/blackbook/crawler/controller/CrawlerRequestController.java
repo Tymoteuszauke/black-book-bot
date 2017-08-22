@@ -1,9 +1,11 @@
-package com.blackbook.controller;
+package com.blackbook.crawler.controller;
 
 
 import com.blackbook.crawler.CrawlersManager;
 import com.blackbook.crawler.core.ICrawlersManager;
+import com.blackbook.crawler.db.CrawlerBooksRepository;
 import com.blackbook.crawler.impl.GoogleCrawler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,15 +17,16 @@ import java.util.List;
  * @author Sergey Shevchenko
  * @since 16.08.2017
  */
-
 @RestController
 @RequestMapping(value = "/api/crawlers")
 public class CrawlerRequestController {
 
     private final ICrawlersManager crawlersManager;
 
-    public CrawlerRequestController() {
-        crawlersManager = new CrawlersManager();
+
+    @Autowired
+    public CrawlerRequestController(CrawlerBooksRepository crawlerBooksRepository) {
+        crawlersManager = new CrawlersManager(crawlerBooksRepository);
         crawlersManager.addCrawler(new GoogleCrawler());
     }
 

@@ -3,6 +3,7 @@ package com.blackbook.crawler;
 import com.blackbook.crawler.core.CrawlerActionListener;
 import com.blackbook.crawler.core.ICrawler;
 import com.blackbook.crawler.core.ICrawlersManager;
+import com.blackbook.crawler.db.CrawlerBooksRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,14 +18,16 @@ import java.util.Map;
 public class CrawlersManager implements ICrawlersManager {
 
     private final Map<String, ICrawler> crawlers;
+    private final CrawlerBooksRepository crawlerBooksRepository;
 
-    public CrawlersManager() {
+    public CrawlersManager(CrawlerBooksRepository crawlerBooksRepository) {
+        this.crawlerBooksRepository = crawlerBooksRepository;
         this.crawlers = new HashMap<>();
     }
 
     @Override
     public void startCrawler(String crawlerId) {
-        getCrawlerById(crawlerId).start(new CrawlerActionListener() {
+        getCrawlerById(crawlerId).start(crawlerBooksRepository, new CrawlerActionListener() {
             @Override
             public void crawlerStarted(String crawlerId) {
 
@@ -64,7 +67,7 @@ public class CrawlersManager implements ICrawlersManager {
 
     @Override
     public void startAll() {
-        crawlers.forEach((key, crawler) ->  crawler.start(new CrawlerActionListener() {
+        crawlers.forEach((key, crawler) ->  crawler.start(crawlerBooksRepository, new CrawlerActionListener() {
             @Override
             public void crawlerStarted(String crawlerId) {
 

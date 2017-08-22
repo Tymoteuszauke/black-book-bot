@@ -62,6 +62,9 @@
         <installPluginVersion>2.5.2</installPluginVersion>
         <jarPluginVersion>3.0.2</jarPluginVersion>
         <resourcesPluginVersion>3.0.2</resourcesPluginVersion>
+        <h2database.version>1.4.196</h2database.version>
+        <jayway.version>2.9.0</jayway.version>
+
     </properties>
 
     <description>
@@ -69,6 +72,19 @@
     </description>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2database.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${jayway.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

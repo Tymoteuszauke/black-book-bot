@@ -1,6 +1,6 @@
-package com.blackbook.processor;
+package com.blackbook.crawler.processor;
 
-import com.blackbook.botrest.model.BookCreationData;
+import com.blackbook.crawler.db.model.BookCreationData;
 import com.blackbook.crawler.paginator.core.Paginator;
 
 import java.util.List;

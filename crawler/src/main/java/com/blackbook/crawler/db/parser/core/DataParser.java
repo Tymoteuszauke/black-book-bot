@@ -1,6 +1,7 @@
-package com.blackbook.db.parser.core;
+package com.blackbook.crawler.db.parser.core;
 
-import com.blackbook.botrest.model.BookCreationData;
+
+import com.blackbook.crawler.db.model.BookCreationData;
 
 import java.util.List;
 

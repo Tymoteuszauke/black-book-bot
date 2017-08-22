@@ -1,12 +1,14 @@
 package com.blackbook.crawler.impl;
 
-import com.blackbook.botrest.model.BookCreationData;
 import com.blackbook.crawler.core.AbstractCrawler;
 import com.blackbook.crawler.core.CrawlerActionListener;
 import com.blackbook.crawler.core.KeyAccess;
+import com.blackbook.crawler.db.CrawlerBooksRepository;
+import com.blackbook.crawler.db.model.BookCreationData;
 import com.blackbook.crawler.paginator.core.Paginator;
-import com.blackbook.processor.CrawlerProcessorListener;
-import com.blackbook.processor.impl.GoogleProcessor;
+import com.blackbook.crawler.processor.CrawlerProcessorListener;
+import com.blackbook.crawler.processor.impl.GoogleProcessor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  * @author Siarhei Shauchenka
  * @since 17.08.17
  */
+@Service
 public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
 
     private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
@@ -22,13 +25,13 @@ public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
 
 
     @Override
-    public void start(CrawlerActionListener actionListener) {
+    public void start(CrawlerBooksRepository crawlerBooksRepository, CrawlerActionListener actionListener) {
+        setCrawlerBooksRepository(crawlerBooksRepository);
         startFirstRequest(actionListener);
     }
 
     private void startFirstRequest(CrawlerActionListener actionListener) {
-        GoogleProcessor firstProcessor = new GoogleProcessor(getRequest(0, 20), 1);
-        firstProcessor.process(new CrawlerProcessorListener() {
+        GoogleProcessor firstProcessor = new GoogleProcessor(getRequest(0, 20), 1, new CrawlerProcessorListener() {
             @Override
             public void success(List<BookCreationData> bookData, Paginator paginator) {
                 saveToDBAll(bookData);
@@ -40,13 +43,13 @@ public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
 
             }
         });
+        execute(firstProcessor);
     }
 
     private void sendRestOfResponses(Paginator firsPaginator, CrawlerActionListener actionListener) {
         int position = firsPaginator.getItemsOnPage();
         for (int i = 0; i < firsPaginator.getNumberOfPages(); i++) {
-            GoogleProcessor processor = new GoogleProcessor(getRequest(position, firsPaginator.getItemsOnPage()), i);
-            processor.process(new CrawlerProcessorListener() {
+            GoogleProcessor processor = new GoogleProcessor(getRequest(position, firsPaginator.getItemsOnPage()), i, new CrawlerProcessorListener() {
                 @Override
                 public void success(List<BookCreationData> bookData, Paginator paginator) {
                     saveToDBAll(bookData);
@@ -60,7 +63,9 @@ public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
 
                 }
             });
+            //TODO I am not sure that it is correct
             position += firsPaginator.getItemsOnPage() + 1;
+            execute(processor);
         }
     }
 
@@ -95,4 +100,5 @@ public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
     public String getKey() {
         return KEY_STRING;
     }
+
 }
