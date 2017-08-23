@@ -1,4 +1,4 @@
-package com.blackbook.bus;
+package com.blackbook.scheduler;
 
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class BusApplication {
+public class SchedulerApplication {
 
     @Bean
     ServletRegistrationBean h2ServletRegistration() {
@@ -16,9 +16,7 @@ public class BusApplication {
         return servletRegistrationBean;
     }
 
-
-
     public static void main(String[] args) {
-        SpringApplication.run(BusApplication.class, args);
+        SpringApplication.run(SchedulerApplication.class, args);
     }
 }

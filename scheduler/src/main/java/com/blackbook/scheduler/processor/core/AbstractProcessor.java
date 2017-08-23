@@ -1,6 +1,6 @@
-package com.blackbook.bus.processor.core;
+package com.blackbook.scheduler.processor.core;
 
-import com.blackbook.bus.controller.core.RequestControllerListener;
+import com.blackbook.scheduler.controller.core.RequestControllerListener;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -27,7 +27,7 @@ public abstract class AbstractProcessor implements RequestProcessor{
             } else {
                 controllerListener.failed(jsonResponse.getStatusText());
             }
-        } catch (UnirestException e) {
+        } catch (UnirestException | RuntimeException e) {
             controllerListener.failed(e.getMessage());
         }
     }

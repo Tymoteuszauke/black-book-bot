@@ -1,8 +1,8 @@
-package com.blackbook.bus.controller;
+package com.blackbook.scheduler.controller;
 
-import com.blackbook.bus.model.Observer;
-import com.blackbook.bus.model.ObserverCreationData;
-import com.blackbook.bus.model.ObserverRepository;
+import com.blackbook.scheduler.model.Observer;
+import com.blackbook.scheduler.model.ObserverCreationData;
+import com.blackbook.scheduler.model.ObserverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/api/bus")
-public class BusRestController {
+public class SchedulerRestController {
 
 
     private ObserverRepository observerRepository;
-    private BusRequestController busRequestController;
+    private SchedulerRequestService schedulerRequestService;
 
     @Autowired
-    public BusRestController(ObserverRepository observerRepository, BusRequestController busRequestController) {
+    public SchedulerRestController(ObserverRepository observerRepository, SchedulerRequestService schedulerRequestService) {
         this.observerRepository = observerRepository;
-        this.busRequestController = busRequestController;
+        this.schedulerRequestService = schedulerRequestService;
     }
 
     @RequestMapping(value = "/assign", method = RequestMethod.POST)
@@ -40,7 +40,7 @@ public class BusRestController {
 
     @RequestMapping(value = "/crawlers/finished", method = RequestMethod.POST)
     public void crawlersFinished(){
-       busRequestController.dataUpdated();
+       schedulerRequestService.dataUpdated();
     }
 
 }

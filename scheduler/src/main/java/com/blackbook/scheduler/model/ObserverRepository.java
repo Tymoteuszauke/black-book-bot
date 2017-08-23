@@ -1,4 +1,4 @@
-package com.blackbook.bus.model;
+package com.blackbook.scheduler.model;
 
 import org.springframework.data.repository.CrudRepository;
 

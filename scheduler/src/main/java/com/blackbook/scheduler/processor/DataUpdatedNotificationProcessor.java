@@ -1,7 +1,7 @@
-package com.blackbook.bus.processor;
+package com.blackbook.scheduler.processor;
 
-import com.blackbook.bus.controller.core.RequestControllerListener;
-import com.blackbook.bus.processor.core.AbstractProcessor;
+import com.blackbook.scheduler.controller.core.RequestControllerListener;
+import com.blackbook.scheduler.processor.core.AbstractProcessor;
 
 /**
  * @author Siarhei Shauchenka

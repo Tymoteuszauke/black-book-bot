@@ -23,7 +23,7 @@
 
     <modules>
         <module>botrest</module>
-        <module>bus</module>
+        <module>scheduler</module>
     </modules>
 
     <url>none</url>

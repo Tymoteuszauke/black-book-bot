@@ -1,4 +1,4 @@
-package com.blackbook.bus.processor.core;
+package com.blackbook.scheduler.processor.core;
 
 /**
  * @author Siarhei Shauchenka

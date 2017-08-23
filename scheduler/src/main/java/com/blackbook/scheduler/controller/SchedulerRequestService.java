@@ -1,11 +1,11 @@
-package com.blackbook.bus.controller;
+package com.blackbook.scheduler.controller;
 
-import com.blackbook.bus.controller.core.RequestController;
-import com.blackbook.bus.controller.core.RequestControllerListener;
-import com.blackbook.bus.model.Observer;
-import com.blackbook.bus.model.ObserverRepository;
-import com.blackbook.bus.processor.DataUpdatedNotificationProcessor;
-import com.blackbook.bus.processor.StartAllCrawlersProcessor;
+import com.blackbook.scheduler.controller.core.RequestService;
+import com.blackbook.scheduler.controller.core.RequestControllerListener;
+import com.blackbook.scheduler.model.Observer;
+import com.blackbook.scheduler.model.ObserverRepository;
+import com.blackbook.scheduler.processor.DataUpdatedNotificationProcessor;
+import com.blackbook.scheduler.processor.StartAllCrawlersProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
  * @since 23.08.17
  */
 @Service
-public class BusRequestController implements RequestController {
+public class SchedulerRequestService implements RequestService {
 
     private ObserverRepository observerRepository;
 
@@ -37,10 +37,12 @@ public class BusRequestController implements RequestController {
 
 
     @Autowired
-    public BusRequestController(ObserverRepository observerRepository) {
+    public SchedulerRequestService(ObserverRepository observerRepository) {
         this.observerRepository = observerRepository;
         this.executorService = Executors.newCachedThreadPool();
+
     }
+
 
     @Override
     public void startCrawlers() {

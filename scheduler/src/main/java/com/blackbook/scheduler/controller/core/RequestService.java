@@ -1,10 +1,10 @@
-package com.blackbook.bus.controller.core;
+package com.blackbook.scheduler.controller.core;
 
 /**
  * @author Siarhei Shauchenka
  * @since 23.08.17
  */
-public interface RequestController {
+public interface RequestService {
 
     void startCrawlers();
     void dataUpdated();
