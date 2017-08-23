@@ -3,6 +3,7 @@ package com.blackbook.botrest.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Siarhei Shauchenka
@@ -18,12 +19,12 @@ public class Book {
     @GeneratedValue
     private long id;
 
-    @Column(name = "author")
-    private String author;
-
     @Column(name = "title")
     private String title;
 
-    @Column(name = "price")
-    private Double price;
+    @ManyToMany(mappedBy = "books")
+    private List<Author> authors;
+
+    @ManyToMany(mappedBy = "book")
+    private List<Price> prices;
 }
