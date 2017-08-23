@@ -14,8 +14,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/bus")
 public class BusRestController {
 
-    @Autowired
+
     private ObserverRepository observerRepository;
+    private BusRequestController busRequestController;
+
+    @Autowired
+    public BusRestController(ObserverRepository observerRepository, BusRequestController busRequestController) {
+        this.observerRepository = observerRepository;
+        this.busRequestController = busRequestController;
+    }
 
     @RequestMapping(value = "/assign", method = RequestMethod.POST)
     public void assignObserver(@RequestBody ObserverCreationData observerData){
@@ -31,5 +38,9 @@ public class BusRestController {
        observerRepository.delete(observer);
     }
 
+    @RequestMapping(value = "/crawlers/finished", method = RequestMethod.POST)
+    public void crawlersFinished(){
+       busRequestController.dataUpdated();
+    }
 
 }

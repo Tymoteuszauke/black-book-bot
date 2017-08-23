@@ -16,6 +16,8 @@ public class BusApplication {
         return servletRegistrationBean;
     }
 
+
+
     public static void main(String[] args) {
         SpringApplication.run(BusApplication.class, args);
     }
