@@ -11,5 +11,6 @@ import lombok.Data;
 public class BookCreationData {
     private String author;
     private String title;
+    private String subtitle;
     private Double price;
 }
