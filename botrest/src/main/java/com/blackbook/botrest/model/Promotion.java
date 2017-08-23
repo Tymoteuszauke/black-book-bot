@@ -2,7 +2,15 @@ package com.blackbook.botrest.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Created by tymek on 23.08.17.
@@ -10,7 +18,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "prices")
-public class Price {
+public class Promotion {
 
     @Id
     @GeneratedValue
