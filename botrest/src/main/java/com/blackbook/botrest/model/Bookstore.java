@@ -24,5 +24,5 @@ public class Bookstore {
     private String details;
 
     @OneToMany
-    List<Price> prices;
+    List<Promotion> promotions;
 }

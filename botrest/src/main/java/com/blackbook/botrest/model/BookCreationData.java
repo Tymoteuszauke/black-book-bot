@@ -2,6 +2,8 @@ package com.blackbook.botrest.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author Siarhei Shauchenka
  * @since 16.08.17
@@ -9,8 +11,8 @@ import lombok.Data;
 
 @Data
 public class BookCreationData {
-    private String author;
     private String title;
     private String subtitle;
-    private Double price;
+    private String genre;
+    private List<AuthorCreationData> authors;
 }

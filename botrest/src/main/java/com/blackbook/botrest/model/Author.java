@@ -16,7 +16,7 @@ import java.util.List;
 public class Author {
 
     @Id
-    @Generated
+    @GeneratedValue
     private long id;
 
     @Column(name = "name")
@@ -25,9 +25,10 @@ public class Author {
     @Column(name = "surname")
     private String surname;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "books_authors", joinColumns = {
-            @JoinColumn(name = "author_id")}, inverseJoinColumns = {@JoinColumn(name = "book_id")}
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "books_authors",
+            joinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")}
     )
     private List<Book> books;
 
