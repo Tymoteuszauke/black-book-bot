@@ -5,6 +5,8 @@ import com.blackbook.botrest.model.Author;
 import com.blackbook.botrest.model.AuthorCreationData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,13 @@ public class AuthorsController {
 
     @Autowired
     AuthorsRepository authorsRepository;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public Page<Author> getAuthors(@RequestParam(defaultValue = "") String queryParam, Pageable pageable) {
+        log.info("TRANSACTION: GET /api/authors");
+
+        return authorsRepository.findAuthorsWithTextualSearch(queryParam, pageable);
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public Author addAuthor(@RequestBody AuthorCreationData data) {
