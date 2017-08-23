@@ -18,6 +18,6 @@ public class Observer {
     private long id;
 
     @Column(name = "url")
-    private String urlForNotification;
+    private String url;
 
 }

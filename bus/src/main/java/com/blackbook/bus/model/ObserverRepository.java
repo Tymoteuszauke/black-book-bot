@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
  * @since 23.08.17
  */
 public interface ObserverRepository extends CrudRepository<Observer, Long>{
+
+    Observer findByUrl(String url);
 }

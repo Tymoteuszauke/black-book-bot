@@ -20,7 +20,16 @@ public class BusRestController {
     @RequestMapping(value = "/assign", method = RequestMethod.POST)
     public void assignObserver(@RequestBody ObserverCreationData observerData){
         Observer observer = new Observer();
-        observer.setUrlForNotification(observerData.getUrl());
+        observer.setUrl(observerData.getUrl());
         observerRepository.save(observer);
     }
+
+
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public void removeObserver(@RequestBody ObserverCreationData observerData){
+       Observer observer = observerRepository.findByUrl(observerData.getUrl());
+       observerRepository.delete(observer);
+    }
+
+
 }
