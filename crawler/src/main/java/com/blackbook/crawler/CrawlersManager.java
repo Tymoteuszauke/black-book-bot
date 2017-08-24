@@ -4,6 +4,7 @@ import com.blackbook.crawler.core.CrawlerActionListener;
 import com.blackbook.crawler.core.ICrawler;
 import com.blackbook.crawler.core.ICrawlersManager;
 import com.blackbook.crawler.db.CrawlerBooksRepository;
+import com.blackbook.crawler.processor.impl.RestRequestProcessor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public class CrawlersManager implements ICrawlersManager {
+
+    private final static String SERVER_ADDRESS = "localhost:8080";
 
     private final Map<String, ICrawler> crawlers;
     private final CrawlerBooksRepository crawlerBooksRepository;
@@ -49,7 +52,7 @@ public class CrawlersManager implements ICrawlersManager {
             public void crawlerFinished(String crawlerId) {
                 crawlersForRequest.remove(crawlerId);
                 if (crawlersForRequest.isEmpty()){
-                    //send response to scheduler that crawlers finished
+                    executorService.execute(new RestRequestProcessor(SERVER_ADDRESS + "/api/scheduler/crawlers/finished"));
                 }
                 log.info("Crawler " + crawlerId + " finished");
             }

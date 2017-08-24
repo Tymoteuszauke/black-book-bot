@@ -1,7 +1,7 @@
 package com.blackbook.crawler.processor.impl;
 
-import com.blackbook.crawler.db.parser.impl.GoogleParser;
 import com.blackbook.crawler.db.parser.core.DataParser;
+import com.blackbook.crawler.db.parser.impl.GoogleParser;
 import com.blackbook.crawler.paginator.impl.GooglePaginator;
 import com.blackbook.crawler.processor.core.CrawlerProcessor;
 import com.blackbook.crawler.processor.core.CrawlerProcessorListener;
