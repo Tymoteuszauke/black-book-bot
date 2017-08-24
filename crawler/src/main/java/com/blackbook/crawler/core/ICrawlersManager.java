@@ -14,4 +14,5 @@ public interface ICrawlersManager {
     void removeCrawler(String crawlerId);
     ICrawler getCrawlerById(String id);
     void startAll();
+    void close();
 }

@@ -8,14 +8,17 @@ import com.blackbook.crawler.db.model.BookCreationData;
 import com.blackbook.crawler.paginator.core.Paginator;
 import com.blackbook.crawler.processor.core.CrawlerProcessorListener;
 import com.blackbook.crawler.processor.impl.GoogleProcessor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 /**
  * @author Siarhei Shauchenka
  * @since 17.08.17
  */
+@Slf4j
 @Service
 public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
 
@@ -23,48 +26,50 @@ public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
     private final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
     private final String CRITERIA = "\'\'";
 
-
     @Override
-    public void start(CrawlerBooksRepository crawlerBooksRepository, CrawlerActionListener actionListener) {
+    public void start(ExecutorService executorService, CrawlerBooksRepository crawlerBooksRepository, CrawlerActionListener actionListener) {
         setCrawlerBooksRepository(crawlerBooksRepository);
-        startFirstRequest(actionListener);
+        startFirstRequest(executorService, actionListener);
     }
 
-    private void startFirstRequest(CrawlerActionListener actionListener) {
+    private void startFirstRequest(ExecutorService executorService, CrawlerActionListener actionListener) {
+        actionListener.crawlerStarted(getId());
         GoogleProcessor firstProcessor = new GoogleProcessor(getRequest(0, 20), 1, new CrawlerProcessorListener() {
             @Override
             public void success(List<BookCreationData> bookData, Paginator paginator) {
                 saveToDBAll(bookData);
-                sendRestOfResponses(paginator, actionListener);
+                sendRestOfResponses(executorService, paginator, actionListener);
             }
 
             @Override
             public void failed(String message) {
-
+                log.warn("First page request failed. Crawler id: " + getId() + " Reason is: " + message);
             }
         });
-        execute(firstProcessor);
+        executorService.execute(firstProcessor);
     }
 
-    private void sendRestOfResponses(Paginator firsPaginator, CrawlerActionListener actionListener) {
+    private void sendRestOfResponses(ExecutorService executorService, Paginator firsPaginator, CrawlerActionListener actionListener) {
         int position = firsPaginator.getItemsOnPage();
-        for (int i = 0; i < firsPaginator.getNumberOfPages(); i++) {
+        for (int i = 1; i <= firsPaginator.getNumberOfPages(); i++) {
             GoogleProcessor processor = new GoogleProcessor(getRequest(position, firsPaginator.getItemsOnPage()), i, new CrawlerProcessorListener() {
                 @Override
                 public void success(List<BookCreationData> bookData, Paginator paginator) {
                     saveToDBAll(bookData);
-                    if (paginator.getCurrentPage() == firsPaginator.getNumberOfPages()){
+                    if (paginator.getCurrentPage() == firsPaginator.getNumberOfPages()) {
                         actionListener.crawlerFinished(getId());
+                        // this lof for debug remove need to be removed
+//                        log.info("Crawler [" + getId() + "] finished. Total pages: " + firsPaginator.getNumberOfPages() + " current page: " + paginator.getCurrentPage());
                     }
                 }
 
                 @Override
                 public void failed(String message) {
-
+                    log.warn("Page request failed. Crawler id: " + getId() + " Reason is: " + message);
                 }
             });
             position += firsPaginator.getItemsOnPage();
-            execute(processor);
+            executorService.execute(processor);
         }
     }
 

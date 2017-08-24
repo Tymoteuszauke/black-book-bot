@@ -4,18 +4,18 @@ package com.blackbook.crawler.core;
 import com.blackbook.crawler.db.CrawlerBooksRepository;
 import com.blackbook.crawler.db.DBWriter;
 import com.blackbook.crawler.db.model.BookCreationData;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Sergey Shevchenko
  * @since 16.08.2017
  */
 public abstract class AbstractCrawler implements ICrawler{
-
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     private DBWriter dbWriter;
 
@@ -37,7 +37,4 @@ public abstract class AbstractCrawler implements ICrawler{
         dbWriter.writeAll(dataList);
     }
 
-    protected void execute(Runnable runnable){
-        executorService.execute(runnable);
-    }
 }
