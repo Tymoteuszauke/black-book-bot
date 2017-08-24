@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 23.08.17
  */
 @RestController
-@RequestMapping(value = "/api/bus")
+@RequestMapping(value = "/api/scheduler")
 public class SchedulerRestController {
 
 
