@@ -4,6 +4,7 @@ package com.blackbook.crawler.core;
 import com.blackbook.crawler.db.CrawlerBooksRepository;
 import com.blackbook.crawler.db.DBWriter;
 import com.blackbook.crawler.db.model.BookCreationData;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @author Sergey Shevchenko
  * @since 16.08.2017
  */
+@Slf4j
 public abstract class AbstractCrawler implements ICrawler{
 
     private DBWriter dbWriter;

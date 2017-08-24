@@ -4,7 +4,6 @@ import com.blackbook.crawler.core.CrawlerActionListener;
 import com.blackbook.crawler.core.ICrawler;
 import com.blackbook.crawler.core.ICrawlersManager;
 import com.blackbook.crawler.db.CrawlerBooksRepository;
-import com.blackbook.crawler.processor.impl.RestRequestProcessor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;

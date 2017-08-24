@@ -46,7 +46,7 @@ public class GoogleProcessor implements CrawlerProcessor {
                 processorListener.failed(jsonResponse.getStatusText());
             }
         } catch (UnirestException e) {
-            e.printStackTrace();
+            processorListener.failed(e.getMessage());
         }
     }
 }
