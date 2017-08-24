@@ -6,6 +6,7 @@ import com.blackbook.scheduler.model.Observer;
 import com.blackbook.scheduler.model.ObserverRepository;
 import com.blackbook.scheduler.processor.DataUpdatedNotificationProcessor;
 import com.blackbook.scheduler.processor.StartAllCrawlersProcessor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,11 +20,10 @@ import java.util.concurrent.Executors;
  * @author Siarhei Shauchenka
  * @since 23.08.17
  */
+@Slf4j
 @Service
 @EnableScheduling
 public class SchedulerRequestService implements RequestService {
-
-    private final long DELAY = 1000L;
 
     private ObserverRepository observerRepository;
 
@@ -31,12 +31,12 @@ public class SchedulerRequestService implements RequestService {
 
     private RequestControllerListener requestControllerListener = new RequestControllerListener() {
         public void success(String okMessage) {
-            System.out.println(okMessage);
+            log.info(okMessage);
         }
 
         @Override
         public void failed(String message) {
-            System.out.println(message);
+            log.info(message);
         }
     };
 
@@ -47,8 +47,7 @@ public class SchedulerRequestService implements RequestService {
         this.executorService = Executors.newCachedThreadPool();
     }
 
-
-    @Scheduled(fixedDelay = DELAY)
+    @Scheduled(cron = "0 0 1 * * ?")
     @Override
     public void startCrawlers() {
         executorService.execute(new StartAllCrawlersProcessor(requestControllerListener));
