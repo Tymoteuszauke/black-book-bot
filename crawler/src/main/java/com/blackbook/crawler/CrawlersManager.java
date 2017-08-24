@@ -52,7 +52,8 @@ public class CrawlersManager implements ICrawlersManager {
             public void crawlerFinished(String crawlerId) {
                 crawlersForRequest.remove(crawlerId);
                 if (crawlersForRequest.isEmpty()){
-                    executorService.execute(new RestRequestProcessor(SERVER_ADDRESS + "/api/scheduler/crawlers/finished"));
+                    // Should be uncommented after server addres will be specified
+                   // executorService.execute(new RestRequestProcessor(SERVER_ADDRESS + "/api/scheduler/crawlers/finished"));
                 }
                 log.info("Crawler " + crawlerId + " finished");
             }

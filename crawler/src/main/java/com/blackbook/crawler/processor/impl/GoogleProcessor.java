@@ -9,12 +9,14 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
 /**
  * @author Siarhei Shauchenka
  * @since 17.08.17
  */
+@Slf4j
 public class GoogleProcessor implements CrawlerProcessor {
 
     private final String request;
@@ -38,6 +40,7 @@ public class GoogleProcessor implements CrawlerProcessor {
             int code = jsonResponse.getStatus();
             if (code == OK_STATUS) {
                 JSONObject responseBody = jsonResponse.getBody().getObject();
+                //log.info(responseBody.toString());
                 processorListener.success(dataParser.parseBooks(responseBody), new GooglePaginator(responseBody, currentPage));
             } else {
                 processorListener.failed(jsonResponse.getStatusText());

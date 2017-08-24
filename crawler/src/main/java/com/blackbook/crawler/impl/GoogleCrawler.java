@@ -24,7 +24,7 @@ public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
 
     private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     private final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
-    private final String CRITERIA = "\'\'";
+    private final String CRITERIA = "-";
 
     @Override
     public void start(ExecutorService executorService, CrawlerBooksRepository crawlerBooksRepository, CrawlerActionListener actionListener) {
