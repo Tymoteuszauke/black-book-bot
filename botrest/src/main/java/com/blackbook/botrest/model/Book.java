@@ -2,12 +2,7 @@ package com.blackbook.botrest.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -33,7 +28,11 @@ public class Book {
     @Column(name = "genre")
     private String genre;
 
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "books_authors",
+            joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "id")}
+    )
     private List<Author> authors;
 
     @ManyToMany(mappedBy = "book")

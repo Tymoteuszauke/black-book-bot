@@ -2,7 +2,7 @@ package com.blackbook.botrest.controller;
 
 import com.blackbook.botrest.dao.AuthorsRepository;
 import com.blackbook.botrest.model.Author;
-import com.blackbook.botrest.model.AuthorCreationData;
+import com.blackbook.botrest.model.creation_model.AuthorCreationData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

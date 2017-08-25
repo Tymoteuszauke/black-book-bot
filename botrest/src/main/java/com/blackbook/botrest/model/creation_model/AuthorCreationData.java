@@ -1,4 +1,4 @@
-package com.blackbook.botrest.model;
+package com.blackbook.botrest.model.creation_model;
 
 import lombok.Data;
 

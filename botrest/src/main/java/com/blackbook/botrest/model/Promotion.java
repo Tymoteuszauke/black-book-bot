@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name = "prices")
+@Table(name = "promotions")
 public class Promotion {
 
     @Id
