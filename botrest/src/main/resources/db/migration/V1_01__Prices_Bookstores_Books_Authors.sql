@@ -1,5 +1,3 @@
-DROP TABLE books;
-
 CREATE TABLE bookstores (
     id int not null auto_increment primary key,
     name varchar(255),
@@ -21,7 +19,7 @@ CREATE TABLE books (
     CONSTRAINT FK_authors_books FOREIGN KEY (author_id) REFERENCES authors(id)
 );
 
-CREATE TABLE prices (
+CREATE TABLE promotions (
     id int not null auto_increment primary key,
     bookstore_id int,
     book_id int,

@@ -1,5 +1,6 @@
-package com.blackbook.botrest.model;
+package com.blackbook.botrest.model.creation_model;
 
+import com.blackbook.botrest.model.creation_model.AuthorCreationData;
 import lombok.Data;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public class BookCreationData {
     private String title;
     private String subtitle;
     private String genre;
+    private PromotionCreationData promotion;
     private List<AuthorCreationData> authors;
 }
