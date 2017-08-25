@@ -9,16 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.blackbook.crawler.db.parser.impl.GoogleParser.GoogleParserKeywords.AUTHOR_KEY;
-import static com.blackbook.crawler.db.parser.impl.GoogleParser.GoogleParserKeywords.BOOKS_ARRAY_KEY;
-import static com.blackbook.crawler.db.parser.impl.GoogleParser.GoogleParserKeywords.IS_FOR_SALE_KEY;
-import static com.blackbook.crawler.db.parser.impl.GoogleParser.GoogleParserKeywords.NOT_FOR_SALE;
-import static com.blackbook.crawler.db.parser.impl.GoogleParser.GoogleParserKeywords.PRICE_KEY;
-import static com.blackbook.crawler.db.parser.impl.GoogleParser.GoogleParserKeywords.RETAIL_PRICE;
-import static com.blackbook.crawler.db.parser.impl.GoogleParser.GoogleParserKeywords.SALE_INFO;
-import static com.blackbook.crawler.db.parser.impl.GoogleParser.GoogleParserKeywords.TITLE_KEY;
-import static com.blackbook.crawler.db.parser.impl.GoogleParser.GoogleParserKeywords.VOLUME_INFO_KEY;
-
 /**
  * @author Siarhei Shauchenka
  * @since 17.08.17
