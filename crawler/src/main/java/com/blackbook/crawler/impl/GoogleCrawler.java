@@ -22,10 +22,10 @@ import java.util.concurrent.ExecutorService;
 @Service
 public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
 
-    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
-    private final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
-    private final String CRITERIA = "-";
-    private final int NUMBER_OF_ITEMS_ON_PAGE = 40;
+    private static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
+    private static final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
+    private static final String CRITERIA = "-";
+    private static final int NUMBER_OF_ITEMS_ON_PAGE = 40;
 
     @Override
     public void start(ExecutorService executorService, CrawlerBooksRepository crawlerBooksRepository, CrawlerActionListener actionListener) {
