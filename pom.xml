@@ -66,7 +66,7 @@
 
         <unirest.version>1.4.9</unirest.version>
         <httpclient.version>4.3.6</httpclient.version>
-        <httpasynchclient.version>4.0.2</httpasynchclient.version>
+        <httpasynchclient.version>4.1.3</httpasynchclient.version>
         <json.version>20140107</json.version>
     </properties>
 
@@ -74,8 +74,15 @@
         Black book bot, robot application for Java Academy.
     </description>
 
-    <dependencies>
+    <repositories>
+        <repository>
+            <id>gemfire-release-repo</id>
+            <name>Pivotal GemFire Release Repository</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
 
+    <dependencies>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
