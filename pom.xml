@@ -24,6 +24,7 @@
     <modules>
         <module>botrest</module>
         <module>crawler</module>
+        <module>scheduler</module>
     </modules>
 
     <url>none</url>
@@ -65,6 +66,10 @@
         <h2database.version>1.4.196</h2database.version>
         <jayway.version>2.9.0</jayway.version>
 
+        <unirest.version>1.4.9</unirest.version>
+        <httpclient.version>4.3.6</httpclient.version>
+        <httpasynchclient.version>4.0.2</httpasynchclient.version>
+        <json.version>20140107</json.version>
     </properties>
 
     <description>
@@ -124,6 +129,33 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>${unirest.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>${httpasynchclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
         </dependency>
     </dependencies>
 
