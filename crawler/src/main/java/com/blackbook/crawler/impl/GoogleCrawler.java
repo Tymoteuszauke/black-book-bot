@@ -59,8 +59,6 @@ public class GoogleCrawler extends AbstractCrawler implements KeyAccess {
                     saveToDBAll(bookData);
                     if (paginator.getCurrentPage() == firsPaginator.getNumberOfPages()) {
                         actionListener.crawlerFinished(getId());
-                        // this lof for debug remove need to be removed
-//                        log.info("Crawler [" + getId() + "] finished. Total pages: " + firsPaginator.getNumberOfPages() + " current page: " + paginator.getCurrentPage());
                     }
                 }
 
