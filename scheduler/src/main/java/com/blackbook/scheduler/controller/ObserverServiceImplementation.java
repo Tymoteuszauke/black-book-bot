@@ -24,9 +24,11 @@ public class ObserverServiceImplementation implements ObserverService{
 
     @Override
     public void signUpObserver(ObserverCreationData observerCreationData) {
-        Observer observer = new Observer();
-        observer.setUrl(observerCreationData.getUrl());
-        observerRepository.save(observer);
+        if (observerRepository.findByUrl(observerCreationData.getUrl()) == null){
+            Observer observer = new Observer();
+            observer.setUrl(observerCreationData.getUrl());
+            observerRepository.save(observer);
+        }
     }
 
     @Override

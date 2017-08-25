@@ -1,10 +1,12 @@
 package com.blackbook.scheduler.controller;
 
 import com.blackbook.scheduler.controller.core.ObserverService;
-import com.blackbook.scheduler.model.Observer;
 import com.blackbook.scheduler.model.ObserverCreationData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Siarhei Shauchenka

@@ -1,7 +1,7 @@
 package com.blackbook.scheduler.controller;
 
-import com.blackbook.scheduler.controller.core.RequestService;
 import com.blackbook.scheduler.controller.core.RequestControllerListener;
+import com.blackbook.scheduler.controller.core.RequestService;
 import com.blackbook.scheduler.model.Observer;
 import com.blackbook.scheduler.model.ObserverRepository;
 import com.blackbook.scheduler.processor.DataUpdatedNotificationProcessor;

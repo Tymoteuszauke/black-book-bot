@@ -1,7 +1,6 @@
 package com.blackbook.scheduler.controller.core;
 
 import com.blackbook.scheduler.model.ObserverCreationData;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Siarhei Shauchenka
