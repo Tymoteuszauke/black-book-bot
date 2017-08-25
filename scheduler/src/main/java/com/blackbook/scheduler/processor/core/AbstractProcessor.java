@@ -5,12 +5,13 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.http.HttpStatus;
 
 /**
  * @author Siarhei Shauchenka
  * @since 23.08.17
  */
-public abstract class AbstractProcessor implements RequestProcessor{
+public abstract class AbstractProcessor implements Runnable{
 
     private RequestControllerListener controllerListener;
 
@@ -22,7 +23,7 @@ public abstract class AbstractProcessor implements RequestProcessor{
     public void run() {
         try {
             HttpResponse<JsonNode> jsonResponse = Unirest.post(getProcessorURL()).asJson();
-            if (jsonResponse.getStatus() == OK_STATUS) {
+            if (jsonResponse.getStatus() == HttpStatus.SC_OK) {
                 controllerListener.success(getOkMessage());
             } else {
                 controllerListener.failed(jsonResponse.getStatusText());
