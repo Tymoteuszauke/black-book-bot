@@ -12,9 +12,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Siarhei Shauchenka
@@ -57,5 +59,24 @@ public class SchedulerRequestService implements RequestService {
     public void dataUpdated() {
         List<Observer> listOfObservers = observerRepository.findAll();
         listOfObservers.forEach((observer) -> executorService.execute(new DataUpdatedNotificationProcessor(requestControllerListener, observer.getUrl())));
+    }
+
+    @PreDestroy
+    @Override
+    public void close() {
+        terminateExecutor();
+    }
+
+    private void terminateExecutor(){
+        log.info("Trying to terminate executor...");
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(5, TimeUnit.SECONDS)){
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            executorService.shutdownNow();
+        }
     }
 }

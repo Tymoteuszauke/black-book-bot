@@ -8,4 +8,5 @@ public interface RequestService {
 
     void startCrawlers();
     void dataUpdated();
+    void close();
 }
