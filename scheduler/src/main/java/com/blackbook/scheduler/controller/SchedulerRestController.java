@@ -1,8 +1,8 @@
 package com.blackbook.scheduler.controller;
 
+import com.blackbook.scheduler.controller.core.ObserverService;
 import com.blackbook.scheduler.model.Observer;
 import com.blackbook.scheduler.model.ObserverCreationData;
-import com.blackbook.scheduler.model.ObserverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,32 +15,28 @@ import org.springframework.web.bind.annotation.*;
 public class SchedulerRestController {
 
 
-    private ObserverRepository observerRepository;
     private SchedulerRequestService schedulerRequestService;
+    private ObserverService observerService;
 
     @Autowired
-    public SchedulerRestController(ObserverRepository observerRepository, SchedulerRequestService schedulerRequestService) {
-        this.observerRepository = observerRepository;
+    public SchedulerRestController(SchedulerRequestService schedulerRequestService, ObserverService observerService) {
         this.schedulerRequestService = schedulerRequestService;
+        this.observerService = observerService;
     }
 
     @RequestMapping(value = "/assign", method = RequestMethod.POST)
-    public void assignObserver(@RequestBody ObserverCreationData observerData){
-        Observer observer = new Observer();
-        observer.setUrl(observerData.getUrl());
-        observerRepository.save(observer);
+    public void assignObserver(@RequestBody ObserverCreationData observerData) {
+        observerService.signUpObserver(observerData);
     }
 
-
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public void removeObserver(@RequestBody ObserverCreationData observerData){
-       Observer observer = observerRepository.findByUrl(observerData.getUrl());
-       observerRepository.delete(observer);
+    public void removeObserver(@RequestBody ObserverCreationData observerData) {
+        observerService.removeObserver(observerData);
     }
 
     @RequestMapping(value = "/crawlers/finished", method = RequestMethod.POST)
-    public void crawlersFinished(){
-       schedulerRequestService.dataUpdated();
+    public void crawlersFinished() {
+        schedulerRequestService.dataUpdated();
     }
 
 }
