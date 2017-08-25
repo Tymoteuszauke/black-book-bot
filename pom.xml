@@ -27,8 +27,6 @@
         <module>scheduler</module>
     </modules>
 
-    <url>none</url>
-
     <distributionManagement>
         <site>
             <id>blackbot</id>
@@ -40,7 +38,7 @@
         <!--General properties-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <java.version>1.8</java.version>
         <mavenVersion>3.5.0</mavenVersion>
         <dependency.locations.enabled>false</dependency.locations.enabled>
         <!--Reporting plugins versions-->
