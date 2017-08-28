@@ -17,24 +17,4 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <properties>
-        <h2.version>1.4.196</h2.version>
-        <jayway.version>2.9.0</jayway.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.restassured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>${jayway.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-    </dependencies>
-
 </project>
