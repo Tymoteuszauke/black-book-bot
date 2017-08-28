@@ -11,4 +11,5 @@ import java.util.List;
 public interface PromotionsRepository extends CrudRepository<Promotion, Long> {
 
     List<Promotion> findAll();
+
 }

@@ -1,11 +1,11 @@
 package com.blackbook.botrest.dao;
 
+
 import com.blackbook.dao.model.Author;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-
 
 public interface AuthorsRepository extends CrudRepository<Author, Long> {
 

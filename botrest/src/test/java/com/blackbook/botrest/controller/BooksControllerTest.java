@@ -129,6 +129,30 @@ public class BooksControllerTest {
 }
 
 
+//
+//    @Test
+//    public void postBookExpectCreatedBook() {
+//
+//        Book book = new Book();
+//        book.setAuthor("Tymoteusz");
+//        book.setPrice(65.99);
+//        book.setTitle("Nero");
+//
+//        given()
+//                .port(port)
+//                .contentType(ContentType.JSON)
+//                .body(book)
+//                .when()
+//                .post(BOOKS_API)
+//                .then()
+//                .statusCode(HttpStatus.SC_OK);
+//
+//        Book givenBook = booksRepository.findOne(5L);
+//        book.setId(5);
+//
+//        assertEquals(book, givenBook);
+
+
 //    @Test
 //    public void postBookExpectCreatedBook() {
 //

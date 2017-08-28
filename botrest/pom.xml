@@ -37,6 +37,11 @@
             <artifactId>flyway-core</artifactId>
             <version>${flywayVersion}</version>
         </dependency>
+        <dependency>
+            <groupId>com.blackbook</groupId>
+            <artifactId>crawler</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
