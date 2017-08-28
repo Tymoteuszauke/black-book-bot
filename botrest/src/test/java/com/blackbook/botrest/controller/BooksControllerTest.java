@@ -135,40 +135,65 @@ public class BooksControllerTest {
                 .statusCode(HttpStatus.SC_OK);
     }
 
-    @Test
-    public void postBookExpectCreatedBook() {
 
-        String author = "Tymoteusz";
-        String title = "Nero";
-        Double price = 65.99;
+//    @Test
+//    public void postBookExpectCreatedBook() {
+//
+//        String author = "Tymoteusz";
+//        String title = "Nero";
+//        Double price = 65.99;
+//
+//        Book book = new Book();
+//        book.setAuthor(author);
+//        book.setTitle(title);
+//        book.setPrice(price);
+//
+//        given()
+//                .port(port)
+//                .contentType(ContentType.JSON)
+//                .config(RestAssured.config().jsonConfig(jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.DOUBLE)))
+//                .body(book)
+//                .when()
+//                .post(BOOKS_API)
+//                .then()
+//                .body("author", equalTo(author))
+//                .body("title", equalTo(title))
+//                .body("price", equalTo(price))
+//                .statusCode(HttpStatus.SC_OK);
+//
+//        Pageable pageable = mock(Pageable.class);
+//        Page<Book> returnedBook = booksRepository.findBooksWithTextualSearch(title, pageable);
+//        Book bookFromRepo = returnedBook.getContent()
+//                .stream()
+//                .findFirst()
+//                .get();
+//
+//        book.setId(bookFromRepo.getId());
+//        assertEquals(book, bookFromRepo);
+//    }
 
-        Book book = new Book();
-        book.setAuthor(author);
-        book.setTitle(title);
-        book.setPrice(price);
-
-        given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .config(RestAssured.config().jsonConfig(jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.DOUBLE)))
-                .body(book)
-                .when()
-                .post(BOOKS_API)
-                .then()
-                .body("author", equalTo(author))
-                .body("title", equalTo(title))
-                .body("price", equalTo(price))
-                .statusCode(HttpStatus.SC_OK);
-
-        Pageable pageable = mock(Pageable.class);
-        Page<Book> returnedBook = booksRepository.findBooksWithTextualSearch(title, pageable);
-        Book bookFromRepo = returnedBook.getContent()
-                .stream()
-                .findFirst()
-                .get();
-
-        book.setId(bookFromRepo.getId());
-        assertEquals(book, bookFromRepo);
-    }
+//
+//    @Test
+//    public void postBookExpectCreatedBook() {
+//
+//        Book book = new Book();
+//        book.setAuthor("Tymoteusz");
+//        book.setPrice(65.99);
+//        book.setTitle("Nero");
+//
+//        given()
+//                .port(port)
+//                .contentType(ContentType.JSON)
+//                .body(book)
+//                .when()
+//                .post(BOOKS_API)
+//                .then()
+//                .statusCode(HttpStatus.SC_OK);
+//
+//        Book givenBook = booksRepository.findOne(5L);
+//        book.setId(5);
+//
+//        assertEquals(book, givenBook);
+//    }
 
 }

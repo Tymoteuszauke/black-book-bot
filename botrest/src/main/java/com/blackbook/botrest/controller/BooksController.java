@@ -34,9 +34,10 @@ public class BooksController {
         if (priceFrom != null && priceTo != null && !priceFrom.isEmpty() && !priceTo.isEmpty()) {
             Double fromPrice = Double.parseDouble(priceFrom);
             Double toPrice = Double.parseDouble(priceTo);
-            return booksRepository.findBooksWithTextualSearchAndBetweenPrices(query, fromPrice, toPrice, pageable);
+//            return booksRepository.findBooksWithTextualSearchAndBetweenPrices(query, fromPrice, toPrice, pageable);
         }
-        return booksRepository.findBooksWithTextualSearch(query, pageable);
+//        return booksRepository.findBooksWithTextualSearch(query, pageable);
+        return null;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
@@ -50,9 +51,9 @@ public class BooksController {
         log.info("TRANSACTION: POST /api/books");
 
         Book book = new Book();
-        book.setAuthor(data.getAuthor());
-        book.setTitle(data.getTitle());
-        book.setPrice(data.getPrice());
+//        book.setAuthor(data.getAuthor());
+//        book.setTitle(data.getTitle());
+//        book.setPrice(data.getPrice());
 
         booksRepository.save(book);
         return book;
