@@ -1,4 +1,4 @@
-package com.blackbook.dao.dao;
+package com.blackbook.botrest.dao;
 
 import com.blackbook.dao.model.Promotion;
 import org.springframework.data.repository.CrudRepository;

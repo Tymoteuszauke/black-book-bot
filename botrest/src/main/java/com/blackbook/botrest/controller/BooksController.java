@@ -1,12 +1,9 @@
 package com.blackbook.botrest.controller;
 
-
-
-
 import com.blackbook.botrest.model.creation_model.BookCreationData;
 import com.blackbook.botrest.model.view.promotion.BookView;
-import com.blackbook.dao.dao.AuthorsRepository;
-import com.blackbook.dao.dao.BooksRepository;
+import com.blackbook.botrest.dao.AuthorsRepository;
+import com.blackbook.botrest.dao.BooksRepository;
 import com.blackbook.dao.model.Author;
 import com.blackbook.dao.model.Book;
 import lombok.extern.slf4j.Slf4j;

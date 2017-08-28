@@ -1,7 +1,7 @@
 
 package com.blackbook.botrest.controller;
 
-import com.blackbook.dao.dao.BooksRepository;
+import com.blackbook.botrest.dao.BooksRepository;
 import com.jayway.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
