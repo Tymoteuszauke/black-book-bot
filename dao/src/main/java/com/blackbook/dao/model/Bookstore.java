@@ -1,4 +1,4 @@
-package com.blackbook.botrest.model;
+package com.blackbook.dao.model;
 
 import lombok.Data;
 

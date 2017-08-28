@@ -1,9 +1,8 @@
-package com.blackbook.botrest.model.view.book;
+package com.blackbook.botrest.model.view.promotion;
 
-import com.blackbook.botrest.model.Book;
+import com.blackbook.dao.model.Book;
 import lombok.Data;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,6 @@ public class BookView {
     private String title;
     private String subtitle;
     private Set<BookAuthorView> authors;
-    private List<BookPromotionView> promotions;
 
     public static BookView fromBook(Book book) {
         BookView bookView = new BookView();
@@ -30,14 +28,6 @@ public class BookView {
                     .map(BookAuthorView::fromAuthor)
                     .collect(Collectors.toSet()));
         }
-        if (book.getPromotions() != null) {
-            bookView.setPromotions(book
-                    .getPromotions()
-                    .stream()
-                    .map(BookPromotionView::fromPromotion)
-                    .collect(Collectors.toList()));
-        }
         return bookView;
     }
-
 }

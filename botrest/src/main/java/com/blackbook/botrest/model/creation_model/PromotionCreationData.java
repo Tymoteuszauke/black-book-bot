@@ -9,4 +9,6 @@ import lombok.Data;
 public class PromotionCreationData {
     private String promotionDetails;
     private Double price;
+    private Integer bookstoreId;
+    private BookCreationData bookCreationData;
 }

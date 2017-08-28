@@ -25,6 +25,7 @@
         <module>botrest</module>
         <module>crawler</module>
         <module>scheduler</module>
+        <module>dao</module>
     </modules>
 
     <distributionManagement>
@@ -51,7 +52,6 @@
         <enforcerVersion>1.4.1</enforcerVersion>
         <testngVersion>6.11</testngVersion>
         <mockitoVersion>1.10.19</mockitoVersion>
-        <flywayVersion>4.2.0</flywayVersion>
         <failsafeVersion>2.20</failsafeVersion>
         <sitePluginVersion>3.6</sitePluginVersion>
         <reportVersion>2.9</reportVersion>
@@ -110,11 +110,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>${flywayVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

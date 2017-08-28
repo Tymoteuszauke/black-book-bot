@@ -1,6 +1,7 @@
-package com.blackbook.botrest.dao;
+package com.blackbook.dao.dao;
 
-import com.blackbook.botrest.model.Bookstore;
+
+import com.blackbook.dao.model.Bookstore;
 import org.springframework.data.repository.CrudRepository;
 
 /**

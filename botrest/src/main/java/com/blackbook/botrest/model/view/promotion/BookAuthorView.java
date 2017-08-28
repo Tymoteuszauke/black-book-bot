@@ -1,6 +1,6 @@
-package com.blackbook.botrest.model.view.book;
+package com.blackbook.botrest.model.view.promotion;
 
-import com.blackbook.botrest.model.Author;
+import com.blackbook.dao.model.Author;
 import lombok.Data;
 
 /**

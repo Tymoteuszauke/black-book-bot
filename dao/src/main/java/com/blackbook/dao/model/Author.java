@@ -1,7 +1,6 @@
-package com.blackbook.botrest.model;
+package com.blackbook.dao.model;
 
 import lombok.Data;
-import lombok.Generated;
 
 import javax.persistence.*;
 import java.util.List;

@@ -17,6 +17,21 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<daoVersion>1.0.0</daoVersion>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.blackbook</groupId>
+			<artifactId>dao</artifactId>
+            <version>${daoVersion}</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
