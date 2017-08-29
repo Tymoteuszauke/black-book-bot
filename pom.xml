@@ -23,7 +23,6 @@
 
     <modules>
         <module>botrest</module>
-        <module>crawler</module>
         <module>scheduler</module>
         <module>dao</module>
     </modules>
@@ -236,6 +235,20 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>exec</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>

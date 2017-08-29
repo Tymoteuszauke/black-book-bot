@@ -1,21 +1,12 @@
 package com.blackbook.botrest.controller;
 
-<<<<<<< HEAD
+
+import com.blackbook.botrest.dao.AuthorsRepository;
+import com.blackbook.botrest.dao.BooksRepository;
 import com.blackbook.botrest.model.creation_model.BookCreationData;
 import com.blackbook.botrest.model.view.promotion.BookView;
-import com.blackbook.botrest.dao.AuthorsRepository;
-import com.blackbook.botrest.dao.BooksRepository;
 import com.blackbook.dao.model.Author;
 import com.blackbook.dao.model.Book;
-=======
-import com.blackbook.botrest.dao.AuthorsRepository;
-import com.blackbook.botrest.dao.BooksRepository;
-import com.blackbook.botrest.model.Author;
-import com.blackbook.botrest.model.Book;
-import com.blackbook.botrest.model.Promotion;
-import com.blackbook.botrest.model.creation_model.BookCreationData;
-import com.blackbook.botrest.model.view.book.BookView;
->>>>>>> cf46c54bfc68deefe6855f2ac0a0b0ee354f277c
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,15 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
 import java.util.List;
 import java.util.stream.Collectors;
-=======
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
->>>>>>> cf46c54bfc68deefe6855f2ac0a0b0ee354f277c
 
 /**
  * @author Siarhei Shauchenka
