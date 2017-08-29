@@ -1,4 +1,4 @@
-package com.blackbook.dao.model;
+package com.blackbook.botpersistence.model;
 
 import lombok.Data;
 

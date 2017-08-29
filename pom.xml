@@ -24,7 +24,8 @@
     <modules>
         <module>botrest</module>
         <module>scheduler</module>
-        <module>dao</module>
+        <module>botpersistence</module>
+        <module>models</module>
     </modules>
 
     <distributionManagement>

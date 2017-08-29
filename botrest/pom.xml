@@ -26,26 +26,6 @@
         <flywayVersion>4.2.0</flywayVersion>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.blackbook.bot</groupId>
-            <artifactId>dao</artifactId>
-            <version>${daoVersion}</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.flywaydb</groupId>
-                    <artifactId>flyway-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.flywaydb</groupId>-->
-            <!--<artifactId>flyway-core</artifactId>-->
-            <!--<version>${flywayVersion}</version>-->
-        <!--</dependency>-->
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>

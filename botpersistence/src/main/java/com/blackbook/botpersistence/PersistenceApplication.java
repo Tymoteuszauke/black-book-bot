@@ -1,4 +1,4 @@
-package com.blackbook.dao;
+package com.blackbook.botpersistence;
 
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class DaoApplication {
+public class PersistenceApplication {
 
     @Bean
     ServletRegistrationBean h2ServletRegistration() {
@@ -17,6 +17,6 @@ public class DaoApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(DaoApplication.class);
+        SpringApplication.run(PersistenceApplication.class);
     }
 }

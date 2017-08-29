@@ -1,6 +1,6 @@
-package com.blackbook.botrest.dao;
+package com.blackbook.botpersistence.dao;
 
-import com.blackbook.dao.model.Book;
+import com.blackbook.botpersistence.model.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;

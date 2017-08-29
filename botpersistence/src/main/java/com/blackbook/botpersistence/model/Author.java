@@ -1,4 +1,4 @@
-package com.blackbook.dao.model;
+package com.blackbook.botpersistence.model;
 
 import lombok.Data;
 
@@ -8,10 +8,11 @@ import java.util.List;
 /**
  * Created by tymek on 23.08.17.
  */
+
 @Data
 @Entity
-@Table(name = "bookstores")
-public class Bookstore {
+@Table(name = "authors")
+public class Author {
 
     @Id
     @GeneratedValue
@@ -20,9 +21,9 @@ public class Bookstore {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "details")
-    private String details;
+    @Column(name = "surname")
+    private String surname;
 
-    @OneToMany
-    List<Promotion> promotions;
+    @ManyToMany(mappedBy = "authors")
+    private List<Book> books;
 }

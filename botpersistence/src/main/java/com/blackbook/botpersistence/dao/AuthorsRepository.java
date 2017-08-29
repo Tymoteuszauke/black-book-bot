@@ -1,7 +1,7 @@
-package com.blackbook.botrest.dao;
+package com.blackbook.botpersistence.dao;
 
 
-import com.blackbook.dao.model.Author;
+import com.blackbook.botpersistence.model.Author;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
