@@ -1,4 +1,4 @@
-package com.blackbook.botrest.model.creation_model;
+package view.creation_model;
 
 import lombok.Data;
 
@@ -10,7 +10,5 @@ public class BookCreationData {
     private String title;
     private String subtitle;
     private String genre;
-
-    private PromotionCreationData promotion;
     private List<AuthorCreationData> authors;
 }

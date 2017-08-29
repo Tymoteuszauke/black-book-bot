@@ -32,7 +32,9 @@ public class MappingUtil {
         PromotionView promotionView = new PromotionView();
         promotionView.setId(promotion.getId());
         promotionView.setPrice(promotion.getPrice());
-        promotionView.setBookstoreView(MappingUtil.BookStoreViewFromBookstore(promotion.getBookstore()));
+        if (promotion.getBookstore() != null) {
+            promotionView.setBookstoreView(MappingUtil.BookStoreViewFromBookstore(promotion.getBookstore()));
+        }
         promotionView.setPromotionDetails(promotion.getPromotionDetails());
         promotionView.setBookView(MappingUtil.BookViewFromBook(promotion.getBook()));
         return promotionView;
