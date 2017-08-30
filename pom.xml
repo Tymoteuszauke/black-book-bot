@@ -25,6 +25,7 @@
         <module>botrest</module>
         <module>crawler</module>
         <module>scheduler</module>
+        <module>matrasscrapper</module>
     </modules>
 
     <distributionManagement>
