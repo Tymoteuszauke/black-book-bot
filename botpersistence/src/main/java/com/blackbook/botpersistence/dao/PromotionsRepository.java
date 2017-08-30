@@ -1,16 +1,25 @@
 package com.blackbook.botpersistence.dao;
 
 
+import com.blackbook.botpersistence.model.Author;
+import com.blackbook.botpersistence.model.Book;
 import com.blackbook.botpersistence.model.Promotion;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
 /**
  * Created by tymek on 25.08.17.
  */
-public interface PromotionsRepository extends CrudRepository<Promotion, Long> {
+public interface PromotionsRepository extends PagingAndSortingRepository<Promotion, Long> {
 
     List<Promotion> findAll();
 
+    @Query(value = "SELECT p FROM Promotion p WHERE p.book.title LIKE %?1%")
+    List<Promotion> findAllTextualSearch(String query);
+
+    Promotion findByBookIdAndBookstoreId(long id, long bookstoreId);
 }

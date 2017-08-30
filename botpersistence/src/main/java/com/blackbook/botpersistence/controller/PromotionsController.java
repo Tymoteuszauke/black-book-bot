@@ -1,19 +1,16 @@
 package com.blackbook.botpersistence.controller;
 
-import com.blackbook.botpersistence.dao.BookstoresRepository;
+import com.blackbook.botpersistence.dao.AuthorsRepository;
 import com.blackbook.botpersistence.dao.PromotionsRepository;
 import com.blackbook.botpersistence.model.Author;
-import com.blackbook.botpersistence.model.Book;
 import com.blackbook.botpersistence.model.Promotion;
-import com.blackbook.botpersistence.util.MappingUtil;
+import com.blackbook.botpersistence.service.PromotionParserService;
+import com.blackbook.botpersistence.util.ViewMapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import view.creation_model.BookCreationData;
-import view.creation_model.PromotionCreationData;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import view.creation_model.PromotionsCreationData;
 import view.promotion.PromotionView;
 
@@ -29,12 +26,21 @@ public class PromotionsController {
     private PromotionsRepository promotionsRepository;
 
     @Autowired
-    private BookstoresRepository bookstoresRepository;
+    private PromotionParserService promotionParserService;
+
+    @Autowired
+    private AuthorsRepository authorsRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<PromotionView> getPromotions() {
+    public List<PromotionView> getPromotions(@RequestParam(defaultValue = "") String query,
+                                             Pageable pageable) {
         log.info("Transaction: GET /api/promotions");
-        return promotionsRepository.findAll().stream().map(MappingUtil::PromotionViewFromPromotion).collect(Collectors.toList());
+        return promotionsRepository
+                .findAllTextualSearch(query)
+                .stream()
+                .map(ViewMapUtil::PromotionViewFromPromotion)
+                .collect(Collectors.toList());
+
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -44,44 +50,9 @@ public class PromotionsController {
         List<Promotion> promotions = promotionsCreationData
                 .getPromotions()
                 .stream()
-                .map(this::parsePromotionCreationData)
+                .map(promotionParserService::parsePromotionCreationData)
                 .collect(Collectors.toList());
 
-//        Promotion promotion = parsePromotionCreationData(promotionCreationData);
-
         promotionsRepository.save(promotions);
-//        return String.format("items added");
     }
-
-    private Promotion parsePromotionCreationData(PromotionCreationData promotionCreationData) {
-        Promotion promotion = new Promotion();
-
-        promotion.setPrice(promotionCreationData.getPrice());
-        promotion.setPromotionDetails(promotionCreationData.getPromotionDetails());
-
-        promotion.setBook(parseBookCreationData(promotionCreationData.getBookCreationData()));
-
-        if (promotionCreationData.getBookstoreId() != null) {
-            promotion.setBookstore(bookstoresRepository.findOne((long) promotionCreationData.getBookstoreId()));
-        }
-        return promotion;
-    }
-
-    private Book parseBookCreationData(BookCreationData bookCreationData) {
-        Book book = new Book();
-        book.setTitle(bookCreationData.getTitle());
-        book.setSubtitle(bookCreationData.getSubtitle());
-        book.setAuthors(bookCreationData
-                .getAuthors()
-                .stream()
-                .map(authorCreationData -> {
-                    Author author = new Author();
-                    author.setName(authorCreationData.getName());
-                    author.setSurname(authorCreationData.getSurname());
-                    return author;
-        }).collect(Collectors.toList()));
-        book.setGenre(bookCreationData.getGenre());
-        return book;
-    }
-
 }

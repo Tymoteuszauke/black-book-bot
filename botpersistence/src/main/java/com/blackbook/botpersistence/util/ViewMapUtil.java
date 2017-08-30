@@ -11,7 +11,7 @@ import view.promotion.PromotionView;
 
 import java.util.stream.Collectors;
 
-public class MappingUtil {
+public class ViewMapUtil {
 
     public static BookView BookViewFromBook(Book book) {
         BookView bookView = new BookView();
@@ -22,7 +22,7 @@ public class MappingUtil {
             bookView.setAuthors(book
                     .getAuthors()
                     .stream()
-                    .map(MappingUtil::BookAuthorViewFromAuthor)
+                    .map(ViewMapUtil::BookAuthorViewFromAuthor)
                     .collect(Collectors.toSet()));
         }
         return bookView;
@@ -33,10 +33,10 @@ public class MappingUtil {
         promotionView.setId(promotion.getId());
         promotionView.setPrice(promotion.getPrice());
         if (promotion.getBookstore() != null) {
-            promotionView.setBookstoreView(MappingUtil.BookStoreViewFromBookstore(promotion.getBookstore()));
+            promotionView.setBookstoreView(ViewMapUtil.BookStoreViewFromBookstore(promotion.getBookstore()));
         }
         promotionView.setPromotionDetails(promotion.getPromotionDetails());
-        promotionView.setBookView(MappingUtil.BookViewFromBook(promotion.getBook()));
+        promotionView.setBookView(ViewMapUtil.BookViewFromBook(promotion.getBook()));
         return promotionView;
     }
 

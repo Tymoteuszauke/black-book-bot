@@ -23,6 +23,6 @@ public class Bookstore {
     @Column(name = "details")
     private String details;
 
-    @OneToMany
+    @OneToMany(mappedBy = "bookstore")
     List<Promotion> promotions;
 }
