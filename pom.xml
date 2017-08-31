@@ -32,7 +32,7 @@
     <distributionManagement>
         <site>
             <id>blackbot</id>
-            <url>scp:http://localhost:9000/about</url>
+            <url>scp:http://localhost:9001/about</url>
         </site>
     </distributionManagement>
 
@@ -71,6 +71,7 @@
         <httpclient.version>4.3.6</httpclient.version>
         <httpasynchclient.version>4.1.3</httpasynchclient.version>
         <json.version>20140107</json.version>
+        <guava.version>23.0</guava.version>
     </properties>
 
     <description>
@@ -176,18 +177,24 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>${swaggerVersion}</version>
             <scope>compile</scope>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>com.google.guava</groupId>-->
-                    <!--<artifactId>guava</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swaggerVersion}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 
