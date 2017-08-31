@@ -6,7 +6,7 @@ import java.util.List;
 
 
 @Data
-public class BookCreationData {
+public class BookData {
     private String title;
     private String subtitle;
     private String genre;

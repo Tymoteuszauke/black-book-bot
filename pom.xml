@@ -64,6 +64,7 @@
         <resourcesPluginVersion>3.0.2</resourcesPluginVersion>
         <h2database.version>1.4.196</h2database.version>
         <jayway.version>2.9.0</jayway.version>
+        <apacheCommonsLangVersion>3.6</apacheCommonsLangVersion>
 
         <unirest.version>1.4.9</unirest.version>
         <httpclient.version>4.3.6</httpclient.version>
@@ -94,8 +95,18 @@
             <artifactId>rest-assured</artifactId>
             <version>${jayway.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-lang3</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
+        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

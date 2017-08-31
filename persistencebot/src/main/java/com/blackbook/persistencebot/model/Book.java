@@ -36,5 +36,5 @@ public class Book {
     private List<Author> authors;
 
     @ManyToMany(mappedBy = "book")
-    private List<Promotion> promotions;
+    private List<BookDiscount> bookDiscounts;
 }

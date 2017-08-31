@@ -1,9 +1,9 @@
 package com.blackbook.restbot.controller;
 
-import com.blackbook.restbot.ApiCodes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
@@ -13,24 +13,27 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import view.creation_model.PromotionsCreationData;
-import view.promotion.PromotionView;
+import view.book_discount.BookDiscountView;
+import view.creation_model.BookDiscountData;
 
 import java.io.IOException;
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/promotions")
-public class PromotionsController {
+@RequestMapping(value = "/api/book-discounts")
+public class BookDiscountsController {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<PromotionView> getPromotions(@RequestParam(defaultValue = "") String query,
-                                             @RequestParam(required = false) String priceFrom,
-                                             @RequestParam(required = false) String priceTo) throws IOException {
-        log.info("Transaction: GET /api/promotions");
+    @Value("${endpoints.persistence-api}")
+    private String persistenceApiEndpoint;
+
+    @RequestMapping
+    public List<BookDiscountView> getBookDiscounts(@RequestParam(defaultValue = "") String query,
+                                                   @RequestParam(required = false) String priceFrom,
+                                                   @RequestParam(required = false) String priceTo) throws IOException {
+        log.info("Transaction: GET /api/book-discounts");
         RestTemplate restTemplate = new RestTemplate();
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(ApiCodes.PERSISTENCE_API + "/api/promotions");
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(persistenceApiEndpoint + "/api/book-discounts");
         uriComponentsBuilder.queryParam("query", query);
         if (!StringUtils.isEmpty(priceFrom) && !StringUtils.isEmpty(priceTo)) {
             uriComponentsBuilder.queryParam("priceFrom", priceFrom);
@@ -40,18 +43,16 @@ public class PromotionsController {
         ResponseEntity<String> response
                 = restTemplate.getForEntity(uriComponentsBuilder.build().encode().toUri(), String.class);
         ObjectMapper mapper = new ObjectMapper();
-        List<PromotionView> list = mapper.readValue(response.getBody(), TypeFactory.defaultInstance().constructCollectionType(List.class, PromotionView.class));
-
-        return list;
+        return mapper.readValue(response.getBody(), TypeFactory.defaultInstance().constructCollectionType(List.class, BookDiscountView.class));
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void postPromotions(@RequestBody PromotionsCreationData promotionsCreationData) {
-        log.info("Transaction: POST /api/promotions");
+    public List<BookDiscountView> postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountsData) {
+        log.info("Transaction: POST /api/book-discounts");
         ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()); //getClientHttpRequestFactory();
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-        HttpEntity<PromotionsCreationData> request = new HttpEntity<>(promotionsCreationData);
-        PromotionsCreationData promotionsCreationData1 = restTemplate.postForObject(ApiCodes.PERSISTENCE_API + "/api/promotions", request, PromotionsCreationData.class);
+        HttpEntity<Object> request = new HttpEntity<>(bookDiscountsData);
+        return (List<BookDiscountView>) restTemplate.postForObject(persistenceApiEndpoint + "/api/book-discounts", request, List.class);
     }
 }

@@ -1,2 +1,5 @@
 server:
   port: 8080
+
+endpoints:
+  persistence-api: http://localhost:8101
