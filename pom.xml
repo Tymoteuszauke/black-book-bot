@@ -22,10 +22,11 @@
     <name>Black Book Bot application</name>
 
     <modules>
-        <module>botrest</module>
+        <module>restbot</module>
         <module>scheduler</module>
-        <module>botpersistence</module>
+        <module>persistencebot</module>
         <module>models</module>
+        <module>google_crawler</module>
     </modules>
 
     <distributionManagement>
