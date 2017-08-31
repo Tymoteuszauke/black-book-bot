@@ -22,9 +22,11 @@
     <name>Black Book Bot application</name>
 
     <modules>
-        <module>botrest</module>
-        <module>crawler</module>
+        <module>restbot</module>
         <module>scheduler</module>
+        <module>persistencebot</module>
+        <module>models</module>
+        <module>google_crawler</module>
     </modules>
 
     <distributionManagement>
@@ -51,7 +53,6 @@
         <enforcerVersion>1.4.1</enforcerVersion>
         <testngVersion>6.11</testngVersion>
         <mockitoVersion>1.10.19</mockitoVersion>
-        <flywayVersion>4.2.0</flywayVersion>
         <failsafeVersion>2.20</failsafeVersion>
         <sitePluginVersion>3.6</sitePluginVersion>
         <reportVersion>2.9</reportVersion>
@@ -110,11 +111,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>${flywayVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -241,6 +237,20 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>exec</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
