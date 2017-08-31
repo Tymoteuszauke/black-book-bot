@@ -21,5 +21,8 @@ public interface PromotionsRepository extends PagingAndSortingRepository<Promoti
     @Query(value = "SELECT p FROM Promotion p WHERE p.book.title LIKE %?1%")
     List<Promotion> findAllTextualSearch(String query);
 
+    @Query(value = "SELECT p FROM Promotion p WHERE (p.book.title LIKE %?1%) AND (p.price BETWEEN ?2 AND ?3)")
+    List<Promotion> findAllTextualSearchBetweenPrices(String query, Double priceFrom, Double priceTo);
+
     Promotion findByBookIdAndBookstoreId(long id, long bookstoreId);
 }

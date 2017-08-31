@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import view.creation_model.PromotionsCreationData;
 import view.promotion.PromotionView;
@@ -33,10 +34,21 @@ public class PromotionsController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<PromotionView> getPromotions(@RequestParam(defaultValue = "") String query,
-                                             Pageable pageable) {
+                                             @RequestParam(required = false) String priceFrom,
+                                             @RequestParam(required = false) String priceTo) {
         log.info("Transaction: GET /api/promotions");
-        return promotionsRepository
-                .findAllTextualSearch(query)
+
+        List<Promotion> promotions;
+
+        if (!StringUtils.isEmpty(priceFrom) && !StringUtils.isEmpty(priceTo)) {
+            Double from = Double.parseDouble(priceFrom);
+            Double to = Double.parseDouble(priceTo);
+            promotions = promotionsRepository.findAllTextualSearchBetweenPrices(query, from, to);
+        } else {
+            promotions = promotionsRepository.findAllTextualSearch(query);
+        }
+
+        return promotions
                 .stream()
                 .map(ViewMapUtil::PromotionViewFromPromotion)
                 .collect(Collectors.toList());

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -25,11 +26,17 @@ import java.util.List;
 public class PromotionsController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<PromotionView> getPromotions(@RequestParam(defaultValue = "") String query) throws IOException {
+    public List<PromotionView> getPromotions(@RequestParam(defaultValue = "") String query,
+                                             @RequestParam(required = false) String priceFrom,
+                                             @RequestParam(required = false) String priceTo) throws IOException {
         log.info("Transaction: GET /api/promotions");
         RestTemplate restTemplate = new RestTemplate();
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(ApiCodes.PERSISTENCE_API + "/api/promotions");
         uriComponentsBuilder.queryParam("query", query);
+        if (!StringUtils.isEmpty(priceFrom) && !StringUtils.isEmpty(priceTo)) {
+            uriComponentsBuilder.queryParam("priceFrom", priceFrom);
+            uriComponentsBuilder.queryParam("priceTo", priceTo);
+        }
 
         ResponseEntity<String> response
                 = restTemplate.getForEntity(uriComponentsBuilder.build().encode().toUri(), String.class);
@@ -47,6 +54,5 @@ public class PromotionsController {
 
         HttpEntity<PromotionsCreationData> request = new HttpEntity<>(promotionsCreationData);
         PromotionsCreationData promotionsCreationData1 = restTemplate.postForObject(ApiCodes.PERSISTENCE_API + "/api/promotions", request, PromotionsCreationData.class);
-
     }
 }
