@@ -37,8 +37,8 @@ public class PersistenceApplication {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Black Book Bot REST API for DB Persistence")
-                .description("RESTs for DB manipulations")
+                .title("Black Book Bot REST API for Persistence Bot module")
+                .description("Methods for DB manipulations")
                 .build();
     }
 

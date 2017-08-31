@@ -27,7 +27,7 @@ public class BookDiscountsController {
     @Autowired
     private BookDiscountParserService bookDiscountParserService;
 
-    @RequestMapping
+    @RequestMapping(method = RequestMethod.GET)
     public List<BookDiscountView> getBookDiscounts(@RequestParam(defaultValue = "") String query,
                                                    @RequestParam(required = false) String priceFrom,
                                                    @RequestParam(required = false) String priceTo) {
