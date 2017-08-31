@@ -1,4 +1,4 @@
-package view.promotion;
+package view.book_discount;
 
 import lombok.Data;
 

@@ -17,15 +17,15 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name = "promotions")
-public class Promotion {
+@Table(name = "book_discounts")
+public class BookDiscount {
 
     @Id
     @GeneratedValue
     private long id;
 
-    @Column(name = "promotion_details")
-    private String promotionDetails;
+    @Column(name = "book_discount_details")
+    private String bookDiscountDetails;
 
     @Column(name = "price")
     private double price;

@@ -24,5 +24,5 @@ public class Bookstore {
     private String details;
 
     @OneToMany(mappedBy = "bookstore")
-    List<Promotion> promotions;
+    List<BookDiscount> bookDiscounts;
 }

@@ -19,11 +19,11 @@ CREATE TABLE books (
     CONSTRAINT FK_authors_books FOREIGN KEY (author_id) REFERENCES authors(id)
 );
 
-CREATE TABLE promotions (
+CREATE TABLE book_discounts (
     id int not null auto_increment primary key,
     bookstore_id int,
     book_id int,
-    promotion_details varchar(500),
+    book_discount_details varchar(500),
     price decimal(16, 2),
     CONSTRAINT FK_bookstores_prices FOREIGN KEY (bookstore_id) REFERENCES bookstores(id),
     CONSTRAINT FK_books_prices FOREIGN KEY (book_id) REFERENCES books(id)
