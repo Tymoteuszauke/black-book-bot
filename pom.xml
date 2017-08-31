@@ -42,6 +42,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <mavenVersion>3.5.0</mavenVersion>
+        <swaggerVersion>2.7.0</swaggerVersion>
         <dependency.locations.enabled>false</dependency.locations.enabled>
         <!--Reporting plugins versions-->
         <findbugsPluginVersion>3.0.4</findbugsPluginVersion>
@@ -168,6 +169,17 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>${json.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swaggerVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swaggerVersion}</version>
         </dependency>
     </dependencies>
 
