@@ -3,16 +3,16 @@
 BlackBootBot project is project of robot for searching information about promotions
 and free books on bookstore websites.
 
-#Full requirements:
+# Full requirements:
 [Requirements](https://git.epam.com/tomasz_borek/ja-materials/wikis/project-robot)
 
-#Authors:
+# Authors:
  - Patrycja Zaremba
  - Mateusz Słaboński
  - Siarhei Shauchenka
  - Piotr Sekuła
  
-#Project wiki with information for demo
+# Project wiki with information for demo
 [BlackBookBot wiki](https://github.com/Tymoteuszauke/black-book-bot/wiki)
 
 # Managing features

@@ -22,23 +22,26 @@
     <name>Black Book Bot application</name>
 
     <modules>
-        <module>botrest</module>
+        <module>restbot</module>
+        <module>scheduler</module>
+        <module>persistencebot</module>
+        <module>models</module>
+        <module>google_crawler</module>
     </modules>
-
-    <url>none</url>
 
     <distributionManagement>
         <site>
             <id>blackbot</id>
-            <url>scp:http://localhost:9000/about</url>
+            <url>scp:http://localhost:9001/about</url>
         </site>
     </distributionManagement>
 
     <properties>
         <!--General properties-->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <java.version>1.8</java.version>
         <mavenVersion>3.5.0</mavenVersion>
+        <swaggerVersion>2.7.0</swaggerVersion>
         <dependency.locations.enabled>false</dependency.locations.enabled>
         <!--Reporting plugins versions-->
         <findbugsPluginVersion>3.0.4</findbugsPluginVersion>
@@ -50,7 +53,6 @@
         <enforcerVersion>1.4.1</enforcerVersion>
         <testngVersion>6.11</testngVersion>
         <mockitoVersion>1.10.19</mockitoVersion>
-        <flywayVersion>4.2.0</flywayVersion>
         <failsafeVersion>2.20</failsafeVersion>
         <sitePluginVersion>3.6</sitePluginVersion>
         <reportVersion>2.9</reportVersion>
@@ -60,13 +62,51 @@
         <installPluginVersion>2.5.2</installPluginVersion>
         <jarPluginVersion>3.0.2</jarPluginVersion>
         <resourcesPluginVersion>3.0.2</resourcesPluginVersion>
+        <h2database.version>1.4.196</h2database.version>
+        <jayway.version>2.9.0</jayway.version>
+        <apacheCommonsLangVersion>3.6</apacheCommonsLangVersion>
+        <unirest.version>1.4.9</unirest.version>
+        <httpclient.version>4.3.6</httpclient.version>
+        <httpasynchclient.version>4.1.3</httpasynchclient.version>
+        <json.version>20140107</json.version>
+        <guava.version>23.0</guava.version>
     </properties>
 
     <description>
         Black book bot, robot application for Java Academy.
     </description>
 
+    <repositories>
+        <repository>
+            <id>gemfire-release-repo</id>
+            <name>Pivotal GemFire Release Repository</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2database.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${jayway.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-lang3</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
+        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -82,11 +122,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>${flywayVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -106,6 +141,48 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>${unirest.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>${httpasynchclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swaggerVersion}</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 
@@ -186,6 +263,20 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>exec</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
