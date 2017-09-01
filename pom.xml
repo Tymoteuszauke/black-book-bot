@@ -27,6 +27,7 @@
         <module>persistencebot</module>
         <module>models</module>
         <module>google_crawler</module>
+        <module>matras_scraper</module>
     </modules>
 
     <distributionManagement>

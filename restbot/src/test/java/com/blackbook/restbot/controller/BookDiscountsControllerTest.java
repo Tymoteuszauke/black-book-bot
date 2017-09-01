@@ -38,7 +38,7 @@ public class BookDiscountsControllerTest {
         given()
                 .port(port)
                 .contentType(ContentType.JSON)
-                .body(new ArrayList<>(Collections.singletonList(new BookDiscountData())))
+                .body(new ArrayList<>(Collections.singletonList(BookDiscountData.builder().build())))
                 .when()
                 .post("/api/book-discounts")
                 .then()
