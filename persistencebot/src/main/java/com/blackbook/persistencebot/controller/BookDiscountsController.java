@@ -1,6 +1,5 @@
 package com.blackbook.persistencebot.controller;
 
-import com.blackbook.persistencebot.dao.AuthorsRepository;
 import com.blackbook.persistencebot.dao.BookDiscountsRepository;
 
 import com.blackbook.persistencebot.model.BookDiscount;

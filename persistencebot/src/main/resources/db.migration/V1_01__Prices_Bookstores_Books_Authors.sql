@@ -4,19 +4,14 @@ CREATE TABLE bookstores (
     details varchar(300)
 );
 
-CREATE TABLE authors (
-    id int not null auto_increment primary key,
-    name varchar(255),
-    surname varchar(500)
-);
-
 CREATE TABLE books (
     id int not null auto_increment primary key,
     title varchar(255),
     subtitle varchar(500),
-    author_id int,
+    authors varchar(700),
     genre varchar(100),
-    CONSTRAINT FK_authors_books FOREIGN KEY (author_id) REFERENCES authors(id)
+    cover_url varchar(600),
+    book_page_url varchar(600)
 );
 
 CREATE TABLE book_discounts (
@@ -28,10 +23,3 @@ CREATE TABLE book_discounts (
     CONSTRAINT FK_bookstores_prices FOREIGN KEY (bookstore_id) REFERENCES bookstores(id),
     CONSTRAINT FK_books_prices FOREIGN KEY (book_id) REFERENCES books(id)
 );
-
-CREATE TABLE books_authors (
-    book_id int,
-    author_id int,
-    CONSTRAINT FK_authors_books_authors FOREIGN KEY (author_id) REFERENCES authors(id),
-    CONSTRAINT FK_books_books_authors FOREIGN KEY (book_id) REFERENCES books(id)
-)
