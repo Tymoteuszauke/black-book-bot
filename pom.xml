@@ -28,6 +28,7 @@
         <module>persistencebot</module>
         <module>models</module>
         <module>googlecrawler</module>
+        <module>czytampl_scraper</module>
     </modules>
 
     <distributionManagement>
