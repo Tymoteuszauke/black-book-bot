@@ -10,5 +10,5 @@ public class BookData {
     private String title;
     private String subtitle;
     private String genre;
-    private List<AuthorCreationData> authors;
+    private String authors;
 }

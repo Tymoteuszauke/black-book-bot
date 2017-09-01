@@ -13,5 +13,5 @@ public class BookView {
     private long id;
     private String title;
     private String subtitle;
-    private Set<BookAuthorView> authors;
+    private String authors;
 }

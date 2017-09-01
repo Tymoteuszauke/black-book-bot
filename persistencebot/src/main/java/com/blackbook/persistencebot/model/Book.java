@@ -28,12 +28,14 @@ public class Book {
     @Column(name = "genre")
     private String genre;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "books_authors",
-            joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "id")}
-    )
-    private List<Author> authors;
+    @Column(name = "authors")
+    private String authors;
+
+    @Column(name = "cover_url")
+    private String coverUrl;
+
+    @Column(name = "book_page_url")
+    private String bookPageUrl;
 
     @ManyToMany(mappedBy = "book")
     private List<BookDiscount> bookDiscounts;

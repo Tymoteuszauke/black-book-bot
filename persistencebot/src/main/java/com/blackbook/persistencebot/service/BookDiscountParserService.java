@@ -1,19 +1,14 @@
 package com.blackbook.persistencebot.service;
 
-import com.blackbook.persistencebot.dao.AuthorsRepository;
+import com.blackbook.persistencebot.dao.BookDiscountsRepository;
 import com.blackbook.persistencebot.dao.BooksRepository;
 import com.blackbook.persistencebot.dao.BookstoresRepository;
-import com.blackbook.persistencebot.dao.BookDiscountsRepository;
-import com.blackbook.persistencebot.model.Author;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import view.creation_model.AuthorCreationData;
 import view.creation_model.BookData;
 import view.creation_model.BookDiscountData;
-
-import java.util.stream.Collectors;
 
 @Service
 public class BookDiscountParserService {
@@ -23,9 +18,6 @@ public class BookDiscountParserService {
 
     @Autowired
     private BookstoresRepository bookstoresRepository;
-
-    @Autowired
-    private AuthorsRepository authorsRepository;
 
     @Autowired
     private BookDiscountsRepository bookDiscountsRepository;
@@ -64,21 +56,7 @@ public class BookDiscountParserService {
         book.setTitle(bookData.getTitle());
         book.setSubtitle(bookData.getSubtitle());
         book.setGenre(bookData.getGenre());
-        book.setAuthors(bookData
-                .getAuthors()
-                .stream()
-                .map(this::parseAuthorCreationData)
-                .collect(Collectors.toList()));
+        book.setAuthors(bookData.getAuthors());
         return book;
-    }
-
-    private Author parseAuthorCreationData(AuthorCreationData authorCreationData) {
-        Author author = authorsRepository.findAuthorByNameAndSurname(authorCreationData.getName(), authorCreationData.getSurname());
-        if (author == null) {
-            author = new Author();
-        }
-        author.setName(authorCreationData.getName());
-        author.setSurname(authorCreationData.getSurname());
-        return author;
     }
 }
