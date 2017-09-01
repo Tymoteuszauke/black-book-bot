@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 // todo: rename
-public class Preparer {
+class Preparer {
 
     // todo: externalize?
     private final String promotionPageTemplate = "http://czytam.pl/tania-ksiazka,%d.html";
