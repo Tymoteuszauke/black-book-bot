@@ -29,6 +29,8 @@ public class ViewMapperUtil {
         bookView.setTitle(book.getTitle());
         bookView.setSubtitle(book.getSubtitle());
         bookView.setAuthors(book.getAuthors());
+        bookView.setBookPageUrl(book.getBookPageUrl());
+        bookView.setCoverUrl(book.getCoverUrl());
         return bookView;
     }
 

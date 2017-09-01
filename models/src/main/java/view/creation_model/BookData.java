@@ -13,4 +13,6 @@ public class BookData {
     private String subtitle;
     private String genre;
     private String authors;
+    private String bookPageUrl;
+    private String coverUrl;
 }

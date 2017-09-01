@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/matras-scrapper")
+@RequestMapping(value = "/api/matras-scraper")
 public class ScraperController {
 
     @Value("${endpoints.persistence-api}")
@@ -31,7 +31,7 @@ public class ScraperController {
 
     @RequestMapping(method = RequestMethod.POST)
     public List<BookDiscountView> postBookDiscounts() {
-        log.info("Transaction: POST /api/matras-scrapper");
+        log.info("Transaction: POST /api/matras-scraper");
         ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()); //getClientHttpRequestFactory();
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 

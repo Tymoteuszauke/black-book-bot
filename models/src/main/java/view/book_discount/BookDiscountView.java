@@ -10,5 +10,4 @@ public class BookDiscountView {
     private String discountDetails;
     private BookView bookView;
     private BookstoreView bookstoreView;
-
 }

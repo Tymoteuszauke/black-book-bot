@@ -28,19 +28,19 @@ public class BookDiscountParserService {
      * saves new BookDiscount
      */
     public BookDiscount parseBookDiscountData(BookDiscountData bookDiscountData) {
-        BookDiscount BookDiscount = new BookDiscount();
-        BookDiscount.setPrice(bookDiscountData.getPrice());
-        BookDiscount.setBookDiscountDetails(bookDiscountData.getBookDiscountDetails());
-        Book parsedBook = parseBookCreationData(bookDiscountData.getBookData());
+        BookDiscount bookDiscount = new BookDiscount();
+        bookDiscount.setPrice(bookDiscountData.getPrice());
+        bookDiscount.setBookDiscountDetails(bookDiscountData.getBookDiscountDetails());
+        Book parsedBook = parseBookData(bookDiscountData.getBookData());
         Book book = booksRepository.findByTitle(parsedBook.getTitle());
         if (book == null) {
             book = parsedBook;
         }
-        BookDiscount.setBook(book);
+        bookDiscount.setBook(book);
 
         //TODO remove if clause since creation data without bookstore id will not be permitted
         if (bookDiscountData.getBookstoreId() != null) {
-            BookDiscount.setBookstore(bookstoresRepository.findOne((long) bookDiscountData.getBookstoreId()));
+            bookDiscount.setBookstore(bookstoresRepository.findOne((long) bookDiscountData.getBookstoreId()));
 
             BookDiscount existingBookDiscount = bookDiscountsRepository.findByBookIdAndBookstoreId(book.getId(), bookDiscountData.getBookstoreId());
             if (existingBookDiscount != null) {
@@ -48,15 +48,17 @@ public class BookDiscountParserService {
             }
         }
 
-        return BookDiscount;
+        return bookDiscount;
     }
 
-    private Book parseBookCreationData(BookData bookData) {
+    private Book parseBookData(BookData bookData) {
         Book book = new Book();
         book.setTitle(bookData.getTitle());
         book.setSubtitle(bookData.getSubtitle());
         book.setGenre(bookData.getGenre());
         book.setAuthors(bookData.getAuthors());
+        book.setBookPageUrl(bookData.getBookPageUrl());
+        book.setCoverUrl(bookData.getCoverUrl());
         return book;
     }
 }
