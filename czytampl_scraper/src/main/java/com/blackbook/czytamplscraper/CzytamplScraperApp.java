@@ -1,6 +1,7 @@
-package com.blackbook.czytampl.scraper;
+package com.blackbook.czytamplscraper;
 
-import org.jsoup.Jsoup;
+import com.blackbook.czytamplscraper.scraper.Preparer;
+import com.blackbook.czytamplscraper.scraper.WebReader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

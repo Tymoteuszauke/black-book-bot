@@ -1,6 +1,5 @@
-package com.blackbook.czytampl.scraper;
+package com.blackbook.czytamplscraper.scraper;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
@@ -9,12 +8,12 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 // todo: rename
-class Preparer {
+public class Preparer {
 
     // todo: externalize?
     private final String promotionPageTemplate = "http://czytam.pl/tania-ksiazka,%d.html";
 
-    List<String> getPromotionPages(WebReader webReader, String url) throws IOException {
+    public List<String> getPromotionPages(WebReader webReader, String url) throws IOException {
         List<String> promotionPages = new ArrayList<>();
         IntStream.range(1, getNumberOfPages(webReader, url) + 1).forEach(pageId -> promotionPages.add(String.format(promotionPageTemplate, pageId)));
         return promotionPages;

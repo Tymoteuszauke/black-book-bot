@@ -1,5 +1,6 @@
-package com.blackbook.czytampl.scraper;
+package com.blackbook.czytamplscraper.scraper;
 
+import com.blackbook.czytamplscraper.scraper.WebReader;
 import org.testng.annotations.Test;
 
 public class WebReaderTest {

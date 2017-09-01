@@ -1,5 +1,7 @@
-package com.blackbook.czytampl.scraper;
+package com.blackbook.czytamplscraper.scraper;
 
+import com.blackbook.czytamplscraper.scraper.Preparer;
+import com.blackbook.czytamplscraper.scraper.WebReader;
 import org.jsoup.Jsoup;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
