@@ -3,6 +3,7 @@ package com.blackbook.matrasscraper.scraper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,12 +22,12 @@ public class BookDocument {
                 .text();
     }
 
-    public Set<String> extractBookAuthors() {
+    public List<String> extractBookAuthors() {
         return bookDoc.getElementsByClass("title-author")
                 .select("span[itemprop=name]")
                 .stream()
                 .map(Element::text)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     public String extractBookGenre() {
