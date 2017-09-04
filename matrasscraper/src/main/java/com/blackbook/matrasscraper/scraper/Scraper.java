@@ -1,20 +1,10 @@
 package com.blackbook.matrasscraper.scraper;
 
 import com.blackbook.matrasscraper.htmlprovider.HTMLDocumentProvider;
-import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import view.creation_model.BookData;
 import view.creation_model.BookDiscountData;
 
 import java.util.LinkedList;

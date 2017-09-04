@@ -10,6 +10,7 @@ import java.util.List;
 
 public class BookBuilder {
     private final static int BOOKSTORE_ID = 2;
+    private final String STORE_PAGE = "http://czytam.pl";
     private WebReader reader;
     private Element book;
     private Document detailsPage;
@@ -21,7 +22,12 @@ public class BookBuilder {
 
     BookDiscountData buildBookDiscountDataObject() {
 
-        String bookDetailsUrl = "http://czytam.pl" + book.select(".image-container").select("a").attr("href");
+        String bookDetailsUrl = STORE_PAGE + book
+                .select(".image-container")
+                .select("a")
+                .attr("href")
+                .replaceAll("\t", "")
+                .replaceAll("\n", "");
         detailsPage = reader.getDocumentFromWebPage(bookDetailsUrl);
 
         BookDiscountData bookDiscountData = BookDiscountData.builder()
@@ -43,22 +49,27 @@ public class BookBuilder {
 
     private Double readBookPrice() {
         List<String> prices = book.select(".product-price").select("strong").eachText();
-        return Double.valueOf(prices.get(1).replaceAll(",", "."));
+        return Double.valueOf(prices
+                .get(1)
+                .replaceAll(",", ".")
+                .replaceAll("[a-zA-Z]", ""));
     }
 
     private String readPromoDetails() {
-        Elements promoDetails = book.select(".image-container").select("a[href]");
+        Elements promoDetails = book.select(".icon_rabat");
         return promoDetails.text().replaceAll("\\s+", "");
     }
 
     private String readBookTitle() {
         Element details = detailsPage.getElementById("panel4-2");
-        return details.html().contains("Tytuł") ? details.child(1).select("strong").text() : "-";
+        return details == null ? "-" : details.html().contains("Tytuł") ? details.child(1).select("strong").text() : "-";
+//        return details.html().contains("Tytuł") ? details.child(1).select("strong").text() : "-";
     }
 
     private String readBookSubtitle() {
         Element details = detailsPage.getElementById("panel4-2");
-        return details.html().contains("Podtytuł") ? details.child(2).select("strong").text() : "-";
+        return details == null ? "-" : details.html().contains("Podtytuł") ? details.child(2).select("strong").text() : "-";
+//        return details.html().contains("Podtytuł") ? details.child(2).select("strong").text() : "-";
     }
 
     private String readBookAuthors() {
