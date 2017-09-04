@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author "Patrycja Zaremba"
  */
 @Slf4j
-public class JsoupHTMLDocumentProvider implements HTMLDocumentProvider{
+public class JsoupHTMLDocumentProvider implements HTMLDocumentProvider {
     @Override
     public Document provide(String url) {
         return connectToUrl(url);

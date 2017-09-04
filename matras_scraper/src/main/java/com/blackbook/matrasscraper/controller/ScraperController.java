@@ -1,5 +1,7 @@
 package com.blackbook.matrasscraper.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
 import com.blackbook.matrasscraper.scraper.Scraper;
 import lombok.extern.slf4j.Slf4j;
