@@ -26,40 +26,43 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class Scraper {
-    private final static String MATRAS_URL = "http://www.matras.pl/ksiazki/promocje,k,53?p=";
-    private final static String BOOKSTORE = "Matras";
-    private final static int PAGES_TO_COLLECT = 3;
+    private final static String MATRAS_URL = "http://www.matras.pl/ksiazki/promocje,k,53";
+    private final static String MATRAS_URL_PAGE = MATRAS_URL + "?p=";
+    public final static int BOOKSTORE_ID = 1;
     private HTMLDocumentProvider htmlDocumentProvider;
 
     public Scraper(HTMLDocumentProvider htmlDocumentProvider) {
         this.htmlDocumentProvider = htmlDocumentProvider;
     }
 
-    public static void main(String[] args) {
-        Scraper scraper = new Scraper(new JsoupHTMLDocumentProvider());
-        scraper.extractBookElements();
-    }
-    public void extractBookElements() {
-        for (int i = 0; i < PAGES_TO_COLLECT; i++) {
-            Document pageDoc = htmlDocumentProvider.provide(MATRAS_URL + i);
-            extractBookElementsFromSinglePage(pageDoc);
+    public List<BookDiscountData> extractBookElements() {
+        Document mainPageDoc = htmlDocumentProvider.provide(MATRAS_URL);
+        int lastPageNo = extractLastPageNo(mainPageDoc);
+        List<BookDiscountData> bookDiscountData = new LinkedList<>();
+        //TODO change 1 to property or lastPageNo if all pages wanted
+        for (int i = 0; i < 1; i++) {
+            Document pageDoc = htmlDocumentProvider.provide(MATRAS_URL_PAGE + i);
+            bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
         }
+        return bookDiscountData;
     }
 
-    private void extractBookElementsFromSinglePage(Document document) {
+    private int extractLastPageNo(Document mainPageDoc) {
+        return Integer.parseInt(mainPageDoc.select(".pagination-list > li:not(.next)")
+                .last()
+                .text());
+    }
+
+    private List<BookDiscountData> extractBookElementsFromSinglePage(Document document) {
         Elements bookElements = document.getElementsByClass("s-item eqh");
-        bookElements.forEach(bookElement -> {
-            String bookUrl = extractBookUrl(bookElement);
-            BookDocument bookDoc = new BookDocument(htmlDocumentProvider.provide(bookUrl));
-
-            String title = bookDoc.extractBookTitle();
-            Set<String> authors = bookDoc.extractBookAuthors();
-            String genre = bookDoc.extractBookGenre();
-            String price = bookDoc.extractBookPrice();
-            String promoDetails = bookDoc.extractBookPromoDetails();
-
-            System.out.println(title + " - " + authors + " - " + genre + " - " + price + " - " + promoDetails);
-        });
+        List<BookDiscountData> bookDiscountData = bookElements.stream()
+                .map(bookElement -> {
+                    String bookUrl = extractBookUrl(bookElement);
+                    BookDocument bookDoc = new BookDocument(htmlDocumentProvider.provide(bookUrl));
+                    return BookDocumentConverter.createBookDiscountData(bookDoc, bookUrl);
+                })
+                .collect(Collectors.toList());
+        return bookDiscountData;
     }
 
     private String extractBookUrl(Element bookElement) {
