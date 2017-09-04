@@ -24,10 +24,10 @@
     <modules>
         <module>restbot</module>
         <module>scheduler</module>
-        <module>matrasscrapper</module>
+        <module>matrasscraper</module>
         <module>persistencebot</module>
         <module>models</module>
-        <module>google_crawler</module>
+        <module>googlecrawler</module>
     </modules>
 
     <distributionManagement>
