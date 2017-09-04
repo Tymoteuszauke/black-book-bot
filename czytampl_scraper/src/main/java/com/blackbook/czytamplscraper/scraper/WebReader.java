@@ -5,9 +5,9 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
-public class WebReader {
+class WebReader {
 
-    public Document getDocumentFromWebPage(String url){
+    Document getDocumentFromWebPage(String url){
         try {
             return Jsoup.connect(url).get();
         } catch (IOException e) {

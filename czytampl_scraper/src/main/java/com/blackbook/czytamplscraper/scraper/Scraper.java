@@ -5,12 +5,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Scraper {
 
     private static final String startPage = "http://czytam.pl/tania-ksiazka.html";
-    private final static int BOOKSTORE_ID = 2;
 
 //    Elements elements = doc.select(".product");
 
@@ -18,12 +18,15 @@ public class Scraper {
         WebReader reader = new WebReader();
         Preparer preparer = new Preparer();
         List<String> promotionPages = preparer.getPromotionPages(reader, startPage);
+        List<Document> promotionPageDocuments = new ArrayList<>();
+
+//        promotionPages.forEach(promotionPageUrl -> promotionPageDocuments.add(reader.getDocumentFromWebPage(promotionPageUrl)));
 
         // new code to extract
-        String promotionUrl = promotionPages.get(5);
+        String promotionUrl = promotionPages.get(1);
         Document promotionPage = reader.getDocumentFromWebPage(promotionUrl);
         Elements elements = promotionPage.select(".product");
-        Element book = elements.get(22);
+        Element book = elements.get(13);
         System.out.println(book.html());
         System.out.println("\n-------------------------------------------\n");
 
@@ -44,11 +47,14 @@ public class Scraper {
         String bookUrl = "http://czytam.pl" + book.select(".image-container").select("a").attr("href");
         System.out.println("Book url: " + bookUrl);
 
-//        Document detailsPage = reader.getDocumentFromWebPage(bookUrl);
-        //System.out.println(detailsPage.html());
+        Document detailsPage = reader.getDocumentFromWebPage(bookUrl);
 
-//        Elements subtitle = detailsPage.getElementById("panel4-2").child(2).select("strong");
-//        System.out.println("Subtitle: " + subtitle.html());
+        Elements genre = detailsPage.select(".level-2").select(".active");
+        String bookGenre = genre.html();
+        System.out.println(bookGenre.equals("") ? "Unknown" : bookGenre);
 
+        org.jsoup.nodes.Element details = detailsPage.getElementById("panel4-2");
+        String subtitle = details.html().contains("Podtytuł") ? details.child(2).select("strong").text() : "-";
+        System.out.println("Subtitle:" + subtitle);
     }
 }
