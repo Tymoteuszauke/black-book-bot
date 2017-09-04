@@ -29,6 +29,7 @@
         <module>models</module>
         <module>googlecrawler</module>
         <module>czytamplscraper</module>
+        <module>taniaksiazkascraper</module>
     </modules>
 
     <distributionManagement>
