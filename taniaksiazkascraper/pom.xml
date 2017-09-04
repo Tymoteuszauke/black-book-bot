@@ -11,5 +11,21 @@
 
     <artifactId>taniaksiazkascraper</artifactId>
 
+    <properties>
+        <jsoup.version>1.10.3</jsoup.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.blackbook.bot</groupId>
+            <artifactId>models</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>
