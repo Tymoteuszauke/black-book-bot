@@ -9,6 +9,18 @@ import org.jsoup.select.Elements;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import view.creation_model.BookData;
+import view.creation_model.BookDiscountData;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @author "Patrycja Zaremba"
  */
@@ -27,7 +39,6 @@ public class Scraper {
         Scraper scraper = new Scraper(new JsoupHTMLDocumentProvider());
         scraper.extractBookElements();
     }
-
     public void extractBookElements() {
         for (int i = 0; i < PAGES_TO_COLLECT; i++) {
             Document pageDoc = htmlDocumentProvider.provide(MATRAS_URL + i);
@@ -57,5 +68,4 @@ public class Scraper {
                 .first()
                 .attr("href");
     }
-
 }

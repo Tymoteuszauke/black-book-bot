@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author "Patrycja Zaremba"
  */
 @Slf4j
-public class JsoupHTMLDocumentProvider implements HTMLDocumentProvider{
+public class JsoupHTMLDocumentProvider implements HTMLDocumentProvider {
     @Override
     public Document provide(String url) {
         return connectToUrl(url);
@@ -21,7 +21,7 @@ public class JsoupHTMLDocumentProvider implements HTMLDocumentProvider{
         try {
             document = Jsoup.connect(url).get();
         } catch (IOException e) {
-            //log.error("Unable to connect with URL" + url);
+            log.error("Unable to connect with URL" + url);
         }
         return document;
     }

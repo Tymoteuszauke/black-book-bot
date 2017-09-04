@@ -9,9 +9,10 @@ import java.util.stream.Collectors;
 /**
  * @author "Patrycja Zaremba"
  */
-public class BookDocument {
+public class BookDocument {  
+  
     private Document bookDoc;
-
+  
     public BookDocument(Document bookDoc) {
         this.bookDoc = bookDoc;
     }
