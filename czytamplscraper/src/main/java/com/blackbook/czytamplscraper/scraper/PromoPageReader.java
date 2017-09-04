@@ -7,9 +7,9 @@ import view.creation_model.BookDiscountData;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PromoPageReader {
+class PromoPageReader {
 
-    List<BookDiscountData> readAllDiscountsFromPage(WebReader reader, String promotionUrl) {
+    List<BookDiscountData> readAllDiscountsFromPage(Connector reader, String promotionUrl) {
         List<BookDiscountData> discountData = new LinkedList<>();
         Document promotionDoc = reader.getDocumentFromWebPage(promotionUrl);
         Elements elements = promotionDoc.select(".product");

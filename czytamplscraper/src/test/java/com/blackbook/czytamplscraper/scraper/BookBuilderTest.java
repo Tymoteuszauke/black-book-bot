@@ -3,7 +3,6 @@ package com.blackbook.czytamplscraper.scraper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import view.creation_model.BookDiscountData;
@@ -20,11 +19,11 @@ public class BookBuilderTest {
     private final String TEST_URL = "http://czytam.pl/k,ks_599195,Drakulcio-ma-klopoty-Straszliwa-historia-w-obrazkach-Pinkwart-Magdalena-Pinkwart-Sergiusz.html";
     private final File BOOK_HTML_FILE = new File("src/test/resources/book.html");
     private final File BOOK_DETAILS_PAGE_HTML_FILE = new File("src/test/resources/books_details_page_snippet.html");
-    private WebReader mockReader;
+    private Connector mockReader;
 
     @BeforeTest
     public void beforeTest() throws IOException {
-        mockReader = mock(WebReader.class);
+        mockReader = mock(Connector.class);
         when(mockReader.getDocumentFromWebPage(TEST_URL)).thenReturn(Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8"));
     }
 

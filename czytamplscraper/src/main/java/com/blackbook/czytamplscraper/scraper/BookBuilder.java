@@ -8,14 +8,14 @@ import view.creation_model.BookDiscountData;
 
 import java.util.List;
 
-public class BookBuilder {
+class BookBuilder {
     private final static int BOOKSTORE_ID = 2;
     private final String STORE_PAGE = "http://czytam.pl";
-    private WebReader reader;
+    private Connector reader;
     private Element book;
     private Document detailsPage;
 
-    public BookBuilder(WebReader reader, Element book) {
+    BookBuilder(Connector reader, Element book) {
         this.reader = reader;
         this.book = book;
     }
@@ -63,13 +63,11 @@ public class BookBuilder {
     private String readBookTitle() {
         Element details = detailsPage.getElementById("panel4-2");
         return details == null ? "-" : details.html().contains("Tytuł") ? details.child(1).select("strong").text() : "-";
-//        return details.html().contains("Tytuł") ? details.child(1).select("strong").text() : "-";
     }
 
     private String readBookSubtitle() {
         Element details = detailsPage.getElementById("panel4-2");
         return details == null ? "-" : details.html().contains("Podtytuł") ? details.child(2).select("strong").text() : "-";
-//        return details.html().contains("Podtytuł") ? details.child(2).select("strong").text() : "-";
     }
 
     private String readBookAuthors() {

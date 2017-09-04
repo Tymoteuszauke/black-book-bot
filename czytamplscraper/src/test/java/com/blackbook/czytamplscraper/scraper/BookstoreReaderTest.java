@@ -14,22 +14,22 @@ import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class PreparerTest {
+public class BookstoreReaderTest {
 
     private final String TEST_URL = "http://czytam.pl/tania-ksiazka.html";
     private final File HTML_RESOURCE_FILE = new File("src/test/resources/czytampl_promotions_page.html");
-    private WebReader mockReader;
+    private Connector mockReader;
 
     @BeforeMethod
     private void before() throws IOException {
-        mockReader = mock(WebReader.class);
+        mockReader = mock(Connector.class);
         when(mockReader.getDocumentFromWebPage(TEST_URL)).thenReturn(Jsoup.parse(HTML_RESOURCE_FILE, "UTF-8"));
     }
 
     @Test
     public void testGetPromotionPages() throws Exception {
         // Given
-        Preparer preparer = new Preparer();
+        BookstoreReader bookstoreReader = new BookstoreReader();
         List<String> expectedPages = Arrays.asList(
                 "http://czytam.pl/tania-ksiazka,1.html",
                 "http://czytam.pl/tania-ksiazka,2.html",
@@ -43,7 +43,7 @@ public class PreparerTest {
         );
 
         // When
-        List<String> promotionPages = preparer.getPromotionPages(mockReader, TEST_URL);
+        List<String> promotionPages = bookstoreReader.getPromotionPages(mockReader, TEST_URL);
 
         // Then
         assertTrue(promotionPages.containsAll(expectedPages));
@@ -52,10 +52,10 @@ public class PreparerTest {
     @Test
     public void shouldGetNoOfPages() throws Exception {
         // Given
-        Preparer preparer = new Preparer();
+        BookstoreReader bookstoreReader = new BookstoreReader();
 
         // When
-        Integer numberOfPages = preparer.getNumberOfPages(mockReader, TEST_URL);
+        Integer numberOfPages = bookstoreReader.getNumberOfPages(mockReader, TEST_URL);
 
         // Then
         assertEquals("42", String.valueOf(numberOfPages));

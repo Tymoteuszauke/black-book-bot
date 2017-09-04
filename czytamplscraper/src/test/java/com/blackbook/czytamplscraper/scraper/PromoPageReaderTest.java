@@ -22,11 +22,11 @@ public class PromoPageReaderTest {
     private final File HTML_RESOURCE_FILE = new File("src/test/resources/promotions_page_snippet.html");
     private final File BOOK_1_DETAILS_FILE = new File("src/test/resources/book_Deadline_details_snipptet.html");
     private final File BOOK_2_DETAILS_FILE = new File("src/test/resources/book_Czartoryscy_details_snippet.html");
-    private WebReader mockReader;
+    private Connector mockReader;
 
     @BeforeMethod
     private void before() throws IOException {
-        mockReader = mock(WebReader.class);
+        mockReader = mock(Connector.class);
         when(mockReader.getDocumentFromWebPage(PROMOTION_URL)).thenReturn(Jsoup.parse(HTML_RESOURCE_FILE, "UTF-8"));
         when(mockReader.getDocumentFromWebPage(BOOK_1_DETAILS)).thenReturn(Jsoup.parse(BOOK_1_DETAILS_FILE, "UTF-8"));
         when(mockReader.getDocumentFromWebPage(BOOK_2_DETAILS)).thenReturn(Jsoup.parse(BOOK_2_DETAILS_FILE, "UTF-8"));
