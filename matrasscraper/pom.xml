@@ -20,6 +20,7 @@
 
     <properties>
         <jsoup.version>1.10.3</jsoup.version>
+        <wiremockVersion>2.7.1</wiremockVersion>
     </properties>
 
     <dependencies>
@@ -36,7 +37,17 @@
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>
-            <version>2.7.1</version>
+            <version>${wiremockVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-lang3</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
