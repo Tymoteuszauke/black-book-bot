@@ -18,7 +18,7 @@ import org.json.JSONObject;
  */
 @Slf4j
 public class GoogleProcessor implements CrawlerProcessor {
-
+    private static final int OK_STATUS = 200;
     private final String request;
     private final DataParser<JSONObject> dataParser;
     private final int currentPage;

@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import view.creation_model.BookDiscountData;
-import view.book_discount.BookDiscountView;
+import view.creationmodel.BookDiscountData;
+import view.bookdiscount.BookDiscountView;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,14 +1,11 @@
-package com.blackbook.matrasscraper;
+package com.blackbook.czytamplscraper;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * @author "Patrycja Zaremba"
- */
 @SpringBootApplication
-public class MatrasScraperApp {
+public class CzytamplScraperApp {
     public static void main(String[] args) {
-        SpringApplication.run(MatrasScraperApp.class, args);
+        SpringApplication.run(CzytamplScraperApp.class, args);
     }
 }

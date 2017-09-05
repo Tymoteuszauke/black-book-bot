@@ -1,4 +1,4 @@
-package view.creation_model;
+package view.creationmodel;
 
 import lombok.Builder;
 import lombok.Data;

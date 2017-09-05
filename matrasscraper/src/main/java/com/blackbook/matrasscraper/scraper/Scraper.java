@@ -1,21 +1,11 @@
 package com.blackbook.matrasscraper.scraper;
 
 import com.blackbook.matrasscraper.htmlprovider.HTMLDocumentProvider;
-import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import view.creation_model.BookData;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookDiscountData;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +18,6 @@ import java.util.stream.Collectors;
 public class Scraper {
     private final static String MATRAS_URL = "http://www.matras.pl/ksiazki/promocje,k,53";
     private final static String MATRAS_URL_PAGE = MATRAS_URL + "?p=";
-    public final static int BOOKSTORE_ID = 1;
     private HTMLDocumentProvider htmlDocumentProvider;
 
     public Scraper(HTMLDocumentProvider htmlDocumentProvider) {
@@ -39,8 +28,7 @@ public class Scraper {
         Document mainPageDoc = htmlDocumentProvider.provide(MATRAS_URL);
         int lastPageNo = extractLastPageNo(mainPageDoc);
         List<BookDiscountData> bookDiscountData = new LinkedList<>();
-        //TODO change 1 to property or lastPageNo if all pages wanted
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < lastPageNo; i++) {
             Document pageDoc = htmlDocumentProvider.provide(MATRAS_URL_PAGE + i);
             bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
         }

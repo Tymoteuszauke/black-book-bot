@@ -13,8 +13,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import view.book_discount.BookDiscountView;
-import view.creation_model.BookDiscountData;
+import view.bookdiscount.BookDiscountView;
+import view.creationmodel.BookDiscountData;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +49,7 @@ public class BookDiscountsController {
     @RequestMapping(method = RequestMethod.POST)
     public List<BookDiscountView> postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountsData) {
         log.info("Transaction: POST /api/book-discounts");
-        ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()); //getClientHttpRequestFactory();
+        ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
         HttpEntity<Object> request = new HttpEntity<>(bookDiscountsData);

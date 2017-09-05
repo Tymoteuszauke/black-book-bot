@@ -9,7 +9,7 @@ import org.json.JSONObject;
  */
 public class GooglePaginator implements Paginator{
 
-    private final int NUMBER_BOOKS_ON_PAGE = 20;
+    private static final int NUMBER_BOOKS_ON_PAGE = 20;
 
     private final JSONObject data;
     private final int currentPage;

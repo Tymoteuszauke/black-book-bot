@@ -1,11 +1,14 @@
 package com.blackbook.matrasscraper.scraper;
 
-import view.creation_model.BookData;
-import view.creation_model.BookDiscountData;
+import lombok.extern.slf4j.Slf4j;
+import view.creationmodel.BookData;
+import view.creationmodel.BookDiscountData;
 
-public class BookDocumentConverter {
+@Slf4j
+class BookDocumentConverter {
+    private static final int BOOKSTORE_ID = 1;
 
-    public static BookDiscountData createBookDiscountData(BookDocument bookDoc, String bookUrl) {
+    static BookDiscountData createBookDiscountData(BookDocument bookDoc, String bookUrl) {
         String title = bookDoc.extractBookTitle();
         String subtitle = bookDoc.extractBookSubtitle();
         String authors = bookDoc.extractBookAuthors();
@@ -15,7 +18,7 @@ public class BookDocumentConverter {
         String coverUrl = bookDoc.extractBookCoverUrl();
 
         BookDiscountData bookDiscountData = BookDiscountData.builder()
-                .bookstoreId(Scraper.BOOKSTORE_ID)
+                .bookstoreId(BOOKSTORE_ID)
                 .price(price)
                 .bookDiscountDetails(promoDetails)
                 .bookData(BookData.builder()
@@ -29,7 +32,7 @@ public class BookDocumentConverter {
                 .build();
 
         String separator = " - ";
-        System.out.println(title + separator + subtitle + separator + authors + separator + genre + separator +
+       log.info(title + separator + subtitle + separator + authors + separator + genre + separator +
                 price + separator + promoDetails + separator + bookUrl + separator + coverUrl);
         return bookDiscountData;
     }

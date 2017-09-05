@@ -4,22 +4,21 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * @author "Patrycja Zaremba"
  */
-public class BookDocument {
+class BookDocument {
     private Document bookDoc;
 
-    public BookDocument(Document bookDoc) {
+    BookDocument(Document bookDoc) {
         this.bookDoc = bookDoc;
     }
 
-    public String extractBookTitle() {
+    String extractBookTitle() {
         String title = extractBookTitles();
-        int dotIndex = title.indexOf(".");
+        int dotIndex = title.indexOf('.');
         if (dotIndex != -1) {
             title = title.substring(0, dotIndex).trim();
         }
@@ -31,17 +30,17 @@ public class BookDocument {
                 .text();
     }
 
-    public String extractBookSubtitle() {
+    String extractBookSubtitle() {
         String subtitle = null;
         String title = extractBookTitles();
-        int dotIndex = title.indexOf(".");
+        int dotIndex = title.indexOf('.');
         if (dotIndex != -1) {
             subtitle = title.substring(dotIndex + 1).trim();
         }
         return subtitle;
     }
 
-    public String extractBookAuthors() {
+    String extractBookAuthors() {
         List<String> authorsList = bookDoc.getElementsByClass("title-author")
                 .select("[itemprop=name]")
                 .stream()
@@ -50,7 +49,7 @@ public class BookDocument {
         return String.join(", ", authorsList);
     }
 
-    public String extractBookGenre() {
+    String extractBookGenre() {
         return bookDoc.getElementsByClass("m-list")
                 .first()
                 .select("a > span")

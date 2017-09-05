@@ -9,8 +9,8 @@ import com.blackbook.scheduler.processor.core.AbstractProcessor;
  */
 public class StartAllCrawlersProcessor extends AbstractProcessor {
 
-    private final String START_ALL_CRAWLERS_URL = "localhost:8080/api/crawlers/start";
-    private final String OK_MESSAGE = "Crawlers started!";
+    private static final String START_ALL_CRAWLERS_URL = "localhost:8080/api/crawlers/start";
+    private static final String OK_MESSAGE = "Crawlers started!";
 
     public StartAllCrawlersProcessor(RequestControllerListener controllerListener) {
         super(controllerListener);

@@ -11,11 +11,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface BooksRepository extends PagingAndSortingRepository<Book, Long> {
 
-//    @Query("SELECT b FROM Book b WHERE b.author.name LIKE %?1% OR b.title LIKE %?1%")
-//    Page<Book> findBooksWithTextualSearch(String query, Pageable pageable);
-
-//    @Query("SELECT b FROM Book b WHERE (b.author.name LIKE %?1% OR b.title LIKE %?1%) AND (b.price.price BETWEEN ?2 AND ?3)")
-//    Page<Book> findBooksWithTextualSearchAndBetweenPrices(String query, Double priceFrom, Double priceTo, Pageable pageable);
     Page<Book> findAll(Pageable pageable);
 
     Book findByTitle(String title);
