@@ -4,7 +4,7 @@ import org.jsoup.nodes.Element;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
-class PromoDetailsReader {
+public class PromoDetailsReader {
     private final static int BOOKSTORE_ID = 3;
     private static final String BOOKSTORE_URL = "http://www.taniaksiazka.pl";
 

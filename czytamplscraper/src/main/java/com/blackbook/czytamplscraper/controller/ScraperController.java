@@ -26,7 +26,7 @@ public class ScraperController {
     @RequestMapping(method = RequestMethod.POST)
     public List<BookDiscountView> postBookDiscounts() {
         log.info("Transaction: POST /api/czytampl-scraper");
-        ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()); //getClientHttpRequestFactory();
+        ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
         Scraper scraper = new Scraper();
