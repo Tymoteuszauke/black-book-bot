@@ -18,7 +18,7 @@ class BookDocument {
 
     String extractBookTitle() {
         String title = extractBookTitles();
-        int dotIndex = title.indexOf(".");
+        int dotIndex = title.indexOf('.');
         if (dotIndex != -1) {
             title = title.substring(0, dotIndex).trim();
         }
@@ -33,7 +33,7 @@ class BookDocument {
     String extractBookSubtitle() {
         String subtitle = null;
         String title = extractBookTitles();
-        int dotIndex = title.indexOf(".");
+        int dotIndex = title.indexOf('.');
         if (dotIndex != -1) {
             subtitle = title.substring(dotIndex + 1).trim();
         }

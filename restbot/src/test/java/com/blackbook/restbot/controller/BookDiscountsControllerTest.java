@@ -9,10 +9,9 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookDiscountData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;

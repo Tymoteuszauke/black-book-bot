@@ -3,14 +3,15 @@ package com.blackbook.czytamplscraper.scraper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import view.creation_model.BookData;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookData;
+import view.creationmodel.BookDiscountData;
 
 import java.util.List;
 
 class BookBuilder {
     private final static int BOOKSTORE_ID = 2;
-    private final String STORE_PAGE = "http://czytam.pl";
+    private final static String STORE_PAGE = "http://czytam.pl";
+    private final String STRONG_TAGNAME_QUERY = "strong";
     private Connector reader;
     private Element book;
     private Document detailsPage;
@@ -30,7 +31,7 @@ class BookBuilder {
                 .replaceAll("\n", "");
         detailsPage = reader.getDocumentFromWebPage(bookDetailsUrl);
 
-        BookDiscountData bookDiscountData = BookDiscountData.builder()
+        return BookDiscountData.builder()
                 .bookstoreId(BOOKSTORE_ID)
                 .price(readBookPrice())
                 .bookDiscountDetails(readPromoDetails())
@@ -43,12 +44,10 @@ class BookBuilder {
                         .coverUrl(readBookCoverUrl())
                         .build())
                 .build();
-
-        return bookDiscountData;
     }
 
     private Double readBookPrice() {
-        List<String> prices = book.select(".product-price").select("strong").eachText();
+        List<String> prices = book.select(".product-price").select(STRONG_TAGNAME_QUERY).eachText();
         return Double.valueOf(prices
                 .get(1)
                 .replaceAll(",", ".")
@@ -62,12 +61,20 @@ class BookBuilder {
 
     private String readBookTitle() {
         Element details = detailsPage.getElementById("panel4-2");
-        return details == null ? "-" : details.html().contains("Tytuł") ? details.child(1).select("strong").text() : "-";
+        return details == null ? "-" : getTitle(details);
+    }
+
+    private String getTitle(Element details) {
+        return details.html().contains("Tytuł") ? details.child(1).select(STRONG_TAGNAME_QUERY).text() : "-";
     }
 
     private String readBookSubtitle() {
         Element details = detailsPage.getElementById("panel4-2");
-        return details == null ? "-" : details.html().contains("Podtytuł") ? details.child(2).select("strong").text() : "-";
+        return details == null ? "-" : getSubtitle(details);
+    }
+
+    private String getSubtitle(Element details) {
+        return details.html().contains("Podtytuł") ? details.child(2).select(STRONG_TAGNAME_QUERY).text() : "-";
     }
 
     private String readBookAuthors() {

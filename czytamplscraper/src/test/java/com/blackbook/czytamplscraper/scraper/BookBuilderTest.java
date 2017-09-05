@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;

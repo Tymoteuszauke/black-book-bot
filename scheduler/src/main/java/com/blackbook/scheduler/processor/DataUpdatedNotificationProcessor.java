@@ -23,6 +23,6 @@ public class DataUpdatedNotificationProcessor extends AbstractProcessor {
 
     @Override
     protected String getOkMessage() {
-        return "Observer on: " + notificationUrl + " notified!" ;
+        return "Observer on: " + notificationUrl + " notified!";
     }
 }

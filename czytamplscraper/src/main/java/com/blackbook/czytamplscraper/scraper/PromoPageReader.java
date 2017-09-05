@@ -2,7 +2,7 @@ package com.blackbook.czytamplscraper.scraper;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookDiscountData;
 
 import java.util.LinkedList;
 import java.util.List;

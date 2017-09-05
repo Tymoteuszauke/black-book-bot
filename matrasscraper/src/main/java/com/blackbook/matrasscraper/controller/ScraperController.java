@@ -10,11 +10,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import view.book_discount.BookDiscountView;
+import view.bookdiscount.BookDiscountView;
 
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class ScraperController {
     @RequestMapping(method = RequestMethod.POST)
     public List<BookDiscountView> postBookDiscounts() {
         log.info("Transaction: POST /api/matras-scraper");
-        ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()); //getClientHttpRequestFactory();
+        ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
         Scraper scraper = new Scraper(new JsoupHTMLDocumentProvider());

@@ -1,18 +1,14 @@
-package view.book_discount;
+package view.creationmodel;
 
-
+import lombok.Builder;
 import lombok.Data;
 
-import java.util.Set;
-
-/**
- * Created by tymek on 25.08.17.
- */
 @Data
-public class BookView {
-    private long id;
+@Builder
+public class BookData {
     private String title;
     private String subtitle;
+    private String genre;
     private String authors;
     private String bookPageUrl;
     private String coverUrl;

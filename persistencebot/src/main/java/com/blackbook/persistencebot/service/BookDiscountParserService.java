@@ -7,8 +7,8 @@ import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import view.creation_model.BookData;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookData;
+import view.creationmodel.BookDiscountData;
 
 @Service
 public class BookDiscountParserService {

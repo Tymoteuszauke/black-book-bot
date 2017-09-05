@@ -10,9 +10,10 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  * @author Siarhei Shauchenka
  * @since 23.08.17
  */
-public abstract class AbstractProcessor implements RequestProcessor{
+public abstract class AbstractProcessor implements RequestProcessor {
 
     private RequestControllerListener controllerListener;
+    private final int OK_STATUS = 200;
 
     public AbstractProcessor(RequestControllerListener controllerListener) {
         this.controllerListener = controllerListener;
@@ -33,5 +34,6 @@ public abstract class AbstractProcessor implements RequestProcessor{
     }
 
     protected abstract String getProcessorURL();
+
     protected abstract String getOkMessage();
 }

@@ -2,10 +2,9 @@ package com.blackbook.matrasscraper.scraper;
 
 import com.blackbook.matrasscraper.htmlprovider.HTMLDocumentProvider;
 import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
-import com.blackbook.matrasscraper.scraper.Scraper;
 import org.jsoup.Jsoup;
 import org.junit.Test;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,5 +36,4 @@ public class ScraperTest {
         //then
         assertEquals(booksOnPage, bookDiscountData.size());
     }
-
 }
