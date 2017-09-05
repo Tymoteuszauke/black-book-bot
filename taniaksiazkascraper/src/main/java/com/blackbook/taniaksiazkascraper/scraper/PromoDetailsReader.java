@@ -9,7 +9,7 @@ class PromoDetailsReader {
     private static final String BOOKSTORE_URL = "http://www.taniaksiazka.pl";
 
     BookDiscountData readDiscountDataProperties(Element book) {
-        BookDiscountData discountData = BookDiscountData.builder()
+        return BookDiscountData.builder()
                 .bookDiscountDetails(book.select(".product-discount").text())
                 .price(Double.valueOf(book.select("a").attr("data-price")))
                 .bookstoreId(BOOKSTORE_ID)
@@ -22,6 +22,5 @@ class PromoDetailsReader {
                         .coverUrl(book.select("img").attr("src"))
                         .build())
                 .build();
-        return discountData;
     }
 }

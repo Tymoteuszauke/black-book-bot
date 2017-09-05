@@ -3,18 +3,17 @@ package com.blackbook.taniaksiazkascraper.scraper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class PromoDetailsReaderTest {
 
-    private final File BOOK_HTML = new File("src\\test\\resources\\book.html");
+    private final File BOOK_HTML = new File("src/test/resources/book.html");
 
     @Test
     public void shouldReadPromotionDetails() throws IOException {
