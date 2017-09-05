@@ -43,4 +43,20 @@ public class BookDiscountsControllerTest {
                 .then()
                 .statusCode(HttpStatus.SC_OK);
     }
+
+    @Test
+    public void getPromotionExpectOk() {
+        stubFor(get(urlEqualTo("/api/book-discounts?query="))
+                .willReturn(aResponse()
+                        .withBody("[]")
+                        .withStatus(HttpStatus.SC_OK)));
+
+        given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/book-discounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK);
+    }
 }

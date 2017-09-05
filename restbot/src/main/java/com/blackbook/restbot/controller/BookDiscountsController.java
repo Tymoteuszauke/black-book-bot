@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
@@ -28,9 +32,10 @@ public class BookDiscountsController {
     private String persistenceApiEndpoint;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<BookDiscountView> getBookDiscounts(@RequestParam(defaultValue = "") String query,
+    public Page<BookDiscountView> getBookDiscounts(@RequestParam(defaultValue = "") String query,
                                                    @RequestParam(required = false) String priceFrom,
-                                                   @RequestParam(required = false) String priceTo) throws IOException {
+                                                   @RequestParam(required = false) String priceTo,
+                                                   Pageable pageable) throws IOException {
         log.info("Transaction: GET /api/book-discounts");
         RestTemplate restTemplate = new RestTemplate();
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(persistenceApiEndpoint + "/api/book-discounts");
@@ -43,7 +48,12 @@ public class BookDiscountsController {
         ResponseEntity<String> response
                 = restTemplate.getForEntity(uriComponentsBuilder.build().encode().toUri(), String.class);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(response.getBody(), TypeFactory.defaultInstance().constructCollectionType(List.class, BookDiscountView.class));
+
+        List<BookDiscountView> bookDiscounts = mapper.readValue(response.getBody(), TypeFactory.defaultInstance().constructCollectionType(List.class, BookDiscountView.class));
+
+        int start = pageable.getOffset();
+        int end = (start + pageable.getPageSize()) > bookDiscounts.size() ? bookDiscounts.size() : (start + pageable.getPageSize());
+        return new PageImpl<>(bookDiscounts.subList(start, end), pageable, bookDiscounts.size());
     }
 
     @RequestMapping(method = RequestMethod.POST)
