@@ -16,9 +16,9 @@ class BookBuilder {
     private Element book;
     private Document detailsPage;
 
-    BookBuilder(Connector reader, Element book) {
-        this.reader = reader;
+    BookBuilder(Connector connector, Element book) {
         this.book = book;
+        this.reader = connector;
     }
 
     BookDiscountData buildBookDiscountDataObject() {

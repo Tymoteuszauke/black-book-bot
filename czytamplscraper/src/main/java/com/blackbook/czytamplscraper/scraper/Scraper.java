@@ -8,11 +8,14 @@ import java.util.List;
 public class Scraper {
 
     private static final String START_PAGE = "http://czytam.pl/tania-ksiazka.html";
+    private Connector connector;
+    private BookstoreReader bookstoreReader;
+    private PromoPageReader pageReader;
 
     public List<BookDiscountData> extractBookElements() {
-        Connector connector = new Connector();
-        BookstoreReader bookstoreReader = new BookstoreReader();
-        PromoPageReader pageReader = new PromoPageReader();
+        connector = new Connector();
+        bookstoreReader = new BookstoreReader();
+        pageReader = new PromoPageReader();
 
         List<BookDiscountData> discountData = new LinkedList<>();
         List<String> promotionPages = bookstoreReader.getPromotionPages(connector, START_PAGE);

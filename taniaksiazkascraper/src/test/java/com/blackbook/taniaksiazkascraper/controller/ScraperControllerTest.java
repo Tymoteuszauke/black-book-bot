@@ -1,4 +1,4 @@
-package com.blackbook.czytamplscraper.controller;
+package com.blackbook.taniaksiazkascraper.controller;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.jayway.restassured.http.ContentType;
@@ -18,19 +18,19 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import static com.jayway.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "endpoints.persistence-api = http://localhost:12002")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "endpoints.persistence-api = http://localhost:13003")
 public class ScraperControllerTest {
 
     @LocalServerPort
     private int port;
 
     @Rule
-    public WireMockRule wireMockRule = new WireMockRule(options().port(12002));
+    public WireMockRule wireMockRule = new WireMockRule(options().port(13003));
 
     @Test
-    public void shouldPostCzytamplaScraper() {
-        String czytamplEndpointUrl = "/api/czytampl-scraper";
-        stubFor(post(urlEqualTo(czytamplEndpointUrl))
+    public void shouldPostTaniaksiazkaScraper() {
+        String taniaksiazkaEndpointUrl = "/api/taniaksiazka-scraper";
+        stubFor(post(urlEqualTo(taniaksiazkaEndpointUrl))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.SC_OK)));
 
@@ -38,7 +38,7 @@ public class ScraperControllerTest {
                 .port(port)
                 .contentType(ContentType.JSON)
                 .when()
-                .post("http://localhost:12002" + czytamplEndpointUrl)
+                .post("http://localhost:13003" + taniaksiazkaEndpointUrl)
                 .then()
                 .statusCode(HttpStatus.SC_OK);
     }
