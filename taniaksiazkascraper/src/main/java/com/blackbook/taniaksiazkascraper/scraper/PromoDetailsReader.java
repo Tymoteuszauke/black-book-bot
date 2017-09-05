@@ -1,8 +1,8 @@
 package com.blackbook.taniaksiazkascraper.scraper;
 
 import org.jsoup.nodes.Element;
-import view.creation_model.BookData;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookData;
+import view.creationmodel.BookDiscountData;
 
 class PromoDetailsReader {
     private final static int BOOKSTORE_ID = 3;

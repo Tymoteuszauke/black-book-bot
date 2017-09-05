@@ -3,7 +3,7 @@ package com.blackbook.taniaksiazkascraper.scraper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookDiscountData;
 
 import java.io.IOException;
 import java.util.LinkedList;
