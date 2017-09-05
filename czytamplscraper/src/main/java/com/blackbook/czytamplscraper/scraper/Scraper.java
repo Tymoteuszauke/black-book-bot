@@ -12,13 +12,11 @@ public class Scraper {
     private BookstoreReader bookstoreReader;
     private PromoPageReader pageReader;
 
-    public Scraper(Connector connector, BookstoreReader bookstoreReader, PromoPageReader pageReader) {
-        this.connector = connector;
-        this.bookstoreReader = bookstoreReader;
-        this.pageReader = pageReader;
-    }
-
     public List<BookDiscountData> extractBookElements() {
+        connector = new Connector();
+        bookstoreReader = new BookstoreReader();
+        pageReader = new PromoPageReader();
+
         List<BookDiscountData> discountData = new LinkedList<>();
         List<String> promotionPages = bookstoreReader.getPromotionPages(connector, START_PAGE);
         promotionPages.forEach(pageUrl -> discountData.addAll(pageReader.readAllDiscountsFromPage(connector, pageUrl)));

@@ -32,7 +32,7 @@ public class ScraperController {
         ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-        Scraper scraper = new Scraper(new Connector(), new BookstoreReader(), new PromoPageReader());
+        Scraper scraper = new Scraper();
         HttpEntity<Object> request = new HttpEntity<>(scraper.extractBookElements());
 
         return (List<BookDiscountView>) restTemplate.postForObject(persistenceApiEndpoint + "/api/book-discounts", request, List.class);

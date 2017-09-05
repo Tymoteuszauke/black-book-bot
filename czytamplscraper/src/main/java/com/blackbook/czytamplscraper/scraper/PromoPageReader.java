@@ -9,12 +9,12 @@ import java.util.List;
 
 public class PromoPageReader {
 
-    List<BookDiscountData> readAllDiscountsFromPage(Connector reader, String promotionUrl) {
+    List<BookDiscountData> readAllDiscountsFromPage(Connector connector, String promotionUrl) {
         List<BookDiscountData> discountData = new LinkedList<>();
-        Document promotionDoc = reader.getDocumentFromWebPage(promotionUrl);
+        Document promotionDoc = connector.getDocumentFromWebPage(promotionUrl);
         Elements elements = promotionDoc.select(".product");
         elements.forEach(element -> {
-            BookBuilder bookBuilder = new BookBuilder(reader, element);
+            BookBuilder bookBuilder = new BookBuilder(connector, element);
             discountData.add(bookBuilder.buildBookDiscountDataObject());
         });
         return discountData;
