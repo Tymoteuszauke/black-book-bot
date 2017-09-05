@@ -2,7 +2,6 @@ package com.blackbook.taniaksiazkascraper.scraper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import view.creation_model.BookDiscountData;
 
@@ -11,10 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Scraper {
-    public final static int BOOKSTORE_ID = 3;
-    private static final String BOOKSTORE_URL = "http://www.taniaksiazka.pl";
-    private static final String PROMOTION_PAGE_URL = "http://www.taniaksiazka.pl/tanie-ksiazki/page-%d";
     private static final String LAST_PAGE_URL = "http://www.taniaksiazka.pl/tanie-ksiazki/page-253";
+    private static final String PROMOTION_PAGE_URL = "http://www.taniaksiazka.pl/tanie-ksiazki/page-%d";
+    private static final PromoDetailsReader detailsReader = new PromoDetailsReader();
 
     public static void main(String[] args) throws IOException {
 
@@ -29,24 +27,13 @@ public class Scraper {
             } else {
                 Elements books = document.select(".product-container");
                 books.forEach(book -> {
-                    discountData.add(readDiscountDataProperties(book));
+                    discountData.add(detailsReader.readDiscountDataProperties(book));
                 });
                 pageId++;
                 promotionsAreOnPage = false;
             }
         }
-        //discountData.forEach(System.out::println);
-    }
-
-    private static BookDiscountData readDiscountDataProperties(Element book) {
-        System.out.println("Discount: " + book.select(".product-discount").text());
-        System.out.println("Price: " + book.select("a").attr("data-price"));
-        System.out.println("Title: " + book.select("a").attr("data-name"));
-        System.out.println("Genre: " + book.select("a").attr("data-category"));
-        System.out.println("Authors: " + book.select(".product-authors").text());
-        System.out.println("Book details page: " + BOOKSTORE_URL + book.select("a").next().attr("href"));
-        System.out.println("Cover URL: " + book.select("img").attr("src"));
-        return null;
+        discountData.forEach(System.out::println);
     }
 
     private static boolean isLastPage(Document document) {
