@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Slf4j
-class Connector {
+public class Connector {
 
     Document getDocumentFromWebPage(String url){
         try {

@@ -28,7 +28,7 @@ public class ScraperControllerTest {
     public WireMockRule wireMockRule = new WireMockRule(options().port(12002));
 
     @Test
-    public void shouldPostCzytamplScraper() {
+    public void shouldPostCzytamplaScraper() {
         String czytamplEndpointUrl = "/api/czytampl-scraper";
         stubFor(post(urlEqualTo(czytamplEndpointUrl))
                 .willReturn(aResponse()

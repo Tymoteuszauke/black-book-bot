@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-class BookstoreReader {
+public class BookstoreReader {
     private final String promotionPageTemplate = "http://czytam.pl/tania-ksiazka,%d.html";
 
     List<String> getPromotionPages(Connector connector, String url) {

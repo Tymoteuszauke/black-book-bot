@@ -1,5 +1,8 @@
 package com.blackbook.czytamplscraper.controller;
 
+import com.blackbook.czytamplscraper.scraper.BookstoreReader;
+import com.blackbook.czytamplscraper.scraper.Connector;
+import com.blackbook.czytamplscraper.scraper.PromoPageReader;
 import com.blackbook.czytamplscraper.scraper.Scraper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +32,7 @@ public class ScraperController {
         ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-        Scraper scraper = new Scraper();
+        Scraper scraper = new Scraper(new Connector(), new BookstoreReader(), new PromoPageReader());
         HttpEntity<Object> request = new HttpEntity<>(scraper.extractBookElements());
 
         return (List<BookDiscountView>) restTemplate.postForObject(persistenceApiEndpoint + "/api/book-discounts", request, List.class);

@@ -7,7 +7,7 @@ import view.creationmodel.BookDiscountData;
 import java.util.LinkedList;
 import java.util.List;
 
-class PromoPageReader {
+public class PromoPageReader {
 
     List<BookDiscountData> readAllDiscountsFromPage(Connector reader, String promotionUrl) {
         List<BookDiscountData> discountData = new LinkedList<>();
