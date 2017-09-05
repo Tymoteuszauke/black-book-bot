@@ -13,6 +13,7 @@ import view.creation_model.BookDiscountData;
 import view.book_discount.BookDiscountView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,7 @@ public class BookDiscountsController {
                     .collect(Collectors.toList());
         }
 
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     @RequestMapping(method = RequestMethod.POST)
