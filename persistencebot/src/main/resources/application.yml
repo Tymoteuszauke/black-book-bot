@@ -3,9 +3,6 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://blackbookdb.ce3tk7fr9nov.eu-central-1.rds.amazonaws.com:3306/blackbook
-    username: bbb_user
-    password: blackbook123
-#    url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE
-#    username: sa
-#    password:
+    url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:

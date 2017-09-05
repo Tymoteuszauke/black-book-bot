@@ -1,14 +1,17 @@
 package com.blackbook.taniaksiazkascraper.scraper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Element;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
+@Slf4j
 public class PromoDetailsReader {
     private final static int BOOKSTORE_ID = 3;
     private static final String BOOKSTORE_URL = "http://www.taniaksiazka.pl";
 
     BookDiscountData readDiscountDataProperties(Element book) {
+        log.info(book.select("a").attr("data-name"));
         return BookDiscountData.builder()
                 .bookDiscountDetails(book.select(".product-discount").text())
                 .price(Double.valueOf(book.select("a").attr("data-price")))
