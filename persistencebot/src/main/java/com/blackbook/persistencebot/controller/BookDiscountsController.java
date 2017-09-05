@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import view.creation_model.BookDiscountData;
 import view.book_discount.BookDiscountView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,11 +43,14 @@ public class BookDiscountsController {
             bookDiscounts = bookDiscountsRepository.findAllTextualSearch(query);
         }
 
-        return bookDiscounts
-                .stream()
-                .map(ViewMapperUtil::bookDiscountViewConverter)
-                .collect(Collectors.toList());
+        if (bookDiscounts != null) {
+            return bookDiscounts
+                    .stream()
+                    .map(ViewMapperUtil::bookDiscountViewConverter)
+                    .collect(Collectors.toList());
+        }
 
+        return new ArrayList<>();
     }
 
     @RequestMapping(method = RequestMethod.POST)
