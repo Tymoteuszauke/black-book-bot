@@ -53,7 +53,7 @@ public class BookDiscountsController {
                     .map(ViewMapperUtil::bookDiscountViewConverter);
         }
 
-        return new PageImpl<>(null);
+        return new PageImpl<>(Collections.EMPTY_LIST);
     }
 
     @RequestMapping(method = RequestMethod.POST)

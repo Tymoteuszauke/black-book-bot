@@ -3,7 +3,7 @@
 set -e # when any of the script fail, it will return the non-zer code immediately
 
 #create quality analysis
-mvn clean install
+mvn clean install -q
 mvn site
 mvn sonar:sonar
 mvn site:stage
