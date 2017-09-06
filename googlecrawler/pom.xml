@@ -3,10 +3,17 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>crawler</artifactId>
+    <artifactId>googlecrawler</artifactId>
     <packaging>jar</packaging>
 
-    <name>crawler</name>
+    <name>googlecrawler</name>
+    <dependencies>
+        <dependency>
+            <groupId>com.blackbook.bot</groupId>
+            <artifactId>models</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <parent>
         <groupId>com.blackbook</groupId>
