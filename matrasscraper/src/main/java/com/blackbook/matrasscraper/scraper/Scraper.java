@@ -28,7 +28,7 @@ public class Scraper {
         Document mainPageDoc = htmlDocumentProvider.provide(MATRAS_URL);
         int lastPageNo = extractLastPageNo(mainPageDoc);
         List<BookDiscountData> bookDiscountData = new LinkedList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1; i++) {
             Document pageDoc = htmlDocumentProvider.provide(MATRAS_URL_PAGE + i);
             bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
         }

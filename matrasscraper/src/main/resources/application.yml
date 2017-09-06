@@ -2,7 +2,7 @@ server:
   port: 8102
 
 endpoints:
-  persistence-api: http://52ed0202.ngrok.io
+  persistence-api: http://localhost:8101
 
 const:
   pages-limit: 3
