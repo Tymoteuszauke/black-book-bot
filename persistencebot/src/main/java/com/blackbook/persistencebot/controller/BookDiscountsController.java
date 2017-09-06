@@ -41,9 +41,9 @@ public class BookDiscountsController {
         Page<BookDiscount> bookDiscounts = null;
 
         if (!StringUtils.isEmpty(priceFrom) && !StringUtils.isEmpty(priceTo)) {
-//            Double from = Double.parseDouble(priceFrom);
-//            Double to = Double.parseDouble(priceTo);
-//            bookDiscounts = bookDiscountsRepository.findAllTextualSearchBetweenPrices(query, from, to);
+            Double from = Double.parseDouble(priceFrom);
+            Double to = Double.parseDouble(priceTo);
+            bookDiscounts = bookDiscountsRepository.findAllTextualSearchBetweenPrices(query, from, to, pageable);
         } else {
             bookDiscounts = bookDiscountsRepository.findAllTextualSearch(query, pageable);
         }
