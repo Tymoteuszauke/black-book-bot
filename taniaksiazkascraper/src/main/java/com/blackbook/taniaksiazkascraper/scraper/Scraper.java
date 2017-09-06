@@ -4,7 +4,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import view.creationmodel.BookDiscountData;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class Scraper {
         this.detailsReader = detailsReader;
     }
 
-    public List<BookDiscountData> extractBookElements() throws IOException {
+    public List<BookDiscountData> extractBookElements() {
 
         List<BookDiscountData> discountData = new LinkedList<>();
         int pageId = 1;

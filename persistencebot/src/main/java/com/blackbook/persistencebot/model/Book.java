@@ -1,6 +1,7 @@
 package com.blackbook.persistencebot.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "books")
+@ToString(exclude = {"bookDiscounts"})
 public class Book {
 
     @Id

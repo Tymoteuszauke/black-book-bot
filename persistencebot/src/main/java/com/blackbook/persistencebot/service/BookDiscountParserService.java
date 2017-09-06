@@ -5,12 +5,16 @@ import com.blackbook.persistencebot.dao.BooksRepository;
 import com.blackbook.persistencebot.dao.BookstoresRepository;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
+import javax.transaction.Transactional;
+
 @Service
+@Slf4j
 public class BookDiscountParserService {
 
     @Autowired
@@ -27,11 +31,14 @@ public class BookDiscountParserService {
      * Expected behavior is if BookDiscount with given book id and given bookstore id is found, it deletes it and
      * saves new BookDiscount
      */
+    @Transactional
     public BookDiscount parseBookDiscountData(BookDiscountData bookDiscountData) {
         BookDiscount bookDiscount = new BookDiscount();
         bookDiscount.setPrice(bookDiscountData.getPrice());
         bookDiscount.setBookDiscountDetails(bookDiscountData.getBookDiscountDetails());
         Book parsedBook = parseBookData(bookDiscountData.getBookData());
+        log.info("Parsed book title: " + parsedBook.getTitle());
+        log.info("Repo found: " + booksRepository.findByTitle(parsedBook.getTitle()));
         Book book = booksRepository.findByTitle(parsedBook.getTitle());
         if (book == null) {
             book = parsedBook;
