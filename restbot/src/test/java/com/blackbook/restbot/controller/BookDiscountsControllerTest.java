@@ -9,10 +9,9 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import view.creation_model.BookDiscountData;
+import view.creationmodel.BookDiscountData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -38,9 +37,25 @@ public class BookDiscountsControllerTest {
         given()
                 .port(port)
                 .contentType(ContentType.JSON)
-                .body(new ArrayList<>(Collections.singletonList(new BookDiscountData())))
+                .body(new ArrayList<>(Collections.singletonList(BookDiscountData.builder().build())))
                 .when()
                 .post("/api/book-discounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK);
+    }
+
+    @Test
+    public void getPromotionExpectOk() {
+        stubFor(get(urlEqualTo("/api/book-discounts?query="))
+                .willReturn(aResponse()
+                        .withBody("[]")
+                        .withStatus(HttpStatus.SC_OK)));
+
+        given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/book-discounts")
                 .then()
                 .statusCode(HttpStatus.SC_OK);
     }
