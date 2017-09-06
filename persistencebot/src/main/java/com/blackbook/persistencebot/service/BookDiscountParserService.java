@@ -37,8 +37,6 @@ public class BookDiscountParserService {
         bookDiscount.setPrice(bookDiscountData.getPrice());
         bookDiscount.setBookDiscountDetails(bookDiscountData.getBookDiscountDetails());
         Book parsedBook = parseBookData(bookDiscountData.getBookData());
-        log.info("Parsed book title: " + parsedBook.getTitle());
-        log.info("Repo found: " + booksRepository.findByTitle(parsedBook.getTitle()));
         Book book = booksRepository.findByTitle(parsedBook.getTitle());
         if (book == null) {
             book = parsedBook;

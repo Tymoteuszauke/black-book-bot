@@ -22,8 +22,6 @@
     <name>Black Book Bot application</name>
 
     <modules>
-        <module>restbot</module>
-        <module>scheduler</module>
         <module>matrasscraper</module>
         <module>persistencebot</module>
         <module>models</module>
