@@ -12,10 +12,8 @@ public class GooglePaginator implements Paginator{
     public static final int NUMBER_BOOKS_ON_PAGE = 40;
 
     private final JSONObject data;
-    private final int currentPage;
 
-    public GooglePaginator(JSONObject jsonObject, int currentPage) {
-        this.currentPage = currentPage;
+    public GooglePaginator(JSONObject jsonObject){
         data = jsonObject;
     }
 
@@ -27,10 +25,5 @@ public class GooglePaginator implements Paginator{
     @Override
     public int getItemsOnPage() {
         return NUMBER_BOOKS_ON_PAGE;
-    }
-
-    @Override
-    public int getCurrentPage() {
-        return currentPage;
     }
 }

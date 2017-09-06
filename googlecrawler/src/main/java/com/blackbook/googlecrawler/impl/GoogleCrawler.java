@@ -10,10 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import view.creationmodel.BookDiscountData;
 
+import javax.annotation.PreDestroy;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static com.blackbook.googlecrawler.paginator.impl.GooglePaginator.NUMBER_BOOKS_ON_PAGE;
 
@@ -32,7 +34,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     private final List<BookDiscountData> booksData;
     private final ExecutorService executorService;
 
-    private int compleatedPages;
+    private int completedPages;
 
     public GoogleCrawler() {
         booksData = new LinkedList<>();
@@ -45,11 +47,11 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     }
 
     private void startFirstRequest(CrawlerActionListener actionListener) {
-        GoogleProcessor firstProcessor = new GoogleProcessor(getRequest(0, NUMBER_BOOKS_ON_PAGE), 1, new CrawlerProcessorListener() {
+        GoogleProcessor firstProcessor = new GoogleProcessor(getRequest(0, NUMBER_BOOKS_ON_PAGE), new CrawlerProcessorListener() {
             @Override
             public void success(List<BookDiscountData> bookData, Paginator paginator) {
                 booksData.addAll(bookData);
-                compleatedPages +=1;
+                completedPages +=1;
                 sendRestOfResponses(paginator, actionListener);
             }
 
@@ -63,14 +65,13 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
     private void sendRestOfResponses(Paginator firsPaginator, CrawlerActionListener actionListener) {
         int position = firsPaginator.getItemsOnPage();
-
         for (int i = 1; i <= firsPaginator.getNumberOfPages(); i++) {
-            GoogleProcessor processor = new GoogleProcessor(getRequest(position, firsPaginator.getItemsOnPage()), i, new CrawlerProcessorListener() {
+            GoogleProcessor processor = new GoogleProcessor(getRequest(position, firsPaginator.getItemsOnPage()), new CrawlerProcessorListener() {
                 @Override
                 public void success(List<BookDiscountData> bookData, Paginator paginator) {
                     booksData.addAll(bookData);
-                    compleatedPages +=1;
-                    if (compleatedPages == firsPaginator.getNumberOfPages()){
+                    completedPages +=1;
+                    if (completedPages == firsPaginator.getNumberOfPages()){
                         log.info("Google crawler finished, found [" + booksData.size() + "] books");
                         actionListener.crawlerFinished(booksData);
                     }
@@ -87,7 +88,18 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
     }
 
-
+    @PreDestroy
+    private void terminateExecutor(){
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(2, TimeUnit.SECONDS)){
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            executorService.shutdownNow();
+        }
+    }
 
     @Override
     public String getId() {

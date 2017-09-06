@@ -19,10 +19,11 @@ public class CrawlerController {
     @Autowired
     CrawlerService crawlerService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void postBookDiscounts() {
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
+    public SimpleResponseModel postBookDiscounts() {
         log.info("Transaction: POST /api/google-crawler");
         crawlerService.saveResultsInDatabase();
+        return new SimpleResponseModel(200, "Google crawler started!");
     }
 
 }

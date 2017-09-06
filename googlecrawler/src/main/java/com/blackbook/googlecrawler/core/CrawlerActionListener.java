@@ -9,6 +9,5 @@ import java.util.List;
  * @since 16.08.2017
  */
 public interface CrawlerActionListener {
-
     void crawlerFinished(List<BookDiscountData> booksData);
 }

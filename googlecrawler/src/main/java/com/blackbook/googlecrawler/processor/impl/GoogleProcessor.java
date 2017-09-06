@@ -21,13 +21,11 @@ public class GoogleProcessor implements CrawlerProcessor {
     private static final int OK_STATUS = 200;
     private final String request;
     private final DataParser<JSONObject> dataParser;
-    private final int currentPage;
     private final CrawlerProcessorListener processorListener;
 
-    public GoogleProcessor(String request, int currentPage, CrawlerProcessorListener processorListener) {
+    public GoogleProcessor(String request, CrawlerProcessorListener processorListener) {
         this.request = request;
         this.dataParser = new GoogleParser();
-        this.currentPage = currentPage;
         this.processorListener = processorListener;
     }
 
@@ -42,7 +40,7 @@ public class GoogleProcessor implements CrawlerProcessor {
             if (code == OK_STATUS) {
                 JSONObject responseBody = jsonResponse.getBody().getObject();
                 //log.info(responseBody.toString());
-                processorListener.success(dataParser.parseBooks(responseBody), new GooglePaginator(responseBody, currentPage));
+                processorListener.success(dataParser.parseBooks(responseBody), new GooglePaginator(responseBody));
             } else {
                 processorListener.failed(jsonResponse.getStatusText());
             }
