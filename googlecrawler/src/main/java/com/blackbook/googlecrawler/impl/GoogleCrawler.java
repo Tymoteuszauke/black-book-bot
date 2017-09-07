@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import view.creationmodel.BookDiscountData;
 
-import javax.annotation.PreDestroy;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
