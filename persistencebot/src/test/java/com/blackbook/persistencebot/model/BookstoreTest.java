@@ -59,6 +59,8 @@ public class BookstoreTest {
         // Then
         assertTrue(bookstore1.equals(bookstore2));
         assertFalse(bookstore1.equals(bookstore3));
+        assertFalse(bookstore1.equals(null));
+        assertFalse(bookstore1.equals(new Book()));
     }
 
     @Test

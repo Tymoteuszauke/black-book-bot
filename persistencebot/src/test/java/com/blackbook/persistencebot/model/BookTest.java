@@ -43,6 +43,8 @@ public class BookTest {
         // Then
         assertTrue(book1.equals(book2));
         assertFalse(book1.equals(book3));
+        assertFalse(book1.equals(null));
+        assertFalse(book1.equals(new BookDiscount()));
     }
 
     @Test

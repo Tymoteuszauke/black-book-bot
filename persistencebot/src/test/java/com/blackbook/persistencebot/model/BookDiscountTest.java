@@ -46,6 +46,8 @@ public class BookDiscountTest {
         // Then
         assertTrue(discount1.equals(discount2));
         assertFalse(discount1.equals(discount3));
+        assertFalse(discount1.equals(null));
+        assertFalse(discount1.equals(new Book()));
     }
 
     @Test
