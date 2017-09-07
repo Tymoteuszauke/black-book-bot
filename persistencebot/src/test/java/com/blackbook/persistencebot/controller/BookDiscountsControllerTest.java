@@ -23,7 +23,6 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 public class BookDiscountsControllerTest {
 
@@ -59,8 +58,10 @@ public class BookDiscountsControllerTest {
 
     @DataProvider
     private Object[][] searchParamsProvider() {
-        return new Object[][] {
+        return new Object[][]{
                 {"query1", "1", "100", null},
+                {"query1", "1", "", null},
+                {"query1", "", "100", null},
                 {"query2", "", "", null},
         };
     }

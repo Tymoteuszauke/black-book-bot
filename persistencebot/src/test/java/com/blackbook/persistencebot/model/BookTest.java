@@ -1,56 +1,75 @@
 package com.blackbook.persistencebot.model;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class BookTest {
 
-    private Book book1;
-    private Book book2;
-    private Book book3;
-
-    @BeforeMethod
-    public void before() {
-        book1 = new Book();
-        book1.setTitle("Pan Tymek");
-        book1.setSubtitle("Tymke");
-        book1.setGenre("Biografia");
-        book1.setAuthors("Tymke Wergiliusz");
-        book1.setBookPageUrl("www.bookstore.com/book/pan-tymek");
-        book1.setCoverUrl("www.covers.com/tymek");
-
-        book2 = new Book();
-        book2.setTitle("Pan Tymek");
-        book2.setSubtitle("Tymke");
-        book2.setGenre("Biografia");
-        book2.setAuthors("Tymke Wergiliusz");
-        book2.setBookPageUrl("www.bookstore.com/book/pan-tymek");
-        book2.setCoverUrl("www.covers.com/tymek");
-
-        book3 = new Book();
-        book3.setTitle("Pan Tymke");
-        book3.setSubtitle("Tymek");
-        book3.setGenre("Biografia");
-        book3.setAuthors("Tymke Wergiliusz");
-        book3.setBookPageUrl("www.bookstore.com/book/pan-tymek");
-        book3.setCoverUrl("www.covers.com/tymek");
+    @DataProvider
+    public Object[][] equalsAndHashCodeTestDataProvider() {
+        return new Object[][]{
+                {"Title", "Subtitle", "Genre"},
+                {null, "Subtitle", "Genre"},
+                {"Title", null, "Genre"},
+                {"Title", "Subtitle", null},
+                {"Title", "Subtitle", null},
+                {"Title", null, null},
+                {null, "Subtitle", null},
+                {null, null, "Genre"}
+        };
     }
 
-    @Test
-    public void testEquals() throws Exception {
+    @Test(dataProvider = "equalsAndHashCodeTestDataProvider")
+    public void testEquals(String title, String subtitle, String genre) {
+        // Given
+        Book book1 = new Book();
+        book1.setTitle(title);
+        book1.setSubtitle(subtitle);
+        book1.setGenre(genre);
+
+        Book book2 = new Book();
+        book2.setTitle(title);
+        book2.setSubtitle(subtitle);
+        book2.setGenre(genre);
+
         // Then
         assertTrue(book1.equals(book2));
-        assertFalse(book1.equals(book3));
-        assertFalse(book1.equals(null));
-        assertFalse(book1.equals(new BookDiscount()));
     }
 
-    @Test
-    public void testHashCode() throws Exception {
+    @Test(dataProvider = "equalsAndHashCodeTestDataProvider")
+    public void testHashCode(String title, String subtitle, String genre) {
+        // Given
+        Book book1 = new Book();
+        book1.setTitle(title);
+        book1.setSubtitle(subtitle);
+        book1.setGenre(genre);
+
+        Book book2 = new Book();
+        book2.setTitle(title);
+        book2.setSubtitle(subtitle);
+        book2.setGenre(genre);
+
         // Then
         assertEquals(book1.hashCode(), book2.hashCode());
-        assertNotEquals(book1.hashCode(), book3.hashCode());
+    }
+
+    @Test(dataProvider = "equalsAndHashCodeTestDataProvider")
+    public void testToString(String title, String subtitle, String genre) {
+        // Given
+        Book book1 = new Book();
+        book1.setTitle(title);
+        book1.setSubtitle(subtitle);
+        book1.setGenre(genre);
+
+        Book book2 = new Book();
+        book2.setTitle(title);
+        book2.setSubtitle(subtitle);
+        book2.setGenre(genre);
+
+        // Then
+        assertEquals(book1.toString(), book2.toString());
     }
 }

@@ -3,17 +3,16 @@ package com.blackbook.persistencebot.util;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import view.bookdiscount.BookDiscountView;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class ViewMapperUtilTest {
 
     @DataProvider
-    private Object[][] bookDiscountProvider(){
+    private Object[][] bookDiscountProvider() {
         return new Object[][]{
                 {getDiscountWithBookstore()},
                 {getDiscountWithoutBookstore()}

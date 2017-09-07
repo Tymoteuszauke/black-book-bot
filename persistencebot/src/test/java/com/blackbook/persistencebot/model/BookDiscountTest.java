@@ -1,59 +1,63 @@
 package com.blackbook.persistencebot.model;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class BookDiscountTest {
 
-    private BookDiscount discount1;
-    private BookDiscount discount2;
-    private BookDiscount discount3;
-    private Book book1;
-
-    @BeforeMethod
-    public void before() {
-        book1 = new Book();
-        book1.setTitle("Pan Tymek");
-        book1.setSubtitle("Tymke");
-        book1.setGenre("Biografia");
-        book1.setAuthors("Tymke Wergiliusz");
-        book1.setBookPageUrl("www.bookstore.com/book/pan-tymek");
-        book1.setCoverUrl("www.covers.com/tymek");
-
-        discount1 = new BookDiscount();
-        discount1.setId(10L);
-        discount1.setPrice(25.99);
-        discount1.setBookDiscountDetails("-30%");
-        discount1.setBook(book1);
-
-        discount2 = new BookDiscount();
-        discount2.setId(10L);
-        discount2.setPrice(25.99);
-        discount2.setBookDiscountDetails("-30%");
-        discount2.setBook(book1);
-
-        discount3 = new BookDiscount();
-        discount3.setId(10L);
-        discount3.setPrice(25.99);
-        discount3.setBookDiscountDetails("-33%");
-        discount3.setBook(book1);
+    @DataProvider
+    public Object[][] equalsAndHashCodeTestDataProvider() {
+        return new Object[][]{
+                {"-25%", 25.99},
+                {null, 25.99}
+        };
     }
 
-    @Test
-    public void testEquals() throws Exception {
+    @Test(dataProvider = "equalsAndHashCodeTestDataProvider")
+    public void testEquals(String details, double price) throws Exception {
+        // Given
+        BookDiscount discount1 = new BookDiscount();
+        discount1.setBookDiscountDetails(details);
+        discount1.setPrice(price);
+
+        BookDiscount discount2 = new BookDiscount();
+        discount2.setBookDiscountDetails(details);
+        discount2.setPrice(price);
+
         // Then
         assertTrue(discount1.equals(discount2));
-        assertFalse(discount1.equals(discount3));
-        assertFalse(discount1.equals(null));
-        assertFalse(discount1.equals(new Book()));
     }
 
-    @Test
-    public void testHashCode() throws Exception {
-    assertEquals(discount1.hashCode(), discount2.hashCode());
-    assertNotEquals(discount1.hashCode(), discount3.hashCode());
+    @Test(dataProvider = "equalsAndHashCodeTestDataProvider")
+    public void testHashCode(String details, Double price) throws Exception {
+        // Given
+        BookDiscount discount1 = new BookDiscount();
+        discount1.setBookDiscountDetails(details);
+        discount1.setPrice(price);
+
+        BookDiscount discount2 = new BookDiscount();
+        discount2.setBookDiscountDetails(details);
+        discount2.setPrice(price);
+
+        // Then
+        assertEquals(discount1.hashCode(), discount2.hashCode());
     }
 
+    @Test(dataProvider = "equalsAndHashCodeTestDataProvider")
+    public void testToString(String details, Double price) throws Exception {
+        // Given
+        BookDiscount discount1 = new BookDiscount();
+        discount1.setBookDiscountDetails(details);
+        discount1.setPrice(price);
+
+        BookDiscount discount2 = new BookDiscount();
+        discount2.setBookDiscountDetails(details);
+        discount2.setPrice(price);
+
+        // Then
+        assertEquals(discount1.toString(), discount2.toString());
+    }
 }
