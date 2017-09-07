@@ -44,9 +44,9 @@ public class BookDiscountsController {
                                                    Pageable pageable) {
         log.info("Transaction: GET /api/book-discounts");
 
-        Page<BookDiscount> bookDiscounts = null;
+        Page<BookDiscount> bookDiscounts;
 
-        if (!StringUtils.isEmpty(priceFrom) && !StringUtils.isEmpty(priceTo)) {
+        if (arePricesSpecified(priceFrom, priceTo)) {
             Double from = Double.parseDouble(priceFrom);
             Double to = Double.parseDouble(priceTo);
             bookDiscounts = bookDiscountsRepository.findAllTextualSearchBetweenPrices(query, from, to, pageable);
@@ -60,6 +60,10 @@ public class BookDiscountsController {
         }
 
         return new PageImpl<>(Collections.EMPTY_LIST);
+    }
+
+    private boolean arePricesSpecified(String priceFrom, String priceTo) {
+        return !StringUtils.isEmpty(priceFrom) && !StringUtils.isEmpty(priceTo);
     }
 
     @RequestMapping(method = RequestMethod.POST)
