@@ -81,7 +81,7 @@ public class GoogleParser implements DataParser<JSONObject> {
 
         double discountInfo = 100 -retailPrice/listPrice*100;
 
-        bookDiscountDataBuilder.bookDiscountDetails(String.format("%1$,.2f", discountInfo));
+        bookDiscountDataBuilder.bookDiscountDetails(String.format("%1$,.2f%%", discountInfo));
 
         bookDiscountDataBuilder.bookstoreId(GoogleParserKeywords.GOOGLE_CRAWLER_ID);
 
