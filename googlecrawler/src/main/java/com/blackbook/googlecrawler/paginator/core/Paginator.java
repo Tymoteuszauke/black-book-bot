@@ -8,4 +8,5 @@ public interface Paginator {
 
      int getNumberOfPages();
      int getItemsOnPage();
+     int getTotalNumberOfItems();
 }

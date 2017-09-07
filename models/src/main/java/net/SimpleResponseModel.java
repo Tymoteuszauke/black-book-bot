@@ -1,4 +1,4 @@
-package com.blackbook.googlecrawler.controller;
+package net;
 
 import lombok.Data;
 
@@ -7,8 +7,8 @@ import lombok.Data;
  */
 @Data
 public class SimpleResponseModel {
-    private int code;
-    private String message;
+    private final int code;
+    private final String message;
 
     public SimpleResponseModel(int code, String message) {
         this.code = code;

@@ -4,7 +4,9 @@ import com.blackbook.googlecrawler.core.CrawlerActionListener;
 import com.blackbook.googlecrawler.core.ICrawler;
 import com.blackbook.googlecrawler.core.KeyAccess;
 import com.blackbook.googlecrawler.paginator.core.Paginator;
+import com.blackbook.googlecrawler.processor.ResultModel;
 import com.blackbook.googlecrawler.processor.core.CrawlerProcessorListener;
+import com.blackbook.googlecrawler.processor.impl.FirstPageGoogleProcessor;
 import com.blackbook.googlecrawler.processor.impl.GoogleProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 import static com.blackbook.googlecrawler.paginator.impl.GooglePaginator.NUMBER_BOOKS_ON_PAGE;
 
@@ -33,8 +36,10 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
     private final List<BookDiscountData> booksData;
     private final ExecutorService executorService;
+    private CrawlerActionListener actionListener;
 
     private int completedPages;
+    private Paginator firstPaginator;
 
     public GoogleCrawler() {
         booksData = new LinkedList<>();
@@ -43,56 +48,65 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
     @Override
     public void start(CrawlerActionListener actionListener) {
-        startFirstRequest(actionListener);
-    }
-
-    private void startFirstRequest(CrawlerActionListener actionListener) {
-        GoogleProcessor firstProcessor = new GoogleProcessor(getRequest(0, NUMBER_BOOKS_ON_PAGE), new CrawlerProcessorListener() {
+        this.actionListener = actionListener;
+        CrawlerProcessorListener firstProcessorListener = new CrawlerProcessorListener() {
             @Override
-            public void success(List<BookDiscountData> bookData, Paginator paginator) {
-                booksData.addAll(bookData);
-                completedPages +=1;
-                sendRestOfResponses(paginator, actionListener);
+            public void success(Supplier<ResultModel> resultModelSupplier) {
+                addBooksToResultList(resultModelSupplier.get().getBookData());
+                firstPaginator = resultModelSupplier.get().getPaginator();
+                sendRestOfResponses(firstPaginator.getItemsOnPage(), firstPaginator.getTotalNumberOfItems());
             }
 
             @Override
             public void failed(String message) {
                 log.warn("First page request failed. Crawler id: " + getId() + " Reason is: " + message);
             }
-        });
-        executorService.execute(firstProcessor);
+        };
+
+        executorService.execute(new FirstPageGoogleProcessor(getRequest(0, NUMBER_BOOKS_ON_PAGE), firstProcessorListener));
     }
 
-    private void sendRestOfResponses(Paginator firsPaginator, CrawlerActionListener actionListener) {
-        int position = firsPaginator.getItemsOnPage();
-        for (int i = 1; i <= firsPaginator.getNumberOfPages(); i++) {
-            GoogleProcessor processor = new GoogleProcessor(getRequest(position, firsPaginator.getItemsOnPage()), new CrawlerProcessorListener() {
-                @Override
-                public void success(List<BookDiscountData> bookData, Paginator paginator) {
-                    booksData.addAll(bookData);
-                    completedPages +=1;
-                    if (completedPages == firsPaginator.getNumberOfPages()){
-                        log.info("Google crawler finished, found [" + booksData.size() + "] books");
-                        actionListener.crawlerFinished(booksData);
-                    }
-                }
+    private void sendRestOfResponses(int itemOnPage, int totalItems) {
+        int position = itemOnPage;
 
-                @Override
-                public void failed(String message) {
-                    log.warn("Page request failed. Crawler id: " + getId() + " Reason is: " + message);
+        CrawlerProcessorListener processorListener = new CrawlerProcessorListener() {
+            @Override
+            public void success(Supplier<ResultModel> resultModelSupplier) {
+                addBooksToResultList(resultModelSupplier.get().getBookData());
+                if (isFinished()) {
+                    log.info("Google crawler finished, found [" + booksData.size() + "] books");
+                    actionListener.crawlerFinished(booksData);
                 }
-            });
-            position += firsPaginator.getItemsOnPage()+1;
-            executorService.execute(processor);
+            }
+
+            @Override
+            public void failed(String message) {
+                log.warn("Page request failed. Crawler id: " + getId() + " Reason is: " + message);
+            }
+        };
+
+
+        while (position <= totalItems) {
+            executorService.execute(new GoogleProcessor(getRequest(position, NUMBER_BOOKS_ON_PAGE), processorListener));
+            position += itemOnPage + 1;
         }
+    }
 
+    private void addBooksToResultList(List<BookDiscountData> newBooksList) {
+        booksData.addAll(newBooksList);
+        completedPages += 1;
+    }
+
+    private boolean isFinished() {
+        return completedPages == firstPaginator.getNumberOfPages();
     }
 
     @PreDestroy
-    private void terminateExecutor(){
+    private void terminateExecutor() {
+        log.info("Terminating executor.");
         executorService.shutdown();
         try {
-            if (!executorService.awaitTermination(2, TimeUnit.SECONDS)){
+            if (!executorService.awaitTermination(2, TimeUnit.SECONDS)) {
                 executorService.shutdownNow();
             }
         } catch (InterruptedException e) {

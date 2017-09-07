@@ -19,11 +19,16 @@ public class GooglePaginator implements Paginator{
 
     @Override
     public int getNumberOfPages() {
-        return data.getInt("totalItems")/NUMBER_BOOKS_ON_PAGE;
+        return getTotalNumberOfItems()/NUMBER_BOOKS_ON_PAGE;
     }
 
     @Override
     public int getItemsOnPage() {
         return NUMBER_BOOKS_ON_PAGE;
+    }
+
+    @Override
+    public int getTotalNumberOfItems() {
+        return data.getInt("totalItems");
     }
 }
