@@ -1,7 +1,6 @@
 package com.blackbook.persistencebot.controller;
 
 import com.blackbook.persistencebot.dao.BookDiscountsRepository;
-
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
 import com.blackbook.persistencebot.util.ViewMapperUtil;
@@ -11,11 +10,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import view.creationmodel.BookDiscountData;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import view.bookdiscount.BookDiscountView;
+import view.creationmodel.BookDiscountData;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,11 +27,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/book-discounts")
 public class BookDiscountsController {
 
-    @Autowired
     private BookDiscountsRepository bookDiscountsRepository;
 
-    @Autowired
     private BookDiscountParserService bookDiscountParserService;
+
+    @Autowired
+    public BookDiscountsController(BookDiscountsRepository bookDiscountsRepository, BookDiscountParserService bookDiscountParserService) {
+        this.bookDiscountsRepository = bookDiscountsRepository;
+        this.bookDiscountParserService = bookDiscountParserService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public Page<BookDiscountView> getBookDiscounts(@RequestParam(defaultValue = "") String query,
