@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
 import static com.blackbook.googlecrawler.paginator.impl.GooglePaginator.NUMBER_BOOKS_ON_PAGE;
@@ -40,10 +42,12 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
     private int completedPages;
     private Paginator firstPaginator;
+    private final Lock crawlerLock;
 
     public GoogleCrawler() {
         booksData = new LinkedList<>();
         executorService = Executors.newCachedThreadPool();
+        crawlerLock = new ReentrantLock();
     }
 
     @Override
@@ -54,7 +58,12 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
             public void success(Supplier<ResultModel> resultModelSupplier) {
                 addBooksToResultList(resultModelSupplier.get().getBookData());
                 firstPaginator = resultModelSupplier.get().getPaginator();
-                sendRestOfResponses(firstPaginator.getItemsOnPage(), firstPaginator.getTotalNumberOfItems());
+
+                if (isFinished()){
+                    finishCrawler();
+                } else {
+                    sendRestOfResponses(firstPaginator.getItemsOnPage(), firstPaginator.getTotalNumberOfItems());
+                }
             }
 
             @Override
@@ -73,9 +82,8 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
             @Override
             public void success(Supplier<ResultModel> resultModelSupplier) {
                 addBooksToResultList(resultModelSupplier.get().getBookData());
-                if (isFinished()) {
-                    log.info("Google crawler finished, found [" + booksData.size() + "] books");
-                    actionListener.crawlerFinished(booksData);
+                if (isFinished()){
+                    finishCrawler();
                 }
             }
 
@@ -85,7 +93,6 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
             }
         };
 
-
         while (position <= totalItems) {
             executorService.execute(new GoogleProcessor(getRequest(position, NUMBER_BOOKS_ON_PAGE), processorListener));
             position += itemOnPage + 1;
@@ -94,15 +101,26 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
     private void addBooksToResultList(List<BookDiscountData> newBooksList) {
         booksData.addAll(newBooksList);
-        completedPages += 1;
+        try {
+            if (crawlerLock.tryLock(2, TimeUnit.SECONDS)) {
+                completedPages += 1;
+            }
+        } catch (InterruptedException e) {
+            log.warn("completedPages was not increased!");
+        } finally {
+            crawlerLock.unlock();
+        }
+
     }
 
     private boolean isFinished() {
         return completedPages == firstPaginator.getNumberOfPages();
     }
 
-    @PreDestroy
-    private void terminateExecutor() {
+    private void finishCrawler() {
+        log.info("Google crawler finished, found [" + booksData.size() + "] books");
+        actionListener.crawlerFinished(booksData);
+
         log.info("Terminating executor.");
         executorService.shutdown();
         try {
