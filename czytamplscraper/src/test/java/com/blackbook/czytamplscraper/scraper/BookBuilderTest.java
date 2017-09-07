@@ -19,23 +19,27 @@ public class BookBuilderTest {
     private final String TEST_URL = "http://czytam.pl/k,ks_599195,Drakulcio-ma-klopoty-Straszliwa-historia-w-obrazkach-Pinkwart-Magdalena-Pinkwart-Sergiusz.html";
     private final File BOOK_HTML_FILE = new File("src/test/resources/book.html");
     private final File BOOK_DETAILS_PAGE_HTML_FILE = new File("src/test/resources/books_details_page_snippet.html");
+    private final File NO_TITLE_SECTION_HTML = new File("src/test/resources/no_title_section.html");
+    private final File NO_TITLE_TAG_HTML = new File("src/test/resources/no_title_tag.html");
+    private final File NO_SUBTITLE_TAG_HTML = new File("src/test/resources/no_subtitle_tag.html");
     private Connector mockReader;
+    BookBuilder bookBuilder;
 
     @BeforeTest
     public void beforeTest() throws IOException {
+        bookBuilder = new BookBuilder();
         mockReader = mock(Connector.class);
-        when(mockReader.getDocumentFromWebPage(TEST_URL)).thenReturn(Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8"));
     }
 
     @Test
     public void shouldBuildProperBookDiscountDataObject() throws Exception {
         // Given
+        when(mockReader.getDocumentFromWebPage(TEST_URL)).thenReturn(Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8"));
         Document parse = Jsoup.parse(BOOK_HTML_FILE, "UTF-8");
         Element element = parse.body();
-        BookBuilder bookBuilder = new BookBuilder(mockReader, element);
 
         // When
-        BookDiscountData bookDiscountData = bookBuilder.buildBookDiscountDataObject();
+        BookDiscountData bookDiscountData = bookBuilder.buildBookDiscountDataObject(mockReader, element);
 
         // Then
         assertEquals(6.56, bookDiscountData.getPrice());
@@ -46,5 +50,53 @@ public class BookBuilderTest {
         assertEquals(bookDiscountData.getBookData().getGenre(), "Unknown");
         assertEquals(bookDiscountData.getBookData().getBookPageUrl(), "http://czytam.pl/k,ks_599195,Drakulcio-ma-klopoty-Straszliwa-historia-w-obrazkach-Pinkwart-Magdalena-Pinkwart-Sergiusz.html");
         assertEquals(bookDiscountData.getBookData().getCoverUrl(), "http://webimage.pl/pics/073/5/822173.jpg");
+    }
+
+    @Test
+    public void shouldReadDefaultValueWhenItIsNoSectionWithTitle() throws IOException {
+        // Given
+        Document document = Jsoup.parse(NO_TITLE_SECTION_HTML, "UTF-8");
+
+        // When
+        String title = bookBuilder.readBookTitle(document);
+
+        // Then
+        assertEquals("-", title);
+    }
+
+    @Test
+    public void shouldReadDefaultValueWhenItIsNoTagWithTitle() throws IOException {
+        // Given
+        Document document = Jsoup.parse(NO_TITLE_TAG_HTML, "UTF-8");
+
+        // When
+        String title = bookBuilder.readBookTitle(document);
+
+        // Then
+        assertEquals("-", title);
+    }
+
+    @Test
+    public void shouldReadDefaultValueWhenItIsNoSectionWithSubtitle() throws IOException {
+        // Given
+        Document document = Jsoup.parse(NO_TITLE_SECTION_HTML, "UTF-8");
+
+        // When
+        String title = bookBuilder.readBookSubtitle(document);
+
+        // Then
+        assertEquals("-", title);
+    }
+
+    @Test
+    public void shouldReadDefaultValueWhenItIsNoTagWithSubtitle() throws IOException {
+        // Given
+        Document document = Jsoup.parse(NO_SUBTITLE_TAG_HTML, "UTF-8");
+
+        // When
+        String title = bookBuilder.readBookSubtitle(document);
+
+        // Then
+        assertEquals("-", title);
     }
 }

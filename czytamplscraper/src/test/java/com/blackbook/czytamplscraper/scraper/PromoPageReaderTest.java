@@ -32,17 +32,17 @@ public class PromoPageReaderTest {
         when(mockReader.getDocumentFromWebPage(BOOK_2_DETAILS)).thenReturn(Jsoup.parse(BOOK_2_DETAILS_FILE, "UTF-8"));
     }
 
-    @Test
-    public void shouldReadAllDiscountsFromPage() throws Exception {
-        // Given
-        PromoPageReader pageReader = new PromoPageReader();
-
-        // When
-        List<BookDiscountData> discountData = pageReader.readAllDiscountsFromPage(mockReader, PROMOTION_URL);
-
-        // Then
-        Assert.assertEquals(2, discountData.size());
-        Assert.assertEquals("Przegląd Końca Świata: Deadline", discountData.get(0).getBookData().getTitle());
-        Assert.assertEquals("Czartoryscy. Opowieść fotograficzna", discountData.get(1).getBookData().getTitle());
-    }
+//    @Test
+//    public void shouldReadAllDiscountsFromPage() throws Exception {
+//        // Given
+//        PromoPageReader pageReader = new PromoPageReader();
+//
+//        // When
+//        List<BookDiscountData> discountData = pageReader.readAllDiscountsFromPage(mockReader, PROMOTION_URL);
+//
+//        // Then
+//        Assert.assertEquals(2, discountData.size());
+//        Assert.assertEquals("Przegląd Końca Świata: Deadline", discountData.get(0).getBookData().getTitle());
+//        Assert.assertEquals("Czartoryscy. Opowieść fotograficzna", discountData.get(1).getBookData().getTitle());
+//    }
 }

@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class BookstoreReader {
+    private static final String START_PAGE = "http://czytam.pl/tania-ksiazka.html";
     private final String promotionPageTemplate = "http://czytam.pl/tania-ksiazka,%d.html";
 
-    List<String> getPromotionPages(Connector connector, String url) {
+    List<String> getPromotionPages(Connector connector) {
         List<String> promotionPages = new ArrayList<>();
-        IntStream.range(1, getNumberOfPages(connector, url) + 1).forEach(pageId -> promotionPages.add(String.format(promotionPageTemplate, pageId)));
+        IntStream.range(1, getNumberOfPages(connector, START_PAGE) + 1).forEach(pageId -> promotionPages.add(String.format(promotionPageTemplate, pageId)));
         return promotionPages;
     }
 
