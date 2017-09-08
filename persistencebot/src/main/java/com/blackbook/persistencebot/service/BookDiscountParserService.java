@@ -5,6 +5,7 @@ import com.blackbook.persistencebot.dao.BooksRepository;
 import com.blackbook.persistencebot.dao.BookstoresRepository;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
+import com.blackbook.persistencebot.model.Bookstore;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class BookDiscountParserService {
 
     /**
      * Parser API (from BookDiscountData into BookDiscount entity)
-     * Expected behavior is if BookDiscount with given book id and given bookstore id is found, it deletes it and
+     * Expected behavior is when BookDiscount with given book id and given bookstore id is found, it deletes it and
      * saves new BookDiscount
      */
     @Transactional
@@ -39,13 +40,20 @@ public class BookDiscountParserService {
         bookDiscount.setPrice(bookDiscountData.getPrice());
         bookDiscount.setBookDiscountDetails(bookDiscountData.getBookDiscountDetails());
         Book parsedBook = parseBookData(bookDiscountData.getBookData());
-        Book book = booksRepository.findByTitle(parsedBook.getTitle());
+        Book book = booksRepository.findByTitleAndSubtitle(parsedBook.getTitle(), parsedBook.getSubtitle());
         if (book == null) {
             book = parsedBook;
+//            book = booksRepository.save(parsedBook);
         }
         bookDiscount.setBook(book);
 
-        return bookDiscount;
+        Bookstore bookstore = bookstoresRepository.findOne((long)bookDiscountData.getBookstoreId());
+        BookDiscount currentDiscount = bookDiscountsRepository.findByBookIdAndBookstoreId(book.getId(), bookDiscountData.getBookstoreId());
+        if (currentDiscount != null) bookDiscountsRepository.delete(currentDiscount.getId());
+
+        bookDiscount.setBookstore(bookstore);
+
+        return bookDiscountsRepository.save(bookDiscount);
     }
 
     private Book parseBookData(BookData bookData) {
