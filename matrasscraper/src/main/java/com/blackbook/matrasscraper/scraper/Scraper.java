@@ -7,7 +7,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import view.creationmodel.BookDiscountData;
 
@@ -25,12 +24,12 @@ public class Scraper {
     @Value("${const.pages-limit}")
     int lastPageNo;
 
-    private final static String MATRAS_URL = "http://www.matras.pl/ksiazki/promocje,k,53";
-    private final static String MATRAS_URL_PAGE = MATRAS_URL + "?p=";
+    private static final String MATRAS_URL = "http://www.matras.pl/ksiazki/promocje,k,53";
+    private static final String MATRAS_URL_PAGE = MATRAS_URL + "?p=";
     private HTMLDocumentProvider htmlDocumentProvider;
 
     @Autowired
-    public Scraper(HTMLDocumentProvider htmlDocumentProvider) {
+    Scraper(HTMLDocumentProvider htmlDocumentProvider) {
         this.htmlDocumentProvider = htmlDocumentProvider;
     }
 
