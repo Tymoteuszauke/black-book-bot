@@ -10,6 +10,7 @@ import java.io.IOException;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
+@Test
 public class BookBuilderTest {
 
     private final File BOOK_DETAILS_PAGE_HTML_FILE = new File("src/test/resources/book_details_page.html");
@@ -142,21 +143,3 @@ public class BookBuilderTest {
         assertEquals(coverUrl, "http://webimage.pl/pics/629/9/d632775.jpg");
     }
 }
-//    @Test
-//    public void shouldBuildProperBookDiscountDataObject() throws Exception {
-//        // Given
-//        Document parse = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
-//
-//        // When
-//        BookDiscountData bookDiscountData = bookBuilder.buildBookDiscountDataObject(parse);
-//
-//        // Then
-//        assertEquals(20.96, bookDiscountData.getPrice());
-//        assertEquals(bookDiscountData.getBookData().getTitle(), "Drakulcio ma kłopoty Straszliwa historia w obrazkach");
-//        assertEquals(bookDiscountData.getBookData().getSubtitle(), "Straszliwa historia w obrazkach");
-//        assertEquals(bookDiscountData.getBookData().getAuthors(), "Pinkwart Magdalena, Pinkwart Sergiusz");
-//        assertEquals(bookDiscountData.getBookDiscountDetails(), "-59%");
-//        assertEquals(bookDiscountData.getBookData().getGenre(), "Unknown");
-//        assertEquals(bookDiscountData.getBookData().getBookPageUrl(), "http://czytam.pl/k,ks_599195,Drakulcio-ma-klopoty-Straszliwa-historia-w-obrazkach-Pinkwart-Magdalena-Pinkwart-Sergiusz.html");
-//        assertEquals(bookDiscountData.getBookData().getCoverUrl(), "http://webimage.pl/pics/073/5/822173.jpg");
-//    }
