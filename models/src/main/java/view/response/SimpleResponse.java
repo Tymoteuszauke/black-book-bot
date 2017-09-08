@@ -1,9 +1,12 @@
 package view.response;
 
+import lombok.Data;
+import lombok.Getter;
+
 /**
  * @author "Patrycja Zaremba"
  */
-
+@Getter
 public class SimpleResponse {
     private int code;
     private String message;
