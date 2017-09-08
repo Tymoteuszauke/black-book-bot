@@ -82,7 +82,7 @@ public class BookDiscountParserServiceTest {
         bookstoresRepository = mock(BookstoresRepository.class);
         discountsRepository = mock(BookDiscountsRepository.class);
 
-        when(booksRepository.findByTitle("Pan Tymek")).thenReturn(foundBook);
+        when(booksRepository.findByTitleAndSubtitle("Pan Tymek", "-")).thenReturn(foundBook);
         when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
 
         service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
@@ -102,7 +102,7 @@ public class BookDiscountParserServiceTest {
     }
 
     @Test
-    public void shouldParseDiscountDataWhenSameOfferWasInRepository() throws Exception {
+    public void shouldParseDiscountDataWhenNoOfferWasInRepository() throws Exception {
         // Given
         BookDiscount bookDiscount = prepareBookDiscount();
 
@@ -111,7 +111,7 @@ public class BookDiscountParserServiceTest {
         discountsRepository = mock(BookDiscountsRepository.class);
 
         when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
-        when(discountsRepository.findByBookIdAndBookstoreId(1, 100)).thenReturn(new BookDiscount());
+        when(discountsRepository.findByBookIdAndBookstoreId(1, 2)).thenReturn(null);
         doNothing().when(discountsRepository).delete(any(Long.class));
 
         service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
