@@ -2,15 +2,14 @@ package com.blackbook.czytamplscraper.scraper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
-@Test
 public class BookBuilderTest {
 
     private final File BOOK_DETAILS_PAGE_HTML_FILE = new File("src/test/resources/book_details_page.html");
@@ -18,12 +17,13 @@ public class BookBuilderTest {
     private final File BOOK_DETAILS_WITH_GENRE_PAGE_HTML_FILE = new File("src/test/resources/book_details_page_with_genre.html");
     private BookBuilder bookBuilder;
 
-    public BookBuilderTest(BookBuilder bookBuilder) {
-        this.bookBuilder = bookBuilder;
+    @BeforeMethod
+    public void before() {
+        bookBuilder = new BookBuilder();
     }
 
     @Test
-    public void shouldReadBookDetailsUrl() throws IOException {
+    public void testGetReadPageUrl() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
@@ -36,7 +36,7 @@ public class BookBuilderTest {
     }
 
     @Test
-    public void shouldReadBookPrice() throws IOException {
+    public void testReadBookPrice() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
@@ -48,7 +48,7 @@ public class BookBuilderTest {
     }
 
     @Test
-    public void shouldReadPromoDetails() throws IOException {
+    public void testReadPromoDetails() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
@@ -60,7 +60,7 @@ public class BookBuilderTest {
     }
 
     @Test
-    public void shouldReadBookTitle() throws IOException {
+    public void testReadBookTitle() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
@@ -72,7 +72,7 @@ public class BookBuilderTest {
     }
 
     @Test
-    public void shouldReadBookSubtitle() throws IOException {
+    public void testReadBookSubtitle() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
@@ -84,7 +84,7 @@ public class BookBuilderTest {
     }
 
     @Test
-    public void shouldReadNullForBookWithNoSubtitle() throws IOException {
+    public void shouldReadNullForBookWithNoSubtitle() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_NO_SUBTITLE_PAGE_HTML_FILE, "UTF-8");
 
@@ -96,7 +96,7 @@ public class BookBuilderTest {
     }
 
     @Test
-    public void shouldReadBookAuthors() throws IOException {
+    public void testReadBookAuthors() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
@@ -108,19 +108,7 @@ public class BookBuilderTest {
     }
 
     @Test
-    public void shouldReadNullForNoBookGenre() throws IOException {
-        // Given
-        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
-
-        // When
-        String genre = bookBuilder.readBookGenre(document);
-
-        // Then
-        assertNull(genre);
-    }
-
-    @Test
-    public void shouldReadBookGenre() throws IOException {
+    public void testReadBookGenre() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_WITH_GENRE_PAGE_HTML_FILE, "UTF-8");
 
@@ -132,7 +120,19 @@ public class BookBuilderTest {
     }
 
     @Test
-    public void shouldReadBookCoveUrl() throws IOException {
+    public void shouldReadNullForNoBookGenre() throws Exception {
+        // Given
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
+
+        // When
+        String genre = bookBuilder.readBookGenre(document);
+
+        // Then
+        assertNull(genre);
+    }
+
+    @Test
+    public void testReadBookCoverUrl() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
@@ -142,4 +142,5 @@ public class BookBuilderTest {
         // Then
         assertEquals(coverUrl, "http://webimage.pl/pics/629/9/d632775.jpg");
     }
+
 }
