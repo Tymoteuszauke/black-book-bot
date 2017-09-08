@@ -5,4 +5,4 @@ endpoints:
   persistence-api: http://localhost:8101
 
 const:
-  pages-limit: 3
+  pages-limit: 1

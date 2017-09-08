@@ -3,7 +3,9 @@ package com.blackbook.matrasscraper.service;
 import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
 import com.blackbook.matrasscraper.scraper.Scraper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -21,12 +23,15 @@ public class ScraperService {
     @Value("${endpoints.persistence-api}")
     private String persistenceApiEndpoint;
 
+    @Autowired
+    private
+    Scraper scraper;
+
     @Async
     public void saveResultsInDatabase() {
         ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-        Scraper scraper = new Scraper(new JsoupHTMLDocumentProvider());
         HttpEntity<Object> request = new HttpEntity<>(scraper.extractBookElements());
 
         restTemplate.postForObject(persistenceApiEndpoint + "/api/book-discounts", request, List.class);

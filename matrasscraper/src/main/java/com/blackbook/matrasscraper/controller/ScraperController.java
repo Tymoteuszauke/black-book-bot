@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import view.response.SimpleResponse;
 
 /**
  * @author "Patrycja Zaremba"
@@ -19,8 +20,9 @@ public class ScraperController {
     ScraperService scraperService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public void postBookDiscounts() {
+    public SimpleResponse postBookDiscounts() {
         log.info("Transaction: POST /api/matras-scraper");
         scraperService.saveResultsInDatabase();
+        return new SimpleResponse(200, "Matras scraper results saved in database!");
     }
 }
