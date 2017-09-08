@@ -7,7 +7,7 @@ import view.creationmodel.BookDiscountData;
 
 @Slf4j
 public class PromoDetailsReader {
-    private final static int BOOKSTORE_ID = 3;
+    private static final int BOOKSTORE_ID = 3;
     private static final String BOOKSTORE_URL = "http://www.taniaksiazka.pl";
 
     BookDiscountData readDiscountDataProperties(Element book) {
