@@ -21,8 +21,7 @@ public class ScraperController {
     @Autowired
     ScraperService scraperService;
 
-   // @RequestMapping(method = RequestMethod.POST)//, produces = "application/json")
-    @PostMapping
+    @PostMapping(produces = "application/json")
     public SimpleResponse postBookDiscounts() {
         log.info("Transaction: POST /api/matras-scraper");
         scraperService.saveResultsInDatabase();
