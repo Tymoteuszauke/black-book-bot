@@ -5,11 +5,14 @@ import com.blackbook.persistencebot.dao.BooksRepository;
 import com.blackbook.persistencebot.dao.BookstoresRepository;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
+import com.blackbook.persistencebot.model.Bookstore;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
@@ -36,64 +39,133 @@ public class BookDiscountParserServiceTest {
             .bookData(data)
             .build();
 
-    private Book foundBook;
+    @Test
+    public void shouldParseDiscountData() throws Exception {
+        // Given
+        BookDiscount bookDiscount = prepareBookDiscount();
 
-    @BeforeMethod
-    public void before() {
-        foundBook = new Book();
+        booksRepository = mock(BooksRepository.class);
+        bookstoresRepository = mock(BookstoresRepository.class);
+        discountsRepository = mock(BookDiscountsRepository.class);
+
+        when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
+        service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
+
+        // When
+        BookDiscount getDiscount = service.parseBookDiscountData(discountData);
+
+        // Then
+        assertEquals(25.99, getDiscount.getPrice());
+        assertEquals("-25%", getDiscount.getBookDiscountDetails());
+        assertEquals("Pan Tymek", getDiscount.getBook().getTitle());
+        assertEquals("-", getDiscount.getBook().getSubtitle());
+        assertEquals("Biografia", getDiscount.getBook().getGenre());
+        assertEquals("Tymke Wergiliusz", getDiscount.getBook().getAuthors());
+        assertEquals("www.bookstore.com/book/pan-tymek", getDiscount.getBook().getBookPageUrl());
+        assertEquals("www.covers.com/tymek", getDiscount.getBook().getCoverUrl());
+    }
+
+    @Test
+    public void shouldParseFoundInRepoBook() throws Exception {
+        // Given
+        Book foundBook = new Book();
         foundBook.setTitle("Pani Patrycja");
         foundBook.setSubtitle("Java developer");
         foundBook.setGenre("Poradnik");
         foundBook.setAuthors("Jan Tymke");
         foundBook.setBookPageUrl("www.bookstore.com/book/pani-patrycja");
         foundBook.setCoverUrl("www.covers.com/patkkka");
-    }
 
-    @Test
-    public void shouldParseDiscountData() throws Exception {
-        // Given
-        booksRepository = mock(BooksRepository.class);
-        bookstoresRepository = mock(BookstoresRepository.class);
-        discountsRepository = mock(BookDiscountsRepository.class);
+        BookDiscount bookDiscount = prepareBookDiscount(foundBook);
 
-        service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
-
-        // When
-        BookDiscount bookDiscount = service.parseBookDiscountData(discountData);
-
-        // Then
-        assertEquals(25.99, bookDiscount.getPrice());
-        assertEquals("-25%", bookDiscount.getBookDiscountDetails());
-        assertEquals("Pan Tymek", bookDiscount.getBook().getTitle());
-        assertEquals("-", bookDiscount.getBook().getSubtitle());
-        assertEquals("Biografia", bookDiscount.getBook().getGenre());
-        assertEquals("Tymke Wergiliusz", bookDiscount.getBook().getAuthors());
-        assertEquals("www.bookstore.com/book/pan-tymek", bookDiscount.getBook().getBookPageUrl());
-        assertEquals("www.covers.com/tymek", bookDiscount.getBook().getCoverUrl());
-    }
-
-    @Test
-    public void shouldParseFoundInRepoBook() throws Exception {
-        // Given
         booksRepository = mock(BooksRepository.class);
         bookstoresRepository = mock(BookstoresRepository.class);
         discountsRepository = mock(BookDiscountsRepository.class);
 
         when(booksRepository.findByTitle("Pan Tymek")).thenReturn(foundBook);
+        when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
 
         service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
 
         // When
-        BookDiscount bookDiscount = service.parseBookDiscountData(discountData);
+        BookDiscount getDiscount = service.parseBookDiscountData(discountData);
 
         // Then
-        assertEquals(25.99, bookDiscount.getPrice());
-        assertEquals("-25%", bookDiscount.getBookDiscountDetails());
-        assertEquals("Pani Patrycja", bookDiscount.getBook().getTitle());
-        assertEquals("Java developer", bookDiscount.getBook().getSubtitle());
-        assertEquals("Poradnik", bookDiscount.getBook().getGenre());
-        assertEquals("Jan Tymke", bookDiscount.getBook().getAuthors());
-        assertEquals("www.bookstore.com/book/pani-patrycja", bookDiscount.getBook().getBookPageUrl());
-        assertEquals("www.covers.com/patkkka", bookDiscount.getBook().getCoverUrl());
+        assertEquals(25.99, getDiscount.getPrice());
+        assertEquals("-25%", getDiscount.getBookDiscountDetails());
+        assertEquals("Pani Patrycja", getDiscount.getBook().getTitle());
+        assertEquals("Java developer", getDiscount.getBook().getSubtitle());
+        assertEquals("Poradnik", getDiscount.getBook().getGenre());
+        assertEquals("Jan Tymke", getDiscount.getBook().getAuthors());
+        assertEquals("www.bookstore.com/book/pani-patrycja", getDiscount.getBook().getBookPageUrl());
+        assertEquals("www.covers.com/patkkka", getDiscount.getBook().getCoverUrl());
+    }
+
+    @Test
+    public void shouldParseDiscountDataWhenSameOfferWasInRepository() throws Exception {
+        // Given
+        BookDiscount bookDiscount = prepareBookDiscount();
+
+        booksRepository = mock(BooksRepository.class);
+        bookstoresRepository = mock(BookstoresRepository.class);
+        discountsRepository = mock(BookDiscountsRepository.class);
+
+        when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
+        when(discountsRepository.findByBookIdAndBookstoreId(1, 100)).thenReturn(new BookDiscount());
+        doNothing().when(discountsRepository).delete(any(Long.class));
+
+        service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
+
+        // When
+        BookDiscount getDiscount = service.parseBookDiscountData(discountData);
+
+        // Then
+        assertEquals(25.99, getDiscount.getPrice());
+        assertEquals("-25%", getDiscount.getBookDiscountDetails());
+        assertEquals("Pan Tymek", getDiscount.getBook().getTitle());
+        assertEquals("-", getDiscount.getBook().getSubtitle());
+        assertEquals("Biografia", getDiscount.getBook().getGenre());
+        assertEquals("Tymke Wergiliusz", getDiscount.getBook().getAuthors());
+        assertEquals("www.bookstore.com/book/pan-tymek", getDiscount.getBook().getBookPageUrl());
+        assertEquals("www.covers.com/tymek", getDiscount.getBook().getCoverUrl());
+    }
+
+    private BookDiscount prepareBookDiscount() {
+        BookDiscount bookDiscount = new BookDiscount();
+        bookDiscount.setId(34);
+        bookDiscount.setPrice(25.99);
+        bookDiscount.setBookDiscountDetails("-25%");
+        Book book = new Book();
+        book.setId(1);
+        book.setTitle("Pan Tymek");
+        book.setSubtitle("-");
+        book.setGenre("Biografia");
+        book.setAuthors("Tymke Wergiliusz");
+        book.setBookPageUrl("www.bookstore.com/book/pan-tymek");
+        book.setCoverUrl("www.covers.com/tymek");
+        bookDiscount.setBook(book);
+        Bookstore bookstore = new Bookstore();
+        bookstore.setId(100);
+        bookDiscount.setBookstore(bookstore);
+        return bookDiscount;
+    }
+
+    private BookDiscount prepareBookDiscount(Book found) {
+        BookDiscount bookDiscount = new BookDiscount();
+        bookDiscount.setId(34);
+        bookDiscount.setPrice(25.99);
+        bookDiscount.setBookDiscountDetails("-25%");
+        Book book = new Book();
+        book.setId(1);
+        book.setTitle(found.getTitle());
+        book.setSubtitle(found.getSubtitle());
+        book.setGenre(found.getGenre());
+        book.setAuthors(found.getAuthors());
+        book.setBookPageUrl(found.getBookPageUrl());
+        book.setCoverUrl(found.getCoverUrl());
+        bookDiscount.setBook(book);
+        Bookstore bookstore = new Bookstore();
+        bookDiscount.setBookstore(bookstore);
+        return bookDiscount;
     }
 }

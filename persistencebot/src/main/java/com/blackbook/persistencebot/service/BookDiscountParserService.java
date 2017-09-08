@@ -49,7 +49,9 @@ public class BookDiscountParserService {
 
         Bookstore bookstore = bookstoresRepository.findOne((long)bookDiscountData.getBookstoreId());
         BookDiscount currentDiscount = bookDiscountsRepository.findByBookIdAndBookstoreId(book.getId(), bookDiscountData.getBookstoreId());
-        if (currentDiscount != null) bookDiscountsRepository.delete(currentDiscount.getId());
+        if (currentDiscount != null) {
+            bookDiscountsRepository.delete(currentDiscount.getId());
+        }
 
         bookDiscount.setBookstore(bookstore);
 
