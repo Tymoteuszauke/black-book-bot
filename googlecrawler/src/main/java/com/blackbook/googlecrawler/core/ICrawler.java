@@ -5,7 +5,7 @@ package com.blackbook.googlecrawler.core;
  * @since 16.08.2017
  */
 public interface ICrawler {
-    void start(CrawlerActionListener actionListener);
+    void start();
     String getId();
     String getBaseUrl();
     String getRequest(int page, int numberOfItemsOnPage);

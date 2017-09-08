@@ -1,24 +1,24 @@
 package com.blackbook.googlecrawler.processor.impl;
 
+import com.blackbook.googlecrawler.paginator.impl.GooglePaginator;
 import com.blackbook.googlecrawler.processor.ResultModel;
 import com.blackbook.googlecrawler.processor.core.AbstractProcessor;
 import com.blackbook.googlecrawler.processor.core.CrawlerProcessorListener;
-import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
 /**
- * @author Siarhei Shauchenka
+ * @author Siarhei Shauchenka at 07.09.17
  */
-@Slf4j
-public class GoogleProcessor extends AbstractProcessor {
+public class FirstPageGoogleProcessor extends AbstractProcessor {
 
-    public GoogleProcessor(String request, CrawlerProcessorListener processorListener) {
+
+    public FirstPageGoogleProcessor(String request, CrawlerProcessorListener processorListener) {
         super(request, processorListener);
     }
 
     @Override
     public void onSuccess(JSONObject responseBody) {
-        getProcessorListener().success(() -> new ResultModel(getDataParser().parseBooks(responseBody)));
+        getProcessorListener().success(() -> new ResultModel(getDataParser().parseBooks(responseBody), new GooglePaginator(responseBody)));
     }
 
 }
