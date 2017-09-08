@@ -10,11 +10,14 @@ import java.util.List;
 public class Scraper {
     private Connector connector;
     private BookstoreReader bookstoreReader;
+    private PromotionsPageReader promotionsPageReader;
     private BookBuilder bookBuilder;
 
-    public Scraper(Connector connector, BookstoreReader bookstoreReader, BookBuilder bookBuilder) {
+    public Scraper(Connector connector, BookstoreReader bookstoreReader,
+                   PromotionsPageReader promotionsPageReader, BookBuilder bookBuilder) {
         this.connector = connector;
         this.bookstoreReader = bookstoreReader;
+        this.promotionsPageReader = promotionsPageReader;
         this.bookBuilder = bookBuilder;
     }
 
@@ -25,7 +28,10 @@ public class Scraper {
         promotionPages.forEach(pageUrl -> {
             Document document = connector.getDocumentFromWebPage(pageUrl);
             Elements books = document.select(".product");
-            books.forEach(book -> discountData.add(bookBuilder.buildBookDiscountDataObject(connector, book)));
+            List<Document> bookDetailsPages = new LinkedList<>();
+            books.forEach(book -> bookDetailsPages.add(promotionsPageReader.readDetailsPage(connector, book)));
+
+            bookDetailsPages.forEach(detailsPage -> discountData.add(bookBuilder.buildBookDiscountDataObject(detailsPage)));
         });
 
         return discountData;

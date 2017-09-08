@@ -2,101 +2,161 @@ package com.blackbook.czytamplscraper.scraper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 public class BookBuilderTest {
 
-    private final String TEST_URL = "http://czytam.pl/k,ks_599195,Drakulcio-ma-klopoty-Straszliwa-historia-w-obrazkach-Pinkwart-Magdalena-Pinkwart-Sergiusz.html";
-    private final File BOOK_HTML_FILE = new File("src/test/resources/book.html");
-    private final File BOOK_DETAILS_PAGE_HTML_FILE = new File("src/test/resources/books_details_page_snippet.html");
-    private final File NO_TITLE_SECTION_HTML = new File("src/test/resources/no_title_section.html");
-    private final File NO_TITLE_TAG_HTML = new File("src/test/resources/no_title_tag.html");
-    private final File NO_SUBTITLE_TAG_HTML = new File("src/test/resources/no_subtitle_tag.html");
-    private Connector mockReader;
-    BookBuilder bookBuilder;
+    private final File BOOK_DETAILS_PAGE_HTML_FILE = new File("src/test/resources/book_details_page.html");
+    private final File BOOK_DETAILS_NO_SUBTITLE_PAGE_HTML_FILE = new File("src/test/resources/book_details_page_no_subtitle.html");
+    private final File BOOK_DETAILS_WITH_GENRE_PAGE_HTML_FILE = new File("src/test/resources/book_details_page_with_genre.html");
+    private BookBuilder bookBuilder;
 
-    @BeforeTest
-    public void beforeTest() throws IOException {
-        bookBuilder = new BookBuilder();
-        mockReader = mock(Connector.class);
+    public BookBuilderTest(BookBuilder bookBuilder) {
+        this.bookBuilder = bookBuilder;
     }
 
     @Test
-    public void shouldBuildProperBookDiscountDataObject() throws Exception {
+    public void shouldReadBookDetailsUrl() throws IOException {
         // Given
-        when(mockReader.getDocumentFromWebPage(TEST_URL)).thenReturn(Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8"));
-        Document parse = Jsoup.parse(BOOK_HTML_FILE, "UTF-8");
-        Element element = parse.body();
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
         // When
-        BookDiscountData bookDiscountData = bookBuilder.buildBookDiscountDataObject(mockReader, element);
+        String pageUrl = bookBuilder.getReadPageUrl(document);
 
         // Then
-        assertEquals(6.56, bookDiscountData.getPrice());
-        assertEquals(bookDiscountData.getBookData().getTitle(), "Drakulcio ma kłopoty Straszliwa historia w obrazkach");
-        assertEquals(bookDiscountData.getBookData().getSubtitle(), "Straszliwa historia w obrazkach");
-        assertEquals(bookDiscountData.getBookData().getAuthors(), "Pinkwart Magdalena, Pinkwart Sergiusz");
-        assertEquals(bookDiscountData.getBookDiscountDetails(), "-59%");
-        assertEquals(bookDiscountData.getBookData().getGenre(), "Unknown");
-        assertEquals(bookDiscountData.getBookData().getBookPageUrl(), "http://czytam.pl/k,ks_599195,Drakulcio-ma-klopoty-Straszliwa-historia-w-obrazkach-Pinkwart-Magdalena-Pinkwart-Sergiusz.html");
-        assertEquals(bookDiscountData.getBookData().getCoverUrl(), "http://webimage.pl/pics/073/5/822173.jpg");
+        assertEquals(pageUrl,
+                "http://czytam.pl/k,ks_292286,Czartoryscy.-Opowiesc-fotograficzna-Caillot-Dubus-Barbara-Brzezinski-Marcin.html");
     }
 
     @Test
-    public void shouldReadDefaultValueWhenItIsNoSectionWithTitle() throws IOException {
+    public void shouldReadBookPrice() throws IOException {
         // Given
-        Document document = Jsoup.parse(NO_TITLE_SECTION_HTML, "UTF-8");
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
         // When
-        String title = bookBuilder.readBookTitle(document);
+        Double price = bookBuilder.readBookPrice(document);
 
         // Then
-        assertEquals("-", title);
+        assertEquals(price, 20.96);
     }
 
     @Test
-    public void shouldReadDefaultValueWhenItIsNoTagWithTitle() throws IOException {
+    public void shouldReadPromoDetails() throws IOException {
         // Given
-        Document document = Jsoup.parse(NO_TITLE_TAG_HTML, "UTF-8");
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
+
+        // When
+        String details = bookBuilder.readPromoDetails(document);
+
+        // Then
+        assertEquals(details, "-58%");
+    }
+
+    @Test
+    public void shouldReadBookTitle() throws IOException {
+        // Given
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
         // When
         String title = bookBuilder.readBookTitle(document);
 
         // Then
-        assertEquals("-", title);
+        assertEquals(title, "Czartoryscy");
     }
 
     @Test
-    public void shouldReadDefaultValueWhenItIsNoSectionWithSubtitle() throws IOException {
+    public void shouldReadBookSubtitle() throws IOException {
         // Given
-        Document document = Jsoup.parse(NO_TITLE_SECTION_HTML, "UTF-8");
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
         // When
         String title = bookBuilder.readBookSubtitle(document);
 
         // Then
-        assertEquals("-", title);
+        assertEquals(title, "Opowieść fotograficzna");
     }
 
     @Test
-    public void shouldReadDefaultValueWhenItIsNoTagWithSubtitle() throws IOException {
+    public void shouldReadNullForBookWithNoSubtitle() throws IOException {
         // Given
-        Document document = Jsoup.parse(NO_SUBTITLE_TAG_HTML, "UTF-8");
+        Document document = Jsoup.parse(BOOK_DETAILS_NO_SUBTITLE_PAGE_HTML_FILE, "UTF-8");
 
         // When
         String title = bookBuilder.readBookSubtitle(document);
 
         // Then
-        assertEquals("-", title);
+        assertNull(title);
+    }
+
+    @Test
+    public void shouldReadBookAuthors() throws IOException {
+        // Given
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
+
+        // When
+        String title = bookBuilder.readBookAuthors(document);
+
+        // Then
+        assertEquals(title, "Caillot-Dubus Barbara, Brzeziński Marcin");
+    }
+
+    @Test
+    public void shouldReadNullForNoBookGenre() throws IOException {
+        // Given
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
+
+        // When
+        String genre = bookBuilder.readBookGenre(document);
+
+        // Then
+        assertNull(genre);
+    }
+
+    @Test
+    public void shouldReadBookGenre() throws IOException {
+        // Given
+        Document document = Jsoup.parse(BOOK_DETAILS_WITH_GENRE_PAGE_HTML_FILE, "UTF-8");
+
+        // When
+        String genre = bookBuilder.readBookGenre(document);
+
+        // Then
+        assertEquals(genre, "Zdrowie i uroda");
+    }
+
+    @Test
+    public void shouldReadBookCoveUrl() throws IOException {
+        // Given
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
+
+        // When
+        String coverUrl = bookBuilder.readBookCoverUrl(document);
+
+        // Then
+        assertEquals(coverUrl, "http://webimage.pl/pics/629/9/d632775.jpg");
     }
 }
+//    @Test
+//    public void shouldBuildProperBookDiscountDataObject() throws Exception {
+//        // Given
+//        Document parse = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
+//
+//        // When
+//        BookDiscountData bookDiscountData = bookBuilder.buildBookDiscountDataObject(parse);
+//
+//        // Then
+//        assertEquals(20.96, bookDiscountData.getPrice());
+//        assertEquals(bookDiscountData.getBookData().getTitle(), "Drakulcio ma kłopoty Straszliwa historia w obrazkach");
+//        assertEquals(bookDiscountData.getBookData().getSubtitle(), "Straszliwa historia w obrazkach");
+//        assertEquals(bookDiscountData.getBookData().getAuthors(), "Pinkwart Magdalena, Pinkwart Sergiusz");
+//        assertEquals(bookDiscountData.getBookDiscountDetails(), "-59%");
+//        assertEquals(bookDiscountData.getBookData().getGenre(), "Unknown");
+//        assertEquals(bookDiscountData.getBookData().getBookPageUrl(), "http://czytam.pl/k,ks_599195,Drakulcio-ma-klopoty-Straszliwa-historia-w-obrazkach-Pinkwart-Magdalena-Pinkwart-Sergiusz.html");
+//        assertEquals(bookDiscountData.getBookData().getCoverUrl(), "http://webimage.pl/pics/073/5/822173.jpg");
+//    }
