@@ -22,6 +22,6 @@ public class DefaultPaginator implements Paginator{
 
     @Override
     public int getTotalNumberOfItems() {
-        return defaultNumberOfPages;
+        return defaultItemsOnPage;
     }
 }

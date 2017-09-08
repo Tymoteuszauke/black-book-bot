@@ -9,13 +9,11 @@ import com.blackbook.googlecrawler.processor.core.CrawlerProcessorListener;
 import com.blackbook.googlecrawler.processor.impl.FirstPageGoogleProcessor;
 import com.blackbook.googlecrawler.processor.impl.GoogleProcessor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import view.creationmodel.BookDiscountData;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -28,7 +26,6 @@ import static com.blackbook.googlecrawler.paginator.impl.GooglePaginator.NUMBER_
  * @since 17.08.17
  */
 @Slf4j
-@Service
 public class GoogleCrawler implements ICrawler, KeyAccess {
 
     private static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
@@ -43,15 +40,16 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     private Paginator firstPaginator;
     private final Lock crawlerLock;
 
-    public GoogleCrawler() {
+    public GoogleCrawler(CrawlerActionListener actionListener, ExecutorService executorService) {
+        this.actionListener = actionListener;
         booksData = new LinkedList<>();
-        executorService = Executors.newCachedThreadPool();
+        this.executorService = executorService;
         crawlerLock = new ReentrantLock();
     }
 
     @Override
-    public void start(CrawlerActionListener actionListener) {
-        this.actionListener = actionListener;
+    public void start() {
+
         CrawlerProcessorListener firstProcessorListener = new CrawlerProcessorListener() {
             @Override
             public void success(Supplier<ResultModel> resultModelSupplier) {
@@ -99,13 +97,14 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     }
 
     private void addBooksToResultList(List<BookDiscountData> newBooksList) {
-        booksData.addAll(newBooksList);
         try {
             if (crawlerLock.tryLock(2, TimeUnit.SECONDS)) {
+                booksData.addAll(newBooksList);
                 completedPages += 1;
             }
         } catch (InterruptedException e) {
-            log.warn("completedPages was not increased!");
+            log.warn("data was not added!");
+            Thread.currentThread().interrupt();
         } finally {
             crawlerLock.unlock();
         }
