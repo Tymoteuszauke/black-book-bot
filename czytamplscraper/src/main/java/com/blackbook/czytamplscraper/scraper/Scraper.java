@@ -28,6 +28,7 @@ public class Scraper {
         promotionPages.forEach(pageUrl -> {
             Document document = connector.getDocumentFromWebPage(pageUrl);
             Elements books = document.select(".product");
+
             List<Document> bookDetailsPages = new LinkedList<>();
             books.forEach(book -> bookDetailsPages.add(promotionsPageReader.readDetailsPage(connector, book)));
 
