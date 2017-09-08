@@ -1,15 +1,12 @@
 package com.blackbook.czytamplscraper.scraper;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
 public class BookBuilder {
-    private final static int BOOKSTORE_ID = 2;
-    private final static String STORE_PAGE = "http://czytam.pl";
-    private final String STRONG_TAGNAME_QUERY = "strong";
+    private static final int BOOKSTORE_ID = 2;
+    private static final String STORE_PAGE = "http://czytam.pl";
 
     BookDiscountData buildBookDiscountDataObject(Document detailsPage) {
         return BookDiscountData.builder()
@@ -34,7 +31,7 @@ public class BookBuilder {
     Double readBookPrice(Document detailsPage) {
         return Double.valueOf(detailsPage
                 .select(".price")
-                .select(STRONG_TAGNAME_QUERY)
+                .select("strong")
                 .eachText()
                 .get(0)
                 .replaceAll(",", ".")

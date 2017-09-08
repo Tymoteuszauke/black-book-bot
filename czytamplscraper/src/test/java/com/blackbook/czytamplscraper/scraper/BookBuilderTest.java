@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 
@@ -143,4 +144,18 @@ public class BookBuilderTest {
         assertEquals(coverUrl, "http://webimage.pl/pics/629/9/d632775.jpg");
     }
 
+    @Test
+    public void shouldBuildBookDiscountDataObject() throws Exception {
+        // Given
+        Document doc = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
+
+        // When
+        BookDiscountData discountData = bookBuilder.buildBookDiscountDataObject(doc);
+
+        // Then
+        assertEquals(discountData.getBookstoreId(), new Integer("2"));
+        assertEquals(discountData.getPrice(), 20.96);
+        assertEquals(discountData.getBookData().getAuthors(), "Caillot-Dubus Barbara, Brzeziński Marcin");
+        assertEquals(discountData.getBookData().getTitle(), "Czartoryscy");
+    }
 }

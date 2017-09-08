@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public class BookstoreReader {
     private static final String START_PAGE = "http://czytam.pl/tania-ksiazka.html";
-    private final String promotionPageTemplate = "http://czytam.pl/tania-ksiazka,%d.html";
+    private static final String promotionPageTemplate = "http://czytam.pl/tania-ksiazka,%d.html";
 
     List<String> getPromotionPages(Connector connector) {
         List<String> promotionPages = new ArrayList<>();

@@ -5,7 +5,7 @@ import org.jsoup.nodes.Element;
 
 public class PromotionsPageReader {
 
-    private final static String STORE_PAGE = "http://czytam.pl";
+    private static final String STORE_PAGE = "http://czytam.pl";
 
     Document readDetailsPage(Connector connector, Element book) {
         String bookDetailsUrl = STORE_PAGE + book
