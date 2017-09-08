@@ -28,7 +28,7 @@ public class PersistenceApplication {
     }
 
     @Bean
-    public Docket api() {
+    Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("Persistence API")
                 .apiInfo(apiInfo())
@@ -38,7 +38,7 @@ public class PersistenceApplication {
                 .build();
     }
 
-    private ApiInfo apiInfo() {
+    ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Black Book Bot REST API for Persistence Bot module")
                 .description("Methods for DB manipulations")
@@ -46,7 +46,7 @@ public class PersistenceApplication {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
+    WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {

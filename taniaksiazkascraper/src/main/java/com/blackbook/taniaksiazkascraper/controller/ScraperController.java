@@ -15,9 +15,6 @@ import java.io.IOException;
 @RequestMapping(value = "/api/taniaksiazka-scraper")
 public class ScraperController {
 
-    @Value("${endpoints.persistence-api}")
-    private String persistenceApiEndpoint;
-
     @Autowired
     private ScraperService scraperService;
 

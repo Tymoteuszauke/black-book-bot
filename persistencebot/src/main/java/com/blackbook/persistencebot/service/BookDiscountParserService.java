@@ -17,14 +17,16 @@ import javax.transaction.Transactional;
 @Slf4j
 public class BookDiscountParserService {
 
-    @Autowired
     private BooksRepository booksRepository;
-
-    @Autowired
     private BookstoresRepository bookstoresRepository;
+    private BookDiscountsRepository bookDiscountsRepository;
 
     @Autowired
-    private BookDiscountsRepository bookDiscountsRepository;
+    public BookDiscountParserService(BooksRepository booksRepository, BookstoresRepository bookstoresRepository, BookDiscountsRepository bookDiscountsRepository) {
+        this.booksRepository = booksRepository;
+        this.bookstoresRepository = bookstoresRepository;
+        this.bookDiscountsRepository = bookDiscountsRepository;
+    }
 
     /**
      * Parser API (from BookDiscountData into BookDiscount entity)
@@ -37,23 +39,11 @@ public class BookDiscountParserService {
         bookDiscount.setPrice(bookDiscountData.getPrice());
         bookDiscount.setBookDiscountDetails(bookDiscountData.getBookDiscountDetails());
         Book parsedBook = parseBookData(bookDiscountData.getBookData());
-        log.info("Parsed book title: " + parsedBook.getTitle());
-        log.info("Repo found: " + booksRepository.findByTitle(parsedBook.getTitle()));
         Book book = booksRepository.findByTitle(parsedBook.getTitle());
         if (book == null) {
             book = parsedBook;
         }
         bookDiscount.setBook(book);
-
-        //TODO remove if clause since creation data without bookstore id will not be permitted
-        if (bookDiscountData.getBookstoreId() != null) {
-            bookDiscount.setBookstore(bookstoresRepository.findOne((long) bookDiscountData.getBookstoreId()));
-
-            BookDiscount existingBookDiscount = bookDiscountsRepository.findByBookIdAndBookstoreId(book.getId(), bookDiscountData.getBookstoreId());
-            if (existingBookDiscount != null) {
-                bookDiscountsRepository.delete(existingBookDiscount);
-            }
-        }
 
         return bookDiscount;
     }
