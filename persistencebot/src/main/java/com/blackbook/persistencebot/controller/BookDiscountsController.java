@@ -73,9 +73,10 @@ public class BookDiscountsController {
         List<BookDiscount> bookDiscounts = bookDiscountData
                 .stream()
                 .map(bookDiscountParserService::parseBookDiscountData)
+                .distinct()
                 .collect(Collectors.toList());
 
-        bookDiscountsRepository.save(bookDiscounts);
+//        bookDiscountsRepository.save(bookDiscounts);
         return bookDiscounts
                 .stream()
                 .map(ViewMapperUtil::bookDiscountViewConverter)
