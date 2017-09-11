@@ -4,6 +4,8 @@ import org.jsoup.nodes.Document;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
+import java.util.List;
+
 public class BookBuilder {
     private static final int BOOKSTORE_ID = 2;
     private static final String STORE_PAGE = "http://czytam.pl";
@@ -73,7 +75,12 @@ public class BookBuilder {
     }
 
     String readBookAuthors(Document detailsPage) {
-        return detailsPage.select(".headline-azure").eachText().get(0);
+        List<String> strings = detailsPage.select(".headline-azure").eachText();
+        if (!strings.isEmpty()) {
+            return strings.get(0);
+        } else {
+            return "Unknown";
+        }
     }
 
     String readBookGenre(Document detailsPage) {

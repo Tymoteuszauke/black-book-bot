@@ -16,6 +16,7 @@ public class BookBuilderTest {
     private final File BOOK_DETAILS_PAGE_HTML_FILE = new File("src/test/resources/book_details_page.html");
     private final File BOOK_DETAILS_NO_SUBTITLE_PAGE_HTML_FILE = new File("src/test/resources/book_details_page_no_subtitle.html");
     private final File BOOK_DETAILS_WITH_GENRE_PAGE_HTML_FILE = new File("src/test/resources/book_details_page_with_genre.html");
+    private final File BOOK_DETAILS_NO_AUTHORS_PAGE_HTML_FILE = new File("src/test/resources/book_details_page_no_authors.html");
     private BookBuilder bookBuilder;
 
     @BeforeMethod
@@ -78,10 +79,10 @@ public class BookBuilderTest {
         Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
         // When
-        String title = bookBuilder.readBookSubtitle(document);
+        String subtitle = bookBuilder.readBookSubtitle(document);
 
         // Then
-        assertEquals(title, "Opowieść fotograficzna");
+        assertEquals(subtitle, "Opowieść fotograficzna");
     }
 
     @Test
@@ -90,10 +91,10 @@ public class BookBuilderTest {
         Document document = Jsoup.parse(BOOK_DETAILS_NO_SUBTITLE_PAGE_HTML_FILE, "UTF-8");
 
         // When
-        String title = bookBuilder.readBookSubtitle(document);
+        String subtitle = bookBuilder.readBookSubtitle(document);
 
         // Then
-        assertNull(title);
+        assertNull(subtitle);
     }
 
     @Test
@@ -102,11 +103,23 @@ public class BookBuilderTest {
         Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
 
         // When
-        String title = bookBuilder.readBookAuthors(document);
+        String authors = bookBuilder.readBookAuthors(document);
 
         // Then
-        assertEquals(title, "Caillot-Dubus Barbara, Brzeziński Marcin");
+        assertEquals(authors, "Caillot-Dubus Barbara, Brzeziński Marcin");
     }
+    @Test
+    public void shouldReturnUnknownForBookWithNoAuthors() throws Exception {
+        // Given
+        Document document = Jsoup.parse(BOOK_DETAILS_NO_AUTHORS_PAGE_HTML_FILE, "UTF-8");
+
+        // When
+        String authors = bookBuilder.readBookAuthors(document);
+
+        // Then
+        assertEquals(authors, "Unknown");
+    }
+
 
     @Test
     public void testReadBookGenre() throws Exception {
