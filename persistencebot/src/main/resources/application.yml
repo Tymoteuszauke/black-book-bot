@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
+    url: jdbc:mysql://blackbookdb.ce3tk7fr9nov.eu-central-1.rds.amazonaws.com:3306/blackbook
+    username: bbb_user
+    password: bot0987654321
   jpa:
     properties:
       hibernate:
@@ -28,3 +28,8 @@ sring:
   output:
   ansi:
   enabled: DETECT
+
+  jackson:
+    serialization:
+    write-dates-as-timestamps: false
+

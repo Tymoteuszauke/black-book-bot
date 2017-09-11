@@ -1,6 +1,8 @@
 package com.blackbook.persistencebot.controller;
 
 import com.blackbook.persistencebot.dao.BookDiscountsRepository;
+import com.blackbook.persistencebot.dao.BookstoresRepository;
+import com.blackbook.persistencebot.dao.LogEventRepository;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
@@ -28,6 +30,8 @@ public class BookDiscountsControllerTest {
 
     private BookDiscountsController controller;
     private BookDiscountsRepository repo;
+    private LogEventRepository logRepo;
+    private BookstoresRepository bookStoreRepo;
     private BookDiscountParserService service;
 
     private BookData bookData = BookData.builder()
@@ -53,7 +57,9 @@ public class BookDiscountsControllerTest {
     public void before() {
         service = mock(BookDiscountParserService.class);
         repo = mock(BookDiscountsRepository.class);
-        controller = new BookDiscountsController(repo, service);
+        logRepo = mock(LogEventRepository.class);
+        bookStoreRepo = mock(BookstoresRepository.class);
+        controller = new BookDiscountsController(repo, service, logRepo, bookStoreRepo);
     }
 
     @DataProvider
