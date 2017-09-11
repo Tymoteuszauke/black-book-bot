@@ -5,6 +5,6 @@ import org.jsoup.nodes.Document;
 /**
  * @author "Patrycja Zaremba"
  */
-public interface HTMLDocumentProvider {
-    Document provide(String url);
+public interface WebConnector {
+    Document connect(String url);
 }

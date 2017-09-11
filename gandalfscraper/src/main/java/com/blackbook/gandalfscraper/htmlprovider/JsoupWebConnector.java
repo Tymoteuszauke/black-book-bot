@@ -12,9 +12,9 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
-public class JsoupHTMLDocumentProvider implements HTMLDocumentProvider {
+public class JsoupWebConnector implements WebConnector {
     @Override
-    public Document provide(String url) {
+    public Document connect(String url) {
         return connectToUrl(url);
     }
 
