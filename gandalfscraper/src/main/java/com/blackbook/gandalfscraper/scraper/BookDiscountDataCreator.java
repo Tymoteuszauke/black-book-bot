@@ -18,6 +18,7 @@ class BookDiscountDataCreator {
         Double price = bookDoc.extractBookPrice();
         String promoDetails = bookDoc.extractBookPromoDetails();
         String coverUrl = bookDoc.extractBookCoverUrl();
+        String publisher = bookDoc.extractPublisher();
 
         BookDiscountData bookDiscountData = BookDiscountData.builder()
                 .bookstoreId(BOOKSTORE_ID)
@@ -28,14 +29,15 @@ class BookDiscountDataCreator {
                         .subtitle(subtitle)
                         .authors(authors)
                         .genre(genre)
+                        .publisher(publisher)
                         .bookPageUrl(bookUrl)
                         .coverUrl(coverUrl)
                         .build())
                 .build();
 
         String separator = " - ";
-        log.info(title + separator + subtitle + separator + authors + separator + genre + separator +
-                price + separator + promoDetails + separator + bookUrl + separator + coverUrl);
+        log.info(title + separator + subtitle + separator + authors + separator + publisher + separator +
+                genre + separator + price + separator + promoDetails + separator + bookUrl + separator + coverUrl);
         return bookDiscountData;
     }
 }

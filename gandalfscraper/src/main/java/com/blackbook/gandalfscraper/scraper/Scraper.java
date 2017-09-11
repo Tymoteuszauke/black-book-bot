@@ -1,11 +1,11 @@
 package com.blackbook.gandalfscraper.scraper;
 
-import com.blackbook.gandalfscraper.htmlprovider.JsoupWebConnector;
 import com.blackbook.gandalfscraper.htmlprovider.WebConnector;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import view.creationmodel.BookDiscountData;
 
 import java.util.LinkedList;
@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 /**
  * @author "Patrycja Zaremba"
  */
+@Component
 public class Scraper {
     public static final String GANDALF_BOOKSTORE_URL = "http://www.gandalf.com.pl";
     private static final String GANDALF_DISCOUNT_URL = GANDALF_BOOKSTORE_URL + "/k/okazje-do-60/";
@@ -25,11 +26,6 @@ public class Scraper {
     public Scraper(WebConnector webConnector, LastPageChecker lastPageChecker) {
         this.webConnector = webConnector;
         this.lastPageChecker = lastPageChecker;
-    }
-
-    public static void main(String[] args) {
-        Scraper scraper = new Scraper(new JsoupWebConnector(), new LastPageChecker());
-        scraper.scrapeBooks();
     }
 
     public List<BookDiscountData> scrapeBooks() {
@@ -63,5 +59,4 @@ public class Scraper {
                 .first()
                 .attr("href");
     }
-
 }

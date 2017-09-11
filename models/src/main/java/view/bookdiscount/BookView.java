@@ -11,6 +11,7 @@ public class BookView {
     private String title;
     private String subtitle;
     private String authors;
+    private String publisher;
     private String bookPageUrl;
     private String coverUrl;
 }

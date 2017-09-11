@@ -3,7 +3,6 @@ package com.blackbook.matrasscraper.scraper;
 import com.blackbook.matrasscraper.htmlprovider.HTMLDocumentProvider;
 import core.CrawlerActionListener;
 import core.ICrawler;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
 /**
  * @author "Patrycja Zaremba"
  */
-@Slf4j
 @Component
 public class Scraper implements ICrawler {
 

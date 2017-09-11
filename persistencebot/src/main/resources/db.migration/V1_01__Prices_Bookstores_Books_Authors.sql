@@ -12,6 +12,7 @@ CREATE TABLE books (
     genre varchar(100),
     cover_url varchar(600),
     book_page_url varchar(600)
+
 );
 
 CREATE TABLE book_discounts (

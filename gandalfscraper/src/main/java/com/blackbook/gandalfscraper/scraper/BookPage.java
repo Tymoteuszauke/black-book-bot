@@ -2,6 +2,7 @@ package com.blackbook.gandalfscraper.scraper;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,15 +49,24 @@ class BookPage {
 
     String extractBookGenre() {
         int mainGenreIndex = 1;
-        return bookDoc.select(".product_categories > a")
-                .remove(mainGenreIndex)
-                .text();
+        Elements elements = bookDoc.select(".product_categories > a");
+        String genre = "nieznany";
+        if (elements.size() > 1) {
+            genre = elements.remove(mainGenreIndex)
+                    .text();
+        }
+        return genre;
     }
 
     public Double extractBookPrice() {
         return Double.parseDouble(bookDoc.select(".new_price[itemprop=price]")
                 .text()
                 .replace(",", "."));
+    }
+
+    public String extractPublisher() {
+        return bookDoc.select(".pdata1 > p > a")
+                .text();
     }
 
     public String extractBookPromoDetails() {
