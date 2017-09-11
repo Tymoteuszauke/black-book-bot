@@ -8,8 +8,8 @@ import lombok.Getter;
  */
 @Getter
 public class SimpleResponse {
-    private int code;
-    private String message;
+    private final int code;
+    private final String message;
 
     public SimpleResponse(int code, String message) {
         this.code = code;
