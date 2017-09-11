@@ -7,6 +7,8 @@ import view.creationmodel.BookDiscountData;
 @Slf4j
 class BookDocumentConverter {
 
+    private BookDocumentConverter() {}
+
     static BookDiscountData createBookDiscountData(BookDocument bookDoc, String bookUrl) {
         String title = bookDoc.extractBookTitle();
         String subtitle = bookDoc.extractBookSubtitle();
@@ -31,7 +33,7 @@ class BookDocumentConverter {
                 .build();
 
         String separator = " - ";
-       log.info(title + separator + subtitle + separator + authors + separator + genre + separator +
+        log.info(title + separator + subtitle + separator + authors + separator + genre + separator +
                 price + separator + promoDetails + separator + bookUrl + separator + coverUrl);
         return bookDiscountData;
     }
