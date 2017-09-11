@@ -1,11 +1,9 @@
 package com.blackbook.matrasscraper.service;
 
-import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
 import com.blackbook.matrasscraper.scraper.Scraper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;

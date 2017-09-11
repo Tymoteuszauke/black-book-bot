@@ -1,6 +1,5 @@
 package view.response;
 
-import lombok.Data;
 import lombok.Getter;
 
 /**
