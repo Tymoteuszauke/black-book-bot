@@ -1,6 +1,6 @@
-package com.blackbook.taniaksiazkascraper.service;
+package com.blackbook.czytamplscraper.service;
 
-import com.blackbook.taniaksiazkascraper.scraper.Scraper;
+import com.blackbook.czytamplscraper.scraper.Scraper;
 import org.springframework.web.client.RestOperations;
 import org.testng.annotations.Test;
 import view.creationmodel.BookDiscountData;
@@ -14,6 +14,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.*;
 
 public class ScraperServiceTest {
 
@@ -34,7 +35,7 @@ public class ScraperServiceTest {
         Scraper scraper = mock(Scraper.class);
         when(scraper.extractBookElements()).thenReturn(discountDataList);
 
-        ScraperService scraperService = new ScraperService(restOperations, scraper);
+        ScraperService scraperService = new ScraperService(scraper, restOperations);
 
         // When
         scraperService.saveResultsInDatabase();
