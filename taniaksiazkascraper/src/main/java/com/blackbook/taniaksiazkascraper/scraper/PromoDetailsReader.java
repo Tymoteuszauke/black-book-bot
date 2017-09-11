@@ -2,10 +2,12 @@ package com.blackbook.taniaksiazkascraper.scraper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Element;
+import org.springframework.stereotype.Component;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
 @Slf4j
+@Component
 public class PromoDetailsReader {
     private static final int BOOKSTORE_ID = 3;
     private static final String BOOKSTORE_URL = "http://www.taniaksiazka.pl";
