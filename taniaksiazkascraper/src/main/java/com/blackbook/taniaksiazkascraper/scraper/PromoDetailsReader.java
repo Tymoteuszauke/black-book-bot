@@ -6,10 +6,12 @@ import org.springframework.stereotype.Component;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
+import static com.blackbook.taniaksiazkascraper.scraper.Scraper.BOOKSTORE_ID;
+
 @Slf4j
 @Component
 public class PromoDetailsReader {
-    private static final int BOOKSTORE_ID = 3;
+
     private static final String BOOKSTORE_URL = "http://www.taniaksiazka.pl";
 
     BookDiscountData readDiscountDataProperties(Element book) {

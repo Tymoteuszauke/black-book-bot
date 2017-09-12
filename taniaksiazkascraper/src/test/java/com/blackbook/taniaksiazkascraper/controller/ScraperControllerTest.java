@@ -1,7 +1,8 @@
 package com.blackbook.taniaksiazkascraper.controller;
 
-import com.blackbook.taniaksiazkascraper.service.ScraperService;
+
 import com.jayway.restassured.http.ContentType;
+import core.BotService;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,25 +12,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import view.response.SimpleResponse;
+
 import java.io.IOException;
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+
 import static com.jayway.restassured.RestAssured.given;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ScraperControllerTest {
 
-    private final String MESSAGE = "Taniaksiazka.pl scraper results saved in database!";
-
     @LocalServerPort
     private int port;
 
     @MockBean
-    public ScraperService scraperService;
+    public BotService scraperService;
 
     @Test
     public void shouldPostTaniaksiazkaScraper() {
@@ -60,6 +57,6 @@ public class ScraperControllerTest {
         SimpleResponse getResponse = controller.postBookDiscounts();
 
         // Then
-        Assert.assertEquals(MESSAGE, getResponse.getMessage());
+        Assert.assertEquals(HttpStatus.SC_OK, getResponse.getCode());
     }
 }

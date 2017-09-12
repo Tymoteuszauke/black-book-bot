@@ -1,7 +1,5 @@
 package com.blackbook.googlecrawler.controller;
 
-
-
 import core.BotService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
