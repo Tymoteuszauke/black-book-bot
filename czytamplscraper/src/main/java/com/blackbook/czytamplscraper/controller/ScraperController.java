@@ -1,6 +1,7 @@
 package com.blackbook.czytamplscraper.controller;
 
 
+import core.BotService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,10 @@ import view.response.SimpleResponse;
 @RequestMapping(value = "/api/czytampl-scraper")
 public class ScraperController {
 
-    private CrawlerScraperService scraperService;
+    private BotService scraperService;
 
     @Autowired
-    public ScraperController(CrawlerScraperService scraperService) {
+    public ScraperController(BotService scraperService) {
         this.scraperService = scraperService;
     }
 

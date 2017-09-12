@@ -1,6 +1,7 @@
 package com.blackbook.googlecrawler;
 
 import com.blackbook.googlecrawler.impl.GoogleCrawler;
+import core.BotService;
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,7 +43,7 @@ public class CrawlerApp {
     }
 
     @Bean
-    public CrawlerScraperService scrapperService(){
+    public BotService scrapperService(){
         return new CrawlerScraperService(new GoogleCrawler());
     }
 

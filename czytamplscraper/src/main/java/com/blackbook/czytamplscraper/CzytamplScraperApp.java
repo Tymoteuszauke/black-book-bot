@@ -1,6 +1,7 @@
 package com.blackbook.czytamplscraper;
 
 import com.blackbook.czytamplscraper.scraper.*;
+import core.BotService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,18 +19,7 @@ public class CzytamplScraperApp {
     }
 
     @Bean
-    public Executor asyncExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(3);
-        executor.setMaxPoolSize(3);
-        executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("czytamplScraper-");
-        executor.initialize();
-        return executor;
-    }
-
-    @Bean
-    public CrawlerScraperService scrapperService(){
+    public BotService scrapperService(){
         return new CrawlerScraperService(new Scraper(new Connector(), new BookstoreReader(), new PromotionsPageReader(), new BookBuilder()));
     }
 }

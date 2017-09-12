@@ -4,6 +4,7 @@ import callable.SaveBooksCallable;
 import callable.SaveBooksCallableDataModel;
 import callable.SendLogCallable;
 import callable.SendLogCallableDataModel;
+import core.BotService;
 import core.ICrawler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
@@ -27,7 +28,7 @@ import java.util.concurrent.*;
  */
 @Slf4j
 @Service
-public class CrawlerScraperService {
+public class CrawlerScraperService implements BotService{
 
     private final ScheduledExecutorService scheduledExecutorService;
     private ICrawler crawler;
@@ -42,6 +43,7 @@ public class CrawlerScraperService {
     }
 
     @Async
+    @Override
     public void saveResultsInDatabase() {
         final ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         final RestTemplate restTemplate = new RestTemplate(requestFactory);

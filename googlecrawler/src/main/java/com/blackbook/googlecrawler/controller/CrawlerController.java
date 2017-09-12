@@ -2,6 +2,7 @@ package com.blackbook.googlecrawler.controller;
 
 
 
+import core.BotService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,10 @@ import view.response.SimpleResponse;
 @RequestMapping(value = "/api/google-crawler")
 public class CrawlerController {
 
-    private CrawlerScraperService crawlerScraperService;
+    private BotService crawlerScraperService;
 
     @Autowired
-    public CrawlerController(CrawlerScraperService crawlerScraperService) {
+    public CrawlerController(BotService crawlerScraperService) {
         this.crawlerScraperService = crawlerScraperService;
     }
 
