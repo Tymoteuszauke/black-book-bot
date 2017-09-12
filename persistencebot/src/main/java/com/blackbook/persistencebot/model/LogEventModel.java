@@ -2,12 +2,9 @@ package com.blackbook.persistencebot.model;
 
 import lombok.Data;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @author Siarhei Shauchenka at 11.09.17

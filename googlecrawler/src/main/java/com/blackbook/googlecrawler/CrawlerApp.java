@@ -1,10 +1,12 @@
 package com.blackbook.googlecrawler;
 
+import com.blackbook.googlecrawler.impl.GoogleCrawler;
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import service.CrawlerScraperService;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -37,6 +39,11 @@ public class CrawlerApp {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.regex("/api.*"))
                 .build();
+    }
+
+    @Bean
+    public CrawlerScraperService scrapperService(){
+        return new CrawlerScraperService(new GoogleCrawler());
     }
 
     private ApiInfo apiInfo() {

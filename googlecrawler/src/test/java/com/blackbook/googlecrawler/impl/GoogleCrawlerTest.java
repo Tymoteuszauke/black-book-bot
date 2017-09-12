@@ -1,7 +1,7 @@
 package com.blackbook.googlecrawler.impl;
 
-import com.blackbook.googlecrawler.core.CrawlerActionListener;
-import com.blackbook.googlecrawler.core.ICrawler;
+import core.CrawlerActionListener;
+import core.ICrawler;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -10,7 +10,9 @@ import org.testng.annotations.Test;
 import java.util.concurrent.ExecutorService;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Siarhei Shauchenka at 08.09.17
@@ -24,23 +26,23 @@ public class GoogleCrawlerTest {
 
     private ExecutorService mockExecutorService;
     private CrawlerActionListener mockListener;
-    private ICrawler crawler;
+    private GoogleCrawler crawler;
 
     @BeforeClass
     public void prepareData(){
         mockExecutorService = Mockito.mock(ExecutorService.class);
         doNothing().when(mockExecutorService).execute(any());
         mockListener = Mockito.mock(CrawlerActionListener.class);
-        crawler = new GoogleCrawler(mockListener, mockExecutorService);
+        crawler = new GoogleCrawler();
     }
 
     public void testStart(){
-        crawler.start();
+        crawler.start(mockListener, mockExecutorService);
         verify(mockExecutorService, times(1)).execute(any());
     }
 
     public void testGetRequestParameters(){
-        Assert.assertEquals(crawler.getId(), GoogleCrawler.class.getSimpleName());
+        Assert.assertEquals(crawler.getId(), GoogleCrawler.GOOGLE_CRAWLER_ID);
         Assert.assertEquals(crawler.getBaseUrl(), BASE_URL);
         Assert.assertEquals(crawler.getCriteria(), CRITERIA);
     }
