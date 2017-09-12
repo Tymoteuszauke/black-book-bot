@@ -17,7 +17,7 @@ import static org.testng.Assert.assertTrue;
 public class BookstoreReaderTest {
 
     private final String TEST_URL = "http://czytam.pl/tania-ksiazka.html";
-    private final File HTML_RESOURCE_FILE = new File("src/test/resources/czytampl_promotions_page.html");
+    private final File HTML_RESOURCE_FILE = new File("src/test/resources/no_of_pages_snippet.html");
     private Connector mockReader;
 
     @BeforeMethod
@@ -43,7 +43,7 @@ public class BookstoreReaderTest {
         );
 
         // When
-        List<String> promotionPages = bookstoreReader.getPromotionPages(mockReader, TEST_URL);
+        List<String> promotionPages = bookstoreReader.getPromotionPages(mockReader);
 
         // Then
         assertTrue(promotionPages.containsAll(expectedPages));

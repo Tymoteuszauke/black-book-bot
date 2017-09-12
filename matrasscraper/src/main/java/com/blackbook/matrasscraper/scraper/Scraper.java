@@ -24,12 +24,12 @@ public class Scraper {
     @Value("${const.pages-limit}")
     int lastPageNo;
 
-    private final static String MATRAS_URL = "http://www.matras.pl/ksiazki/promocje,k,53";
-    private final static String MATRAS_URL_PAGE = MATRAS_URL + "?p=";
+    private static final String MATRAS_URL = "http://www.matras.pl/ksiazki/promocje,k,53";
+    private static final String MATRAS_URL_PAGE = MATRAS_URL + "?p=";
     private HTMLDocumentProvider htmlDocumentProvider;
 
     @Autowired
-    public Scraper(HTMLDocumentProvider htmlDocumentProvider) {
+    Scraper(HTMLDocumentProvider htmlDocumentProvider) {
         this.htmlDocumentProvider = htmlDocumentProvider;
     }
 

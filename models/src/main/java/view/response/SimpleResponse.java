@@ -2,7 +2,6 @@ package view.response;
 
 import lombok.Builder;
 import lombok.Getter;
-
 /**
  * @author "Patrycja Zaremba"
  */

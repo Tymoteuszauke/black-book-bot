@@ -66,7 +66,7 @@ public class BookDiscountsController {
                     .map(ViewMapperUtil::bookDiscountViewConverter);
         }
 
-        return new PageImpl<>(Collections.EMPTY_LIST);
+        return new PageImpl<>(Collections.emptyList());
     }
 
     private boolean arePricesSpecified(String priceFrom, String priceTo) {
