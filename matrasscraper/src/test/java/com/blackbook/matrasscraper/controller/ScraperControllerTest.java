@@ -1,8 +1,9 @@
 package com.blackbook.matrasscraper.controller;
 
-import com.blackbook.matrasscraper.service.ScraperService;
+
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.jayway.restassured.http.ContentType;
+import core.BotService;
 import org.apache.http.HttpStatus;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.times;
 public class ScraperControllerTest {
 
     @MockBean
-    ScraperService scraperService;
+    BotService scraperService;
 
     @LocalServerPort
     private int port;

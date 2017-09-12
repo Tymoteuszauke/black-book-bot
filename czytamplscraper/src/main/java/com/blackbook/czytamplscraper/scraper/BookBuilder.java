@@ -7,12 +7,12 @@ import view.creationmodel.BookDiscountData;
 import java.util.List;
 
 public class BookBuilder {
-    private static final int BOOKSTORE_ID = 2;
+
     private static final String STORE_PAGE = "http://czytam.pl";
 
     BookDiscountData buildBookDiscountDataObject(Document detailsPage) {
         return BookDiscountData.builder()
-                .bookstoreId(BOOKSTORE_ID)
+                .bookstoreId(Scraper.BOOKSTORE_ID)
                 .price(readBookPrice(detailsPage))
                 .bookDiscountDetails(readPromoDetails(detailsPage))
                 .bookData(BookData.builder()

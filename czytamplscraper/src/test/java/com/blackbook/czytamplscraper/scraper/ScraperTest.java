@@ -10,11 +10,10 @@ import view.creationmodel.BookDiscountData;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class ScraperTest {
 
@@ -60,12 +59,12 @@ public class ScraperTest {
         Scraper scraper = new Scraper(connector, bookstoreReader, pageReader, bookBuilder);
 
         // When
-        List<BookDiscountData> discountData = scraper.extractBookElements();
-
-        // Then
-        assertEquals(discountData.size(), 1);
-        assertEquals(discountData.get(0).getPrice(), 25.00);
-        assertEquals(discountData.get(0).getBookDiscountDetails(), "-25%");
+        scraper.start(discountData -> {
+            // Then
+            assertEquals(discountData.size(), 1);
+            assertEquals(discountData.get(0).getPrice(), 25.00);
+            assertEquals(discountData.get(0).getBookDiscountDetails(), "-25%");
+        }, null);
     }
 
 }

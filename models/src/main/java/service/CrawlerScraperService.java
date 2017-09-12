@@ -4,9 +4,11 @@ import callable.SaveBooksCallable;
 import callable.SaveBooksCallableDataModel;
 import callable.SendLogCallable;
 import callable.SendLogCallableDataModel;
+import core.BotService;
 import core.ICrawler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -26,7 +28,7 @@ import java.util.concurrent.*;
  */
 @Slf4j
 @Service
-public class CrawlerScraperService {
+public class CrawlerScraperService implements BotService{
 
     private final ScheduledExecutorService scheduledExecutorService;
     private ICrawler crawler;
@@ -34,17 +36,19 @@ public class CrawlerScraperService {
     @Value("${endpoints.persistence-api}")
     private String persistenceApiEndpoint;
 
+    @Autowired
     public CrawlerScraperService(ICrawler crawler) {
         this.crawler = crawler;
         scheduledExecutorService = new ScheduledThreadPoolExecutor(4);
     }
 
     @Async
+    @Override
     public void saveResultsInDatabase() {
         final ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         final RestTemplate restTemplate = new RestTemplate(requestFactory);
         final LogEvent.LogEventBuilder logEventBuilder = LogEvent.builder();
-
+        logEventBuilder.startTime(LocalDateTime.now());
         crawler.start(booksData -> {
             final SaveBooksCallable saveBooksDataCallable = new SaveBooksCallable(() -> SaveBooksCallableDataModel.builder()
                     .booksData(booksData)
@@ -81,7 +85,6 @@ public class CrawlerScraperService {
             }
 
         }, scheduledExecutorService);
-        logEventBuilder.startTime(LocalDateTime.now());
     }
 
     @PreDestroy

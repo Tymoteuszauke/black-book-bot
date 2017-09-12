@@ -1,12 +1,14 @@
 package com.blackbook.czytamplscraper.controller;
 
-import com.blackbook.czytamplscraper.service.ScraperService;
+
+import core.BotService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import service.CrawlerScraperService;
 import view.response.SimpleResponse;
 
 @Slf4j
@@ -14,10 +16,10 @@ import view.response.SimpleResponse;
 @RequestMapping(value = "/api/czytampl-scraper")
 public class ScraperController {
 
-    private ScraperService scraperService;
+    private BotService scraperService;
 
     @Autowired
-    public ScraperController(ScraperService scraperService) {
+    public ScraperController(BotService scraperService) {
         this.scraperService = scraperService;
     }
 
@@ -25,6 +27,9 @@ public class ScraperController {
     public SimpleResponse postBookDiscounts() {
         log.info("Transaction: POST /api/czytampl-scraper");
         scraperService.saveResultsInDatabase();
-        return new SimpleResponse(HttpStatus.SC_OK, "Czytam.pl scraper results saved in database!");
+        return SimpleResponse.builder()
+                .code(HttpStatus.SC_OK)
+                .message("Czytam.pl scraper started!")
+                .build();
     }
 }

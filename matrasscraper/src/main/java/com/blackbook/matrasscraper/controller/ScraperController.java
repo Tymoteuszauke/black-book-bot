@@ -1,6 +1,6 @@
 package com.blackbook.matrasscraper.controller;
 
-import com.blackbook.matrasscraper.service.ScraperService;
+import core.BotService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,20 @@ import view.response.SimpleResponse;
 @RequestMapping(value = "/api/matras-scraper")
 public class ScraperController {
 
+    private final BotService scraperService;
+
     @Autowired
-    ScraperService scraperService;
+    public ScraperController(BotService scraperService) {
+        this.scraperService = scraperService;
+    }
 
     @PostMapping(produces = "application/json")
     public SimpleResponse postBookDiscounts() {
         log.info("Transaction: POST /api/matras-scraper");
         scraperService.saveResultsInDatabase();
-        return new SimpleResponse(HttpStatus.SC_OK, "Matras scraper results saved in database!");
+        return SimpleResponse.builder()
+                .code(HttpStatus.SC_OK)
+                .message("Matras scraper started!")
+                .build();
     }
 }

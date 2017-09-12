@@ -2,6 +2,7 @@ package com.blackbook.matrasscraper.scraper;
 
 import com.blackbook.matrasscraper.htmlprovider.HTMLDocumentProvider;
 import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
+import core.CrawlerActionListener;
 import org.jsoup.Jsoup;
 import org.junit.Test;
 import view.creationmodel.BookDiscountData;
@@ -37,8 +38,13 @@ public class ScraperTest {
         Scraper scraper = new Scraper(htmlDocumentProvider);
         scraper.lastPageNo = 1;
         //when
-        List<BookDiscountData> bookDiscountData = scraper.extractBookElements();
-        //then
-        assertEquals(booksOnPage, bookDiscountData.size());
+        scraper.start(new CrawlerActionListener() {
+            @Override
+            public void crawlerFinished(List<BookDiscountData> booksData) {
+                //then
+                assertEquals(booksOnPage, booksData.size());
+            }
+        }, null);
+
     }
 }
