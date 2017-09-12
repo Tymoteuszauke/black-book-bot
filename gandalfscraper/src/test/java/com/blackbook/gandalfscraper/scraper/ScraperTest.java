@@ -2,6 +2,7 @@ package com.blackbook.gandalfscraper.scraper;
 
 import com.blackbook.gandalfscraper.webconnector.JsoupWebConnector;
 import com.blackbook.gandalfscraper.webconnector.WebConnector;
+import core.CrawlerActionListener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
@@ -47,8 +48,12 @@ public class ScraperTest {
         int booksOnPage = 2;
         Scraper scraper = new Scraper(webConnector, lastPageChecker);
         //when
-        List<BookDiscountData> bookDiscountData = scraper.scrapeBooks();
-        //then
-        assertEquals(booksOnPage, bookDiscountData.size());
+        scraper.start(new CrawlerActionListener() {
+            @Override
+            public void crawlerFinished(List<BookDiscountData> booksData) {
+                //then
+                assertEquals(booksOnPage, booksData.size());
+            }
+        }, null);
     }
 }

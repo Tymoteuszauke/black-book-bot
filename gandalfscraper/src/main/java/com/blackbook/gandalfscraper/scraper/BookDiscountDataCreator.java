@@ -4,9 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
+import static com.blackbook.gandalfscraper.scraper.Scraper.BOOKSTORE_ID;
+
 @Slf4j
 class BookDiscountDataCreator {
-    private static final int BOOKSTORE_ID = 4;
 
     private BookDiscountDataCreator() {}
 

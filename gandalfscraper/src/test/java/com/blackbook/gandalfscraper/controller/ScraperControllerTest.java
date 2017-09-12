@@ -1,7 +1,7 @@
 package com.blackbook.gandalfscraper.controller;
 
-import com.blackbook.gandalfscraper.service.ScraperService;
 import com.jayway.restassured.http.ContentType;
+import core.BotService;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.times;
 public class ScraperControllerTest {
 
     @MockBean
-    ScraperService scraperService;
+    BotService botService;
 
     @LocalServerPort
     private int port;
@@ -27,7 +27,7 @@ public class ScraperControllerTest {
     @Test
     public void shouldPostMatrasScraper() {
         String matrasEndpointUrl = "/api/gandalf-scraper";
-        Mockito.doNothing().when(scraperService).saveResultsInDatabase();
+        Mockito.doNothing().when(botService).saveResultsInDatabase();
 
         given()
                 .port(port)
@@ -37,6 +37,6 @@ public class ScraperControllerTest {
                 .then()
                 .statusCode(HttpStatus.SC_OK);
 
-        Mockito.verify(scraperService, times(1)).saveResultsInDatabase();
+        Mockito.verify(botService, times(1)).saveResultsInDatabase();
     }
 }
