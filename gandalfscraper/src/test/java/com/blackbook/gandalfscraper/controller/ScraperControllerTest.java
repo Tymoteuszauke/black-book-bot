@@ -15,7 +15,7 @@ import static com.jayway.restassured.RestAssured.given;
 import static org.mockito.Mockito.times;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "endpoints.persistence-api = http://localhost:11001")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ScraperControllerTest {
 
     @MockBean
@@ -23,25 +23,6 @@ public class ScraperControllerTest {
 
     @LocalServerPort
     private int port;
-
-//    @Rule
-//    public WireMockRule wireMockRule = new WireMockRule(options().port(11001));
-//
-//    @Test
-//    public void shouldPostMatrasScraperStub() {
-//        String matrasEndpointUrl = "/api/matras-scraper";
-//        stubFor(post(urlEqualTo(matrasEndpointUrl))
-//                .willReturn(aResponse()
-//                        .withStatus(HttpStatus.SC_OK)));
-//
-//        given()
-//                .port(port)
-//                .contentType(ContentType.JSON)
-//                .when()
-//                .post("http://localhost:11001" + matrasEndpointUrl)
-//                .then()
-//                .statusCode(HttpStatus.SC_OK);
-//    }
 
     @Test
     public void shouldPostMatrasScraper() {

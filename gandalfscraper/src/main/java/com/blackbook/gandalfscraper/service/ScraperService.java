@@ -18,11 +18,11 @@ import java.util.List;
 @Service
 public class ScraperService {
 
-    @Value("${endpoints.persistence-api}")
-    private String persistenceApiEndpoint;
-
     @Autowired
     private Scraper scraper;
+
+    @Value("${endpoints.persistence-api}")
+    private String persistenceApiEndpoint;
 
     @Async
     public void saveResultsInDatabase() {

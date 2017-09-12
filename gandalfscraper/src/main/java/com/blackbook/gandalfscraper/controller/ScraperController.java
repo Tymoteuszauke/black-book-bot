@@ -12,6 +12,7 @@ import view.response.SimpleResponse;
 /**
  * @author "Patrycja Zaremba"
  */
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/api/gandalf-scraper")
