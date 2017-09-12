@@ -5,9 +5,9 @@ import org.jsoup.nodes.Document;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import view.creationmodel.BookDiscountData;
+
 import java.io.File;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 

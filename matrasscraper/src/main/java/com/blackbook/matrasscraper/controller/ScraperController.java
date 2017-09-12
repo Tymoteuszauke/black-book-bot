@@ -24,6 +24,9 @@ public class ScraperController {
     public SimpleResponse postBookDiscounts() {
         log.info("Transaction: POST /api/matras-scraper");
         scraperService.saveResultsInDatabase();
-        return new SimpleResponse(HttpStatus.SC_OK, "Matras scraper results saved in database!");
+        return SimpleResponse.builder()
+                .code(HttpStatus.SC_OK)
+                .message("Matras scraper results saved in database!")
+                .build();
     }
 }
