@@ -1,26 +1,28 @@
-package com.blackbook.matrasscraper.scraper;
+package com.blackbook.gandalfscraper.scraper;
 
 import lombok.extern.slf4j.Slf4j;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
 
+import static com.blackbook.gandalfscraper.scraper.Scraper.BOOKSTORE_ID;
+
 @Slf4j
-class BookDocumentConverter {
+class BookDiscountDataCreator {
 
-    private BookDocumentConverter() {}
+    private BookDiscountDataCreator() {}
 
-    static BookDiscountData createBookDiscountData(BookDocument bookDoc, String bookUrl) {
+    static BookDiscountData createBookDiscountDataFrom(BookPage bookDoc, String bookUrl) {
         String title = bookDoc.extractBookTitle();
         String subtitle = bookDoc.extractBookSubtitle();
         String authors = bookDoc.extractBookAuthors();
         String genre = bookDoc.extractBookGenre();
         Double price = bookDoc.extractBookPrice();
-        String publisher = bookDoc.extractPublisher();
         String promoDetails = bookDoc.extractBookPromoDetails();
         String coverUrl = bookDoc.extractBookCoverUrl();
+        String publisher = bookDoc.extractPublisher();
 
         BookDiscountData bookDiscountData = BookDiscountData.builder()
-                .bookstoreId(Scraper.BOOKSTORE_ID)
+                .bookstoreId(BOOKSTORE_ID)
                 .price(price)
                 .bookDiscountDetails(promoDetails)
                 .bookData(BookData.builder()

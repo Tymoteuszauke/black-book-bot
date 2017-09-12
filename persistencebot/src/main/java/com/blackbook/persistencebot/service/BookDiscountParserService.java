@@ -64,6 +64,7 @@ public class BookDiscountParserService {
         book.setSubtitle(bookData.getSubtitle());
         book.setGenre(bookData.getGenre());
         book.setAuthors(bookData.getAuthors());
+        book.setPublisher(bookData.getPublisher());
         book.setBookPageUrl(bookData.getBookPageUrl());
         book.setCoverUrl(bookData.getCoverUrl());
         return book;

@@ -36,6 +36,9 @@ public class Book {
     @Column(name = "authors")
     private String authors;
 
+    @Column(name = "publisher")
+    private  String publisher;
+
     @Column(name = "cover_url")
     private String coverUrl;
 

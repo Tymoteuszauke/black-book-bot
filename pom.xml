@@ -28,6 +28,7 @@
         <module>googlecrawler</module>
         <module>czytamplscraper</module>
         <module>taniaksiazkascraper</module>
+        <module>gandalfscraper</module>
     </modules>
 
     <distributionManagement>
