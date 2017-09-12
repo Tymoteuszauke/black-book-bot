@@ -7,7 +7,8 @@ public class PublisherReader {
     String readBookPublisher(Document detailsPage) {
         return detailsPage.select(".with-extra-name").select("a")
                 .attr("href")
-                .replaceAll("-",".")
-                .replaceAll("/wydawnictwo/","");
+                .replaceAll("-", ".")
+                .replaceAll("/wydawnictwo/", "")
+                .toLowerCase();
     }
 }
