@@ -6,7 +6,6 @@ import view.creationmodel.BookDiscountData;
 
 @Slf4j
 class BookDocumentConverter {
-    private static final int BOOKSTORE_ID = 1;
 
     static BookDiscountData createBookDiscountData(BookDocument bookDoc, String bookUrl) {
         String title = bookDoc.extractBookTitle();
@@ -18,7 +17,7 @@ class BookDocumentConverter {
         String coverUrl = bookDoc.extractBookCoverUrl();
 
         BookDiscountData bookDiscountData = BookDiscountData.builder()
-                .bookstoreId(BOOKSTORE_ID)
+                .bookstoreId(Scraper.BOOKSTORE_ID)
                 .price(price)
                 .bookDiscountDetails(promoDetails)
                 .bookData(BookData.builder()

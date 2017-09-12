@@ -1,5 +1,7 @@
 package com.blackbook.taniaksiazkascraper.scraper;
 
+import core.CrawlerActionListener;
+import core.ICrawler;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,13 @@ import view.creationmodel.BookDiscountData;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 @Component
-public class Scraper {
+public class Scraper implements ICrawler{
+
+    public static final int BOOKSTORE_ID = 3;
+
     private static final String PROMOTION_PAGE_URL = "http://www.taniaksiazka.pl/tanie-ksiazki/page-%d";
     private Connector connector;
     private LastPageChecker checker;
@@ -23,8 +29,8 @@ public class Scraper {
         this.detailsReader = detailsReader;
     }
 
-    public List<BookDiscountData> extractBookElements() {
-
+    @Override
+    public void start(CrawlerActionListener actionListener, ExecutorService executorService) {
         List<BookDiscountData> discountData = new LinkedList<>();
         int pageId = 1;
         boolean promotionsAreOnPage = true;
@@ -41,6 +47,11 @@ public class Scraper {
                 pageId++;
             }
         }
-        return discountData;
+        actionListener.crawlerFinished(discountData);
+    }
+
+    @Override
+    public int getId() {
+        return BOOKSTORE_ID;
     }
 }

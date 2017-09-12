@@ -2,6 +2,7 @@ package com.blackbook.czytamplscraper.controller;
 
 
 import com.jayway.restassured.http.ContentType;
+import core.BotService;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,7 +11,6 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import service.CrawlerScraperService;
 import view.response.SimpleResponse;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 public class ScraperControllerTest {
 
     @MockBean
-    private CrawlerScraperService scraperService;
+    private BotService scraperService;
 
     @LocalServerPort
     private int port;

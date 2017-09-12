@@ -1,6 +1,6 @@
 package com.blackbook.taniaksiazkascraper.controller;
 
-import com.blackbook.taniaksiazkascraper.service.ScraperService;
+import core.BotService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import java.io.IOException;
 @RequestMapping(value = "/api/taniaksiazka-scraper")
 public class ScraperController {
 
-    private ScraperService scraperService;
+    private BotService scraperService;
 
     @Autowired
-    public ScraperController(ScraperService scraperService) {
+    public ScraperController(BotService scraperService) {
         this.scraperService = scraperService;
     }
 
@@ -27,6 +27,9 @@ public class ScraperController {
     public SimpleResponse postBookDiscounts() throws IOException {
         log.info("Transaction: POST /api/taniaksiazka-scraper");
         scraperService.saveResultsInDatabase();
-        return new SimpleResponse(HttpStatus.SC_OK, "Taniaksiazka.pl scraper results saved in database!");
+        return SimpleResponse.builder()
+                .code(HttpStatus.SC_OK)
+                .message("Taniaksiazka.pl scraper started!")
+                .build();
     }
 }

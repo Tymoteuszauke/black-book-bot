@@ -5,11 +5,9 @@ import org.jsoup.nodes.Document;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -45,9 +43,11 @@ public class ScraperTest {
     @Test
     public void shouldReturnAllDiscountDataObjects() throws IOException {
         // When
-        List<BookDiscountData> bookDiscountData = scraper.extractBookElements();
+        scraper.start(booksData -> {
+            // Then
+            Assert.assertEquals(56, booksData.size());
+        }, null);
 
-        // Then
-        Assert.assertEquals(56, bookDiscountData.size());
+
     }
 }
