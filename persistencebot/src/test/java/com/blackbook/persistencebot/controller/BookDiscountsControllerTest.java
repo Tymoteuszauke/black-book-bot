@@ -1,25 +1,35 @@
 package com.blackbook.persistencebot.controller;
 
 import com.blackbook.persistencebot.dao.BookDiscountsRepository;
+import com.blackbook.persistencebot.dao.BookstoresRepository;
+import com.blackbook.persistencebot.dao.LogEventRepository;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
+import com.blackbook.persistencebot.model.LogEventModel;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
+import org.apache.http.HttpStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import view.bookdiscount.BookDiscountView;
 import view.creationmodel.BookData;
 import view.creationmodel.BookDiscountData;
+import view.log.LogEvent;
+import view.response.SimpleResponse;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
@@ -28,6 +38,8 @@ public class BookDiscountsControllerTest {
 
     private BookDiscountsController controller;
     private BookDiscountsRepository repo;
+    private LogEventRepository logRepo;
+    private BookstoresRepository bookStoreRepo;
     private BookDiscountParserService service;
 
     private BookData bookData = BookData.builder()
@@ -53,7 +65,9 @@ public class BookDiscountsControllerTest {
     public void before() {
         service = mock(BookDiscountParserService.class);
         repo = mock(BookDiscountsRepository.class);
-        controller = new BookDiscountsController(repo, service);
+        logRepo = mock(LogEventRepository.class);
+        bookStoreRepo = mock(BookstoresRepository.class);
+        controller = new BookDiscountsController(repo, service, logRepo, bookStoreRepo);
     }
 
     @DataProvider
@@ -128,21 +142,24 @@ public class BookDiscountsControllerTest {
         when(repo.save(discount)).thenReturn(savedDiscount);
 
         // When
-        List<BookDiscountView> views = controller.postBookDiscounts(discountList);
+        SimpleResponse response = controller.postBookDiscounts(discountList);
 
         // Then
-        assertEquals("-25%", views.get(0).getDiscountDetails());
-        assertEquals(25.99, views.get(0).getPrice());
+        Assert.assertEquals(response.getCode(), HttpStatus.SC_OK);
+    }
 
-        assertEquals(2, views.get(0).getBookstoreView().getId());
-        assertEquals("Cheap Book", views.get(0).getBookstoreView().getName());
-        assertEquals("A lot of free books!", views.get(0).getBookstoreView().getDetails());
+    @Test
+    public void shouldPostLogs(){
+        LogEvent logEvent = LogEvent.builder()
+                .bookStoreId(4L)
+                .result(10)
+                .startTime(LocalDateTime.now())
+                .finishTime(LocalDateTime.now())
+                .build();
 
-        assertEquals("Pan Tymek", views.get(0).getBookView().getTitle());
-        assertEquals("-", views.get(0).getBookView().getSubtitle());
-        assertEquals("Tymke Wergiliusz", views.get(0).getBookView().getAuthors());
-        assertEquals("www.bookstore.com/book/pan-tymek", views.get(0).getBookView().getBookPageUrl());
-        assertEquals("www.covers.com/tymek", views.get(0).getBookView().getCoverUrl());
+        when(logRepo.save(any(LogEventModel.class))).thenReturn(any());
+        SimpleResponse response = controller.postLogEvent(logEvent);
+        Assert.assertEquals(response.getCode(), HttpStatus.SC_OK);
     }
 
     private void initDataForSavingTest() {

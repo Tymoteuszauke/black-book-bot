@@ -11,7 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import view.response.SimpleResponse;
-
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static com.jayway.restassured.RestAssured.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;

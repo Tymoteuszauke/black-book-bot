@@ -3,3 +3,14 @@ server:
 
 endpoints:
   persistence-api: http://localhost:8101
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n"
+  file: google_crawler.log
+
+sring:
+  output:
+  ansi:
+    enabled: DETECT

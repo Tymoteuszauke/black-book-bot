@@ -1,16 +1,17 @@
 package com.blackbook.googlecrawler.impl;
 
-import com.blackbook.googlecrawler.core.CrawlerActionListener;
-import com.blackbook.googlecrawler.core.ICrawler;
 import com.blackbook.googlecrawler.core.KeyAccess;
 import com.blackbook.googlecrawler.paginator.core.Paginator;
 import com.blackbook.googlecrawler.processor.ResultModel;
 import com.blackbook.googlecrawler.processor.core.CrawlerProcessorListener;
 import com.blackbook.googlecrawler.processor.impl.FirstPageGoogleProcessor;
 import com.blackbook.googlecrawler.processor.impl.GoogleProcessor;
+import core.CrawlerActionListener;
+import core.ICrawler;
 import lombok.extern.slf4j.Slf4j;
 import view.creationmodel.BookDiscountData;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -32,23 +33,25 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     private static final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
     private static final String CRITERIA = "-";
 
+    public static final int GOOGLE_CRAWLER_ID = 4;
+
     private final List<BookDiscountData> booksData;
-    private final ExecutorService executorService;
+    private ExecutorService executorService;
     private CrawlerActionListener actionListener;
 
     private int completedPages;
     private Paginator firstPaginator;
     private final Lock crawlerLock;
 
-    public GoogleCrawler(CrawlerActionListener actionListener, ExecutorService executorService) {
-        this.actionListener = actionListener;
+    public GoogleCrawler() {
         booksData = new LinkedList<>();
-        this.executorService = executorService;
         crawlerLock = new ReentrantLock();
     }
 
     @Override
-    public void start() {
+    public void start(CrawlerActionListener actionListener, ExecutorService executorService) {
+        this.actionListener = actionListener;
+        this.executorService = executorService;
 
         CrawlerProcessorListener firstProcessorListener = new CrawlerProcessorListener() {
             @Override
@@ -65,6 +68,8 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
             @Override
             public void failed(String message) {
+                addBooksToResultList(Collections.EMPTY_LIST);
+                finishCrawler();
                 log.warn("First page request failed. Crawler id: " + getId() + " Reason is: " + message);
             }
         };
@@ -79,20 +84,26 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
             @Override
             public void success(Supplier<ResultModel> resultModelSupplier) {
                 addBooksToResultList(resultModelSupplier.get().getBookData());
-                if (isFinished()){
-                    finishCrawler();
-                }
+                checkIfFinished();
             }
 
             @Override
             public void failed(String message) {
                 log.warn("Page request failed. Crawler id: " + getId() + " Reason is: " + message);
+                addBooksToResultList(Collections.EMPTY_LIST);
+                checkIfFinished();
             }
         };
 
         while (position <= totalItems) {
             executorService.execute(new GoogleProcessor(getRequest(position, NUMBER_BOOKS_ON_PAGE), processorListener));
             position += itemOnPage + 1;
+        }
+    }
+
+    private void checkIfFinished(){
+        if (isFinished()){
+            finishCrawler();
         }
     }
 
@@ -118,31 +129,20 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     private void finishCrawler() {
         log.info("Google crawler finished, found [" + booksData.size() + "] books");
         actionListener.crawlerFinished(booksData);
-
-        log.info("Terminating executor.");
-        executorService.shutdown();
-        try {
-            if (!executorService.awaitTermination(2, TimeUnit.SECONDS)) {
-                executorService.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            executorService.shutdownNow();
-        }
     }
 
     @Override
-    public String getId() {
-        return getClass().getSimpleName();
+    public int getId() {
+        return GOOGLE_CRAWLER_ID;
     }
 
-    @Override
-    public String getBaseUrl() {
+
+    String getBaseUrl() {
         return BASE_URL;
     }
 
-    @Override
-    public String getRequest(int startPosition, int numberOfItemsOnPage) {
+
+    private String getRequest(int startPosition, int numberOfItemsOnPage) {
         StringBuilder builder = new StringBuilder();
         builder.append(getBaseUrl());
         builder.append(getCriteria());
@@ -152,8 +152,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
         return builder.toString();
     }
 
-    @Override
-    public String getCriteria() {
+    String getCriteria() {
         return CRITERIA;
     }
 

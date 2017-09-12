@@ -1,4 +1,4 @@
-package com.blackbook.googlecrawler.core;
+package core;
 
 import view.creationmodel.BookDiscountData;
 

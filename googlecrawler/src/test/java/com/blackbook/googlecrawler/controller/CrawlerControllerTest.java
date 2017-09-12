@@ -1,7 +1,6 @@
 package com.blackbook.googlecrawler.controller;
 
 
-import com.blackbook.googlecrawler.service.CrawlerService;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +8,7 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testng.Assert;
+import service.CrawlerScraperService;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.mockito.Mockito.doNothing;
@@ -36,10 +36,10 @@ public class CrawlerControllerTest {
 
     @Test
     public void testPostBookDiscountsMethodResponse(){
-        CrawlerService crawlerService = mock(CrawlerService.class);
-        doNothing().when(crawlerService).saveResultsInDatabase();
+        CrawlerScraperService crawlerScraperService = mock(CrawlerScraperService.class);
+        doNothing().when(crawlerScraperService).saveResultsInDatabase();
 
-        CrawlerController crawlerController = new CrawlerController(crawlerService);
+        CrawlerController crawlerController = new CrawlerController(crawlerScraperService);
         Assert.assertEquals(crawlerController.postBookDiscounts().getCode(), HttpStatus.SC_OK);
     }
 

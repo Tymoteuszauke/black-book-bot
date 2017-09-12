@@ -1,23 +1,26 @@
 package com.blackbook.persistencebot.controller;
 
 import com.blackbook.persistencebot.dao.BookDiscountsRepository;
+import com.blackbook.persistencebot.dao.BookstoresRepository;
+import com.blackbook.persistencebot.dao.LogEventRepository;
 import com.blackbook.persistencebot.model.BookDiscount;
+import com.blackbook.persistencebot.model.LogEventModel;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
 import com.blackbook.persistencebot.util.ViewMapperUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import view.bookdiscount.BookDiscountView;
 import view.creationmodel.BookDiscountData;
+import view.log.LogEvent;
+import view.response.SimpleResponse;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,13 +31,17 @@ import java.util.stream.Collectors;
 public class BookDiscountsController {
 
     private BookDiscountsRepository bookDiscountsRepository;
-
+    private LogEventRepository logEventRepository;
+    private BookstoresRepository bookstoresRepository;
     private BookDiscountParserService bookDiscountParserService;
 
+
     @Autowired
-    public BookDiscountsController(BookDiscountsRepository bookDiscountsRepository, BookDiscountParserService bookDiscountParserService) {
+    public BookDiscountsController(BookDiscountsRepository bookDiscountsRepository, BookDiscountParserService bookDiscountParserService, LogEventRepository logEventRepository, BookstoresRepository bookstoresRepository) {
         this.bookDiscountsRepository = bookDiscountsRepository;
         this.bookDiscountParserService = bookDiscountParserService;
+        this.logEventRepository = logEventRepository;
+        this.bookstoresRepository = bookstoresRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -67,19 +74,48 @@ public class BookDiscountsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public List<BookDiscountView> postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountData) {
-        log.info("Transaction: POST /api/book-discounts");
+    public SimpleResponse postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountData) {
+        try {
+            log.info("Transaction: POST /api/book-discounts");
+            bookDiscountData
+                    .stream()
+                    .map(bookDiscountParserService::parseBookDiscountData)
+                    .distinct()
+                    .collect(Collectors.toList());
 
-        List<BookDiscount> bookDiscounts = bookDiscountData
-                .stream()
-                .map(bookDiscountParserService::parseBookDiscountData)
-                .distinct()
-                .collect(Collectors.toList());
+            return SimpleResponse.builder()
+                    .code(HttpStatus.SC_OK)
+                    .message("Books stored")
+                    .build();
+        } catch (Exception e) {
+            return SimpleResponse.builder()
+                    .code(HttpStatus.SC_CONFLICT)
+                    .message("Something went wrong! Books was not saved!")
+                    .build();
+        }
 
-//        bookDiscountsRepository.save(bookDiscounts);
-        return bookDiscounts
-                .stream()
-                .map(ViewMapperUtil::bookDiscountViewConverter)
-                .collect(Collectors.toList());
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/log")
+    public SimpleResponse postLogEvent(@RequestBody LogEvent logEvent) {
+        try {
+            log.info("Transaction: POST /api/book-discounts/log");
+            LogEventModel logEventModel = new LogEventModel();
+            logEventModel.setBookStore(bookstoresRepository.findOne(logEvent.getBookStoreId()));
+            logEventModel.setStartTime(Timestamp.valueOf(logEvent.getStartTime()));
+            logEventModel.setFinishTime(Timestamp.valueOf(logEvent.getFinishTime()));
+            logEventModel.setResult(logEvent.getResult());
+            logEventRepository.save(logEventModel);
+            return SimpleResponse.builder()
+                    .code(HttpStatus.SC_OK)
+                    .message("Log has been saved!")
+                    .build();
+        } catch (Exception e) {
+            return SimpleResponse.builder()
+                    .code(HttpStatus.SC_CONFLICT)
+                    .message("Something went wrong! Log was not saved!")
+                    .build();
+        }
+
     }
 }

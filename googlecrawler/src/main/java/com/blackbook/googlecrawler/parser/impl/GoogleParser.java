@@ -1,6 +1,7 @@
 package com.blackbook.googlecrawler.parser.impl;
 
 
+import com.blackbook.googlecrawler.impl.GoogleCrawler;
 import com.blackbook.googlecrawler.parser.core.DataParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,7 +19,6 @@ import java.util.List;
 public class GoogleParser implements DataParser<JSONObject> {
 
     private static class GoogleParserKeywords {
-        private static final int GOOGLE_CRAWLER_ID = 4;
         private static final String BOOKS_ARRAY_KEY = "items";
         private static final String BOOK_PAGE_URL_KEY = "selfLink";
         private static final String AUTHOR_KEY = "authors";
@@ -83,7 +83,7 @@ public class GoogleParser implements DataParser<JSONObject> {
 
         bookDiscountDataBuilder.bookDiscountDetails(String.format("%1$,.2f%%", discountInfo));
 
-        bookDiscountDataBuilder.bookstoreId(GoogleParserKeywords.GOOGLE_CRAWLER_ID);
+        bookDiscountDataBuilder.bookstoreId(GoogleCrawler.GOOGLE_CRAWLER_ID);
 
         return bookDiscountDataBuilder.build();
     }
