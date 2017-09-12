@@ -1,6 +1,7 @@
 package com.blackbook.taniaksiazkascraper.scraper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 import view.creationmodel.BookData;
@@ -25,10 +26,14 @@ public class PromoDetailsReader {
                         .subtitle(readSubtitle(book))
                         .genre(book.select("a").attr("data-category"))
                         .authors(book.select(".product-authors").text())
-                        .bookPageUrl(BOOKSTORE_URL + book.select("a").next().attr("href"))
+                        .bookPageUrl(BOOKSTORE_URL + readBookDetailsPagePath(book))
                         .coverUrl(book.select("img").attr("src"))
                         .build())
                 .build();
+    }
+
+    private String readBookDetailsPagePath(Element book) {
+        return book.select("a").next().attr("href");
     }
 
     private String readTitle(Element book) {
