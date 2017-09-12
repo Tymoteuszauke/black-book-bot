@@ -11,8 +11,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
+import view.response.SimpleResponse;
 
 @Slf4j
 @Service
@@ -30,8 +29,7 @@ public class ScraperService {
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
         HttpEntity<Object> request = new HttpEntity<>(scraper.scrapeBooks());
-
-        restTemplate.postForObject(persistenceApiEndpoint + "/api/book-discounts", request, List.class);
+        restTemplate.postForObject(persistenceApiEndpoint + "/api/book-discounts", request, SimpleResponse.class);
         log.info("Gandalf scraper results were send to database");
     }
 }

@@ -35,7 +35,6 @@ public class BookDiscountsController {
     private BookstoresRepository bookstoresRepository;
     private BookDiscountParserService bookDiscountParserService;
 
-
     @Autowired
     public BookDiscountsController(BookDiscountsRepository bookDiscountsRepository, BookDiscountParserService bookDiscountParserService, LogEventRepository logEventRepository, BookstoresRepository bookstoresRepository) {
         this.bookDiscountsRepository = bookDiscountsRepository;
