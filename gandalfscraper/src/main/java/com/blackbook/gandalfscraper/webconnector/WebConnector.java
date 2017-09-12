@@ -1,4 +1,4 @@
-package com.blackbook.gandalfscraper.htmlprovider;
+package com.blackbook.gandalfscraper.webconnector;
 
 import org.jsoup.nodes.Document;
 

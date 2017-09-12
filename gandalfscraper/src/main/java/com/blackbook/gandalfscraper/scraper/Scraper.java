@@ -1,6 +1,6 @@
 package com.blackbook.gandalfscraper.scraper;
 
-import com.blackbook.gandalfscraper.htmlprovider.WebConnector;
+import com.blackbook.gandalfscraper.webconnector.WebConnector;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

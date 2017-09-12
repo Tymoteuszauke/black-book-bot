@@ -1,4 +1,4 @@
-package com.blackbook.gandalfscraper.htmlprovider;
+package com.blackbook.gandalfscraper.webconnector;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
