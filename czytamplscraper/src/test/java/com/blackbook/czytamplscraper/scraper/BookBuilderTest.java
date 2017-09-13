@@ -87,6 +87,18 @@ public class BookBuilderTest {
     }
 
     @Test
+    public void testReadBookPublisher() throws Exception {
+        // Given
+        Document document = Jsoup.parse(BOOK_DETAILS_PAGE_HTML_FILE, "UTF-8");
+
+        // When
+        String publisher = bookBuilder.readBookPublisher(document);
+
+        // Then
+        assertEquals(publisher, "W.A.B.");
+    }
+
+    @Test
     public void shouldReadNullForBookWithNoSubtitle() throws Exception {
         // Given
         Document document = Jsoup.parse(BOOK_DETAILS_NO_SUBTITLE_PAGE_HTML_FILE, "UTF-8");

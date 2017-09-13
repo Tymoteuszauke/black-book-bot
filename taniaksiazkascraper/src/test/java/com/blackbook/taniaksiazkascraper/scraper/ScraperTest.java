@@ -5,10 +5,12 @@ import org.jsoup.nodes.Document;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +19,7 @@ public class ScraperTest {
     private Scraper scraper;
     private Connector mockConnector;
     private LastPageChecker mockChecker;
+    private PromoDetailsReader mockReader;
     private Document document;
     private Document lastDocument;
     private final String TEST_URL = "http://www.taniaksiazka.pl/tanie-ksiazki/page-1";
@@ -37,7 +40,10 @@ public class ScraperTest {
         when(mockChecker.isLastPage(document)).thenReturn(false);
         when(mockChecker.isLastPage(lastDocument)).thenReturn(true);
 
-        scraper = new Scraper(mockConnector, mockChecker, new PromoDetailsReader());
+        mockReader = mock(PromoDetailsReader.class);
+        when(mockReader.readDiscountDataProperties(any(), any())).thenReturn(BookDiscountData.builder().build());
+
+        scraper = new Scraper(mockConnector, mockChecker, mockReader);
     }
 
     @Test
@@ -47,7 +53,5 @@ public class ScraperTest {
             // Then
             Assert.assertEquals(56, booksData.size());
         }, null);
-
-
     }
 }
