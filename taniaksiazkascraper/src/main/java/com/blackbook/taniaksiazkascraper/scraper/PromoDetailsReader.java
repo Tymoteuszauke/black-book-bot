@@ -14,11 +14,10 @@ import static com.blackbook.taniaksiazkascraper.scraper.Scraper.BOOKSTORE_ID;
 public class PromoDetailsReader {
 
     private static final String BOOKSTORE_URL = "http://www.taniaksiazka.pl";
-    private String DETAILS_URL;
 
     BookDiscountData readDiscountDataProperties(Connector connector, Element book) {
-        DETAILS_URL = BOOKSTORE_URL + readBookDetailsPagePath(book);
-        Document detailsPage = connector.getDocumentFromWebPage(DETAILS_URL);
+        String detailsUrl = BOOKSTORE_URL + readBookDetailsPagePath(book);
+        Document detailsPage = connector.getDocumentFromWebPage(detailsUrl);
 
         return BookDiscountData.builder()
                 .bookDiscountDetails(readPromoDetails(detailsPage))
@@ -30,7 +29,7 @@ public class PromoDetailsReader {
                         .publisher(readBookPublisher(detailsPage))
                         .genre(readReadBookGenre(detailsPage))
                         .authors(readAuthors(detailsPage))
-                        .bookPageUrl(DETAILS_URL)
+                        .bookPageUrl(detailsUrl)
                         .coverUrl(readCoverUrl(detailsPage))
                         .build())
                 .build();
@@ -53,7 +52,7 @@ public class PromoDetailsReader {
 
     private String readPromoDetails(Document detailsPage) {
         String promoDetails = detailsPage.select(".book-price-bg").select("#p-discount").text();
-        return "-" + promoDetails.substring(promoDetails.indexOf("(") + 1, promoDetails.indexOf(")")).trim();
+        return "-" + promoDetails.substring(promoDetails.indexOf('(') + 1, promoDetails.indexOf(')')).trim();
     }
 
     private String readAuthors(Document detailsPage) {
