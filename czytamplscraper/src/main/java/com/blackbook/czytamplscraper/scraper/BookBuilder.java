@@ -74,6 +74,10 @@ public class BookBuilder {
         return titles.length == 2 ? titles[1].trim() : null;
     }
 
+    String readBookPublisher(Document detailsPage) {
+        return detailsPage.select("span[itemprop=publisher]").text();
+    }
+
     String readBookAuthors(Document detailsPage) {
         List<String> strings = detailsPage.select(".headline-azure").eachText();
         if (!strings.isEmpty()) {

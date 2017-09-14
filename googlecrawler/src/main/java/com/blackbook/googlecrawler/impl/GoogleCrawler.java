@@ -60,7 +60,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
                 addBooksToResultList(resultModelSupplier.get().getBookData());
                 firstPaginator = resultModelSupplier.get().getPaginator();
 
-                if (isFinished()){
+                if (isFinished()) {
                     finishCrawler();
                 } else {
                     sendRestOfResponses(firstPaginator.getItemsOnPage(), firstPaginator.getTotalNumberOfItems());
@@ -69,7 +69,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
             @Override
             public void failed(String message) {
-                addBooksToResultList(Collections.EMPTY_LIST);
+                addBooksToResultList(Collections.emptyList());
                 finishCrawler();
                 log.warn("First page request failed. Crawler id: " + getId() + " Reason is: " + message);
             }
@@ -91,7 +91,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
             @Override
             public void failed(String message) {
                 log.warn("Page request failed. Crawler id: " + getId() + " Reason is: " + message);
-                addBooksToResultList(Collections.EMPTY_LIST);
+                addBooksToResultList(Collections.emptyList());
                 checkIfFinished();
             }
         };
@@ -102,8 +102,8 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
         }
     }
 
-    private void checkIfFinished(){
-        if (isFinished()){
+    private void checkIfFinished() {
+        if (isFinished()) {
             finishCrawler();
         }
     }
@@ -157,10 +157,8 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
         return CRITERIA;
     }
 
-
     @Override
     public String getKey() {
         return KEY_STRING;
     }
-
 }

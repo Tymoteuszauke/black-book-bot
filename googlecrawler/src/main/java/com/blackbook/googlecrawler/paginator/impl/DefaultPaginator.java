@@ -7,8 +7,8 @@ import com.blackbook.googlecrawler.paginator.core.Paginator;
  */
 public class DefaultPaginator implements Paginator{
 
-    private final int defaultNumberOfPages = 1;
-    private final int defaultItemsOnPage = 20;
+    private static final int defaultNumberOfPages = 1;
+    private static final int defaultItemsOnPage = 20;
 
     @Override
     public int getNumberOfPages() {

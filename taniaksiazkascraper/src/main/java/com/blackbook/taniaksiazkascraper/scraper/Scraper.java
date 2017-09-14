@@ -40,7 +40,7 @@ public class Scraper implements ICrawler {
             String promotionPageUrl = String.format(PROMOTION_PAGE_URL, pageId);
             Document document = connector.getDocumentFromWebPage(promotionPageUrl);
             Elements books = document.select(".product-container");
-            books.forEach(book -> discountData.add(detailsReader.readDiscountDataProperties(book)));
+            books.forEach(book -> discountData.add(detailsReader.readDiscountDataProperties(connector, book)));
 
             if (checker.isLastPage(document)) {
                 promotionsAreOnPage = false;
