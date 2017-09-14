@@ -23,8 +23,8 @@
 
     <modules>
         <module>matrasscraper</module>
-        <module>persistencebot</module>
         <module>utils</module>
+        <module>persistencebot</module>
         <module>googlecrawler</module>
         <module>czytamplscraper</module>
         <module>taniaksiazkascraper</module>

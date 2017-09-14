@@ -4,12 +4,10 @@ import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import com.blackbook.utils.view.creationmodel.SaveBooksCallableDataModel;
 import com.blackbook.utils.view.response.SimpleResponse;
 import org.apache.http.HttpStatus;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
-
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.List;
