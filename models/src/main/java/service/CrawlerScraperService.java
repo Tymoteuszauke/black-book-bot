@@ -84,7 +84,7 @@ public class CrawlerScraperService implements BotService{
                 log.error("CrawlerScraperService execution canceled. Reason is: " + e.getLocalizedMessage());
             }
 
-        }, scheduledExecutorService);
+        });
     }
 
     @PreDestroy

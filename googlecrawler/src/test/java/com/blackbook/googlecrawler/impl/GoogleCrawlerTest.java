@@ -1,50 +1,117 @@
 package com.blackbook.googlecrawler.impl;
 
+import com.blackbook.googlecrawler.paginator.core.Paginator;
+import com.blackbook.googlecrawler.paginator.impl.GooglePaginator;
 import core.CrawlerActionListener;
 import core.ICrawler;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+import view.creationmodel.BookDiscountData;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Siarhei Shauchenka at 08.09.17
  */
-@Test
+
 public class GoogleCrawlerTest {
 
-    private static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
-    private static final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
-    private static final String CRITERIA = "-";
+    private final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
+    private final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
+    private final String CRITERIA = "-";
 
-    private ExecutorService mockExecutorService;
-    private CrawlerActionListener mockListener;
-    private GoogleCrawler crawler;
+    private final int TOTAL_ITEMS = 100;
+    private final int ITEMS_ON_PAGE = 20;
 
-    @BeforeClass
-    public void prepareData(){
-        mockExecutorService = Mockito.mock(ExecutorService.class);
+    @Test
+    public void testStartMethod(){
+        //given
+        ExecutorService mockExecutorService = mock(ExecutorService.class);
         doNothing().when(mockExecutorService).execute(any());
-        mockListener = Mockito.mock(CrawlerActionListener.class);
-        crawler = new GoogleCrawler();
-    }
+        CrawlerActionListener mockListener = mock(CrawlerActionListener.class);
+        GoogleCrawler crawler = new GoogleCrawler(mockExecutorService);
 
-    public void testStart(){
-        crawler.start(mockListener, mockExecutorService);
+        //when
+        crawler.start(mockListener);
+
+        //then
         verify(mockExecutorService, times(1)).execute(any());
     }
 
+    @Test
     public void testGetRequestParameters(){
-        Assert.assertEquals(crawler.getId(), GoogleCrawler.GOOGLE_CRAWLER_ID);
-        Assert.assertEquals(crawler.getBaseUrl(), BASE_URL);
-        Assert.assertEquals(crawler.getCriteria(), CRITERIA);
+        //given
+        ExecutorService mockExecutorService = mock(ExecutorService.class);
+        doNothing().when(mockExecutorService).execute(any());
+        GoogleCrawler crawler = new GoogleCrawler(mockExecutorService);
+        SoftAssert softAssert = new SoftAssert();
+
+        //then
+        softAssert.assertEquals(crawler.getId(), GoogleCrawler.GOOGLE_CRAWLER_ID);
+        softAssert.assertEquals(crawler.getBaseUrl(), BASE_URL);
+        softAssert.assertEquals(crawler.getCriteria(), CRITERIA);
+    }
+
+    @Test
+    public void testSendRestOfResponses(){
+        //given
+        ExecutorService mockExecutorService = mock(ExecutorService.class);
+        doNothing().when(mockExecutorService).execute(any());
+
+        Paginator mockedPAginator = mock(Paginator.class);
+        when(mockedPAginator.getItemsOnPage()).thenReturn(ITEMS_ON_PAGE);
+        when(mockedPAginator.getTotalNumberOfItems()).thenReturn(TOTAL_ITEMS);
+
+        CrawlerActionListener actionListener = mock(CrawlerActionListener.class);
+        GoogleCrawler crawler = new GoogleCrawler(mockExecutorService);
+
+        //when
+        crawler.sendRestOfResponses(mockedPAginator, actionListener);
+
+        //then
+        verify(mockExecutorService, times(4)).execute(any());
+    }
+
+    @Test
+    public void testAddBooksToResultList(){
+        //given
+        ExecutorService mockExecutorService = mock(ExecutorService.class);
+        doNothing().when(mockExecutorService).execute(any());
+        GoogleCrawler crawler = new GoogleCrawler(mockExecutorService);
+        BookDiscountData mokedData = mock(BookDiscountData.class);
+
+        List<BookDiscountData> bookDiscountDataList = new LinkedList<>();
+
+        //when
+        bookDiscountDataList.add(mokedData);
+        crawler.addBooksToResultList(bookDiscountDataList);
+
+        //then
+        Assert.assertEquals(crawler.getBooksData().size(), 1);
+    }
+
+    @Test
+    public void testFinishCrawlerMethod(){
+        //given
+        ExecutorService mockExecutorService = mock(ExecutorService.class);
+        doNothing().when(mockExecutorService).execute(any());
+        GoogleCrawler crawler = new GoogleCrawler(mockExecutorService);
+
+        //when
+        crawler.finishCrawler(booksData -> {
+
+            //then
+            Assert.assertEquals(crawler.getBooksData().size(), 0);
+        });
     }
 
 }
