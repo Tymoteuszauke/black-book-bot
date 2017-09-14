@@ -1,18 +1,15 @@
 package com.blackbook.googlecrawler.impl;
 
-import core.CrawlerActionListener;
-import core.ICrawler;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Siarhei Shauchenka at 08.09.17
@@ -25,14 +22,14 @@ public class GoogleCrawlerTest {
     private static final String CRITERIA = "-";
 
     private ExecutorService mockExecutorService;
-    private CrawlerActionListener mockListener;
+    private Consumer mockListener;
     private GoogleCrawler crawler;
 
     @BeforeClass
     public void prepareData(){
         mockExecutorService = Mockito.mock(ExecutorService.class);
         doNothing().when(mockExecutorService).execute(any());
-        mockListener = Mockito.mock(CrawlerActionListener.class);
+        mockListener = Mockito.mock(Consumer.class);
         crawler = new GoogleCrawler();
     }
 

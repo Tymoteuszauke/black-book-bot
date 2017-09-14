@@ -1,14 +1,14 @@
 package com.blackbook.czytamplscraper.controller;
 
 
-import core.BotService;
+import com.blackbook.utils.core.BotService;
+import com.blackbook.utils.view.response.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import view.response.SimpleResponse;
 
 @Slf4j
 @RestController

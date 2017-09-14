@@ -1,19 +1,19 @@
 package com.blackbook.matrasscraper.scraper;
 
 import com.blackbook.matrasscraper.htmlprovider.HTMLDocumentProvider;
-import core.CrawlerActionListener;
-import core.ICrawler;
+import com.blackbook.utils.core.ICrawler;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import view.creationmodel.BookDiscountData;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -61,7 +61,7 @@ public class Scraper implements ICrawler {
     }
 
     @Override
-    public void start(CrawlerActionListener actionListener, ExecutorService executorService) {
+    public void start(Consumer<List<BookDiscountData>> consumer, ExecutorService executorService) {
         Document mainPageDoc = htmlDocumentProvider.provide(MATRAS_URL);
         lastPageNo = Math.min(lastPageNo, extractLastPageNo(mainPageDoc));
         List<BookDiscountData> bookDiscountData = new LinkedList<>();
@@ -69,7 +69,7 @@ public class Scraper implements ICrawler {
             Document pageDoc = htmlDocumentProvider.provide(MATRAS_URL_PAGE + i);
             bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
         }
-        actionListener.crawlerFinished(bookDiscountData);
+        consumer.accept(bookDiscountData);
     }
 
     @Override

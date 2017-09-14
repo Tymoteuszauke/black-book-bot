@@ -2,12 +2,15 @@ package com.blackbook.matrasscraper;
 
 import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
 import com.blackbook.matrasscraper.scraper.Scraper;
-import core.BotService;
+import com.blackbook.utils.core.BotService;
+import com.blackbook.utils.service.CrawlerScraperService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
-import service.CrawlerScraperService;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author "Patrycja Zaremba"
@@ -21,6 +24,11 @@ public class MatrasScraperApp {
 
     @Bean
     public BotService scrapperService(){
-        return new CrawlerScraperService(new Scraper(new JsoupHTMLDocumentProvider()));
+        return new CrawlerScraperService(new Scraper(new JsoupHTMLDocumentProvider()), schedulerService());
+    }
+
+    @Bean
+    public ScheduledExecutorService schedulerService(){
+        return Executors.newScheduledThreadPool(5);
     }
 }

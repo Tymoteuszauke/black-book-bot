@@ -6,10 +6,9 @@ import com.blackbook.googlecrawler.processor.ResultModel;
 import com.blackbook.googlecrawler.processor.core.CrawlerProcessorListener;
 import com.blackbook.googlecrawler.processor.impl.FirstPageGoogleProcessor;
 import com.blackbook.googlecrawler.processor.impl.GoogleProcessor;
-import core.CrawlerActionListener;
-import core.ICrawler;
+import com.blackbook.utils.core.ICrawler;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
-import view.creationmodel.BookDiscountData;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static com.blackbook.googlecrawler.paginator.impl.GooglePaginator.NUMBER_BOOKS_ON_PAGE;
@@ -37,11 +37,12 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
     private final List<BookDiscountData> booksData;
     private ExecutorService executorService;
-    private CrawlerActionListener actionListener;
+    private Consumer<List<BookDiscountData>> consumer;
 
     private int completedPages;
     private Paginator firstPaginator;
     private final Lock crawlerLock;
+
 
     public GoogleCrawler() {
         booksData = new LinkedList<>();
@@ -49,8 +50,8 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     }
 
     @Override
-    public void start(CrawlerActionListener actionListener, ExecutorService executorService) {
-        this.actionListener = actionListener;
+    public void start(Consumer<List<BookDiscountData>> consumer, ExecutorService executorService) {
+        this.consumer = consumer;
         this.executorService = executorService;
 
         CrawlerProcessorListener firstProcessorListener = new CrawlerProcessorListener() {
@@ -128,7 +129,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
     private void finishCrawler() {
         log.info("Google crawler finished, found [" + booksData.size() + "] books");
-        actionListener.crawlerFinished(booksData);
+        consumer.accept(booksData);
     }
 
     @Override

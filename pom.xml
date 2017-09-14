@@ -24,7 +24,7 @@
     <modules>
         <module>matrasscraper</module>
         <module>persistencebot</module>
-        <module>models</module>
+        <module>utils</module>
         <module>googlecrawler</module>
         <module>czytamplscraper</module>
         <module>taniaksiazkascraper</module>

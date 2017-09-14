@@ -1,8 +1,8 @@
 package com.blackbook.matrasscraper.scraper;
 
+import com.blackbook.utils.view.creationmodel.BookData;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
-import view.creationmodel.BookData;
-import view.creationmodel.BookDiscountData;
 
 @Slf4j
 class BookDocumentConverter {
