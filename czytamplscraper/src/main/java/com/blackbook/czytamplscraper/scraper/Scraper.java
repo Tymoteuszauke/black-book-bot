@@ -28,7 +28,7 @@ public class Scraper implements ICrawler {
     }
 
     @Override
-    public void start(final CrawlerActionListener actionListener, ExecutorService executorService) {
+    public void start(final CrawlerActionListener actionListener) {
         List<BookDiscountData> discountData = new LinkedList<>();
         List<String> promotionPages = bookstoreReader.getPromotionPages(connector);
         promotionPages.forEach(pageUrl -> {

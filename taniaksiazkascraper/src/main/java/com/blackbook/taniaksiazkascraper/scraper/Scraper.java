@@ -30,7 +30,7 @@ public class Scraper implements ICrawler{
     }
 
     @Override
-    public void start(CrawlerActionListener actionListener, ExecutorService executorService) {
+    public void start(CrawlerActionListener actionListener) {
         List<BookDiscountData> discountData = new LinkedList<>();
         int pageId = 1;
         boolean promotionsAreOnPage = true;

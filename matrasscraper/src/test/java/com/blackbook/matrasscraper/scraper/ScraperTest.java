@@ -38,13 +38,10 @@ public class ScraperTest {
         Scraper scraper = new Scraper(htmlDocumentProvider);
         scraper.lastPageNo = 1;
         //when
-        scraper.start(new CrawlerActionListener() {
-            @Override
-            public void crawlerFinished(List<BookDiscountData> booksData) {
-                //then
-                assertEquals(booksOnPage, booksData.size());
-            }
-        }, null);
+        scraper.start(booksData -> {
+            //then
+            assertEquals(booksOnPage, booksData.size());
+        });
 
     }
 }

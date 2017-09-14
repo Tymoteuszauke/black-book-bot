@@ -61,7 +61,7 @@ public class Scraper implements ICrawler {
     }
 
     @Override
-    public void start(CrawlerActionListener actionListener, ExecutorService executorService) {
+    public void start(CrawlerActionListener actionListener) {
         Document mainPageDoc = htmlDocumentProvider.provide(MATRAS_URL);
         lastPageNo = Math.min(lastPageNo, extractLastPageNo(mainPageDoc));
         List<BookDiscountData> bookDiscountData = new LinkedList<>();
