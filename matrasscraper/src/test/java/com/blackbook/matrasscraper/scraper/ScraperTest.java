@@ -35,9 +35,9 @@ public class ScraperTest {
         Scraper scraper = new Scraper(htmlDocumentProvider);
         scraper.lastPageNo = 1;
         //when
-
-        scraper.start(bookDiscountData -> {
-            assertEquals(booksOnPage, bookDiscountData.size());
+        scraper.start(booksData -> {
+            //then
+            assertEquals(booksOnPage, booksData.size());
         });
     }
 }
