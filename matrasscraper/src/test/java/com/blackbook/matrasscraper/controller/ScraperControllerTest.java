@@ -1,9 +1,9 @@
 package com.blackbook.matrasscraper.controller;
 
 
+import com.blackbook.utils.core.BotService;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.jayway.restassured.http.ContentType;
-import core.BotService;
 import org.apache.http.HttpStatus;
 import org.junit.Rule;
 import org.junit.Test;

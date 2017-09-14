@@ -1,11 +1,11 @@
 package com.blackbook.taniaksiazkascraper.scraper;
 
+import com.blackbook.utils.view.creationmodel.BookData;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
-import view.creationmodel.BookData;
-import view.creationmodel.BookDiscountData;
 
 import static com.blackbook.taniaksiazkascraper.scraper.Scraper.BOOKSTORE_ID;
 

@@ -10,7 +10,7 @@
     <dependencies>
         <dependency>
             <groupId>com.blackbook.bot</groupId>
-            <artifactId>models</artifactId>
+            <artifactId>utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

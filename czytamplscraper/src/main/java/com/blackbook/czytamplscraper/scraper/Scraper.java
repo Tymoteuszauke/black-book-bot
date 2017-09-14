@@ -1,14 +1,14 @@
 package com.blackbook.czytamplscraper.scraper;
 
-import core.CrawlerActionListener;
-import core.ICrawler;
+import com.blackbook.utils.core.ICrawler;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import view.creationmodel.BookDiscountData;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 
 public class Scraper implements ICrawler {
 
@@ -28,7 +28,7 @@ public class Scraper implements ICrawler {
     }
 
     @Override
-    public void start(final CrawlerActionListener actionListener, ExecutorService executorService) {
+    public void start(Consumer<List<BookDiscountData>> consumer, ExecutorService executorService) {
         List<BookDiscountData> discountData = new LinkedList<>();
         List<String> promotionPages = bookstoreReader.getPromotionPages(connector);
         promotionPages.forEach(pageUrl -> {
@@ -40,7 +40,7 @@ public class Scraper implements ICrawler {
 
             bookDetailsPages.forEach(detailsPage -> discountData.add(bookBuilder.buildBookDiscountDataObject(detailsPage)));
         });
-        actionListener.crawlerFinished(discountData);
+        consumer.accept(discountData);
     }
 
     @Override

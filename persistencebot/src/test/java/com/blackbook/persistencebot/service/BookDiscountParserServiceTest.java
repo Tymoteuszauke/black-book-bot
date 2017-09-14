@@ -6,15 +6,12 @@ import com.blackbook.persistencebot.dao.BookstoresRepository;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
-import org.testng.annotations.BeforeMethod;
+import com.blackbook.utils.view.creationmodel.BookData;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import org.testng.annotations.Test;
-import view.creationmodel.BookData;
-import view.creationmodel.BookDiscountData;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
 public class BookDiscountParserServiceTest {
