@@ -1,11 +1,13 @@
-package callable;
+package com.blackbook.utils.callable;
 
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.view.creationmodel.SaveBooksCallableDataModel;
+import com.blackbook.utils.view.response.SimpleResponse;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
-import view.creationmodel.BookDiscountData;
-import view.response.SimpleResponse;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -15,6 +17,7 @@ import java.util.function.Supplier;
  * @author Siarhei Shauchenka at 12.09.17
  */
 @Slf4j
+@Getter
 public class SaveBooksCallable implements Callable<SimpleResponse> {
 
     private final List<BookDiscountData> booksData;

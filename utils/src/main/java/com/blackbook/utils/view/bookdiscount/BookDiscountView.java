@@ -1,4 +1,4 @@
-package view.bookdiscount;
+package com.blackbook.utils.view.bookdiscount;
 
 import lombok.Data;
 

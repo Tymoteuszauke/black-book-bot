@@ -6,8 +6,8 @@ import com.blackbook.googlecrawler.processor.ResultModel;
 import com.blackbook.googlecrawler.processor.core.CrawlerProcessorListener;
 import com.blackbook.googlecrawler.processor.impl.FirstPageGoogleProcessor;
 import com.blackbook.googlecrawler.processor.impl.GoogleProcessor;
-import core.CrawlerActionListener;
-import core.ICrawler;
+import com.blackbook.utils.core.ICrawler;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
 import view.creationmodel.BookDiscountData;
 
@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static com.blackbook.googlecrawler.paginator.impl.GooglePaginator.NUMBER_BOOKS_ON_PAGE;
@@ -36,6 +37,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     public static final int GOOGLE_CRAWLER_ID = 4;
 
     private final List<BookDiscountData> booksData;
+    private Consumer<List<BookDiscountData>> consumer;
 
     private int completedPages;
     private final Lock crawlerLock;
@@ -49,7 +51,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     }
 
     @Override
-    public void start(final CrawlerActionListener actionListener) {
+    public void start(final Consumer<List<BookDiscountData>> consumer) {
         this.completedPages = 0;
 
         CrawlerProcessorListener firstProcessorListener = new CrawlerProcessorListener() {
@@ -59,16 +61,16 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
                 Paginator firstPaginator = resultModelSupplier.get().getPaginator();
 
                 if (isFinished(firstPaginator)) {
-                    finishCrawler(actionListener);
+                    finishCrawler(consumer);
                 } else {
-                    sendRestOfResponses(firstPaginator, actionListener);
+                    sendRestOfResponses(firstPaginator, consumer);
                 }
             }
 
             @Override
             public void failed(String message) {
                 addBooksToResultList(Collections.emptyList());
-                finishCrawler(actionListener);
+                finishCrawler(consumer);
                 log.warn("First page request failed. Crawler id: " + getId() + " Reason is: " + message);
             }
         };
@@ -76,7 +78,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
         executorService.execute(new FirstPageGoogleProcessor(getRequest(0, NUMBER_BOOKS_ON_PAGE), firstProcessorListener));
     }
 
-    void sendRestOfResponses(Paginator firstpaginator, CrawlerActionListener actionListener) {
+    void sendRestOfResponses(Paginator firstpaginator, Consumer<List<BookDiscountData>> consumer) {
         int position = firstpaginator.getItemsOnPage();
         int totalItems = firstpaginator.getTotalNumberOfItems();
 
@@ -84,14 +86,14 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
             @Override
             public void success(Supplier<ResultModel> resultModelSupplier) {
                 addBooksToResultList(resultModelSupplier.get().getBookData());
-                checkIfFinished(actionListener, firstpaginator);
+                checkIfFinished(consumer, firstpaginator);
             }
 
             @Override
             public void failed(String message) {
                 log.warn("Page request failed. Crawler id: " + getId() + " Reason is: " + message);
                 addBooksToResultList(Collections.emptyList());
-                checkIfFinished(actionListener, firstpaginator);
+                checkIfFinished(consumer, firstpaginator);
             }
         };
 
@@ -101,9 +103,9 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
         }
     }
 
-    private void checkIfFinished(CrawlerActionListener actionListener, Paginator paginator) {
+    private void checkIfFinished(Consumer<List<BookDiscountData>> consumer, Paginator paginator) {
         if (isFinished(paginator)) {
-            finishCrawler(actionListener);
+            finishCrawler(consumer);
         }
     }
 
@@ -126,9 +128,9 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
         return completedPages == paginator.getNumberOfPages();
     }
 
-    void finishCrawler(CrawlerActionListener actionListener) {
+    void finishCrawler(Consumer<List<BookDiscountData>> consumer) {
         log.info("Google crawler finished, found [" + getBooksData().size() + "] books");
-        actionListener.crawlerFinished(getBooksData());
+        consumer.accept(booksData);
     }
 
     @Override

@@ -2,14 +2,11 @@ package com.blackbook.matrasscraper.scraper;
 
 import com.blackbook.matrasscraper.htmlprovider.HTMLDocumentProvider;
 import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
-import core.CrawlerActionListener;
 import org.jsoup.Jsoup;
 import org.junit.Test;
-import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -38,13 +35,9 @@ public class ScraperTest {
         Scraper scraper = new Scraper(htmlDocumentProvider);
         scraper.lastPageNo = 1;
         //when
-        scraper.start(new CrawlerActionListener() {
-            @Override
-            public void crawlerFinished(List<BookDiscountData> booksData) {
-                //then
-                assertEquals(booksOnPage, booksData.size());
-            }
-        }, null);
 
+        scraper.start(bookDiscountData -> {
+            assertEquals(booksOnPage, bookDiscountData.size());
+        }, null);
     }
 }

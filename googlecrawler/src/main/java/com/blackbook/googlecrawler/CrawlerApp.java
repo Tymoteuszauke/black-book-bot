@@ -17,6 +17,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  *
@@ -42,6 +43,11 @@ public class CrawlerApp {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.regex("/api.*"))
                 .build();
+    }
+
+    @Bean
+    public ScheduledExecutorService schedulerService(){
+        return Executors.newScheduledThreadPool(5);
     }
 
     @Bean

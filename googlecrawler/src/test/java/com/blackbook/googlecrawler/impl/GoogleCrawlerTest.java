@@ -1,19 +1,12 @@
 package com.blackbook.googlecrawler.impl;
 
-import com.blackbook.googlecrawler.paginator.core.Paginator;
-import com.blackbook.googlecrawler.paginator.impl.GooglePaginator;
 import core.CrawlerActionListener;
 import core.ICrawler;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
-import view.creationmodel.BookDiscountData;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import static org.mockito.Matchers.any;

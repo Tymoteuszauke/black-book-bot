@@ -1,4 +1,4 @@
-package core;
+package com.blackbook.utils.core;
 
 /**
  * @author Siarhei Shauchenka at 12.09.17

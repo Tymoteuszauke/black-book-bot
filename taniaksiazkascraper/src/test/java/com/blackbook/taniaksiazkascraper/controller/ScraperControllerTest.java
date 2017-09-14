@@ -1,8 +1,9 @@
 package com.blackbook.taniaksiazkascraper.controller;
 
 
+import com.blackbook.utils.core.BotService;
+import com.blackbook.utils.view.response.SimpleResponse;
 import com.jayway.restassured.http.ContentType;
-import core.BotService;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import view.response.SimpleResponse;
 
 import java.io.IOException;
 

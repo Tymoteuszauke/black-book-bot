@@ -1,6 +1,7 @@
 package com.blackbook.googlecrawler.controller;
 
 
+import com.blackbook.utils.service.CrawlerScraperService;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,7 +9,6 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testng.Assert;
-import service.CrawlerScraperService;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.mockito.Mockito.doNothing;

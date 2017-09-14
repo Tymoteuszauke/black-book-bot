@@ -1,4 +1,4 @@
-package view.response;
+package com.blackbook.utils.view.response;
 
 import lombok.Builder;
 import lombok.Getter;

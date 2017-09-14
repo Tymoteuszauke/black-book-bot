@@ -3,10 +3,10 @@ package com.blackbook.googlecrawler.parser.impl;
 
 import com.blackbook.googlecrawler.impl.GoogleCrawler;
 import com.blackbook.googlecrawler.parser.core.DataParser;
+import com.blackbook.utils.view.creationmodel.BookData;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import view.creationmodel.BookData;
-import view.creationmodel.BookDiscountData;
 
 import java.util.ArrayList;
 import java.util.Collections;

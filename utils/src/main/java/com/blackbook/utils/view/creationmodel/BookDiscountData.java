@@ -1,4 +1,4 @@
-package view.creationmodel;
+package com.blackbook.utils.view.creationmodel;
 
 import lombok.Builder;
 import lombok.Data;

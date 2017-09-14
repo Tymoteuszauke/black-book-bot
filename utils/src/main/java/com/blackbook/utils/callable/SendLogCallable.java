@@ -1,11 +1,13 @@
-package callable;
+package com.blackbook.utils.callable;
 
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.view.creationmodel.SendLogCallableDataModel;
+import com.blackbook.utils.view.log.LogEvent;
+import com.blackbook.utils.view.response.SimpleResponse;
+import lombok.Getter;
 import org.apache.http.HttpStatus;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
-import view.creationmodel.BookDiscountData;
-import view.log.LogEvent;
-import view.response.SimpleResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.function.Supplier;
 /**
  * @author Siarhei Shauchenka at 12.09.17
  */
+@Getter
 public class SendLogCallable implements Callable<SimpleResponse> {
 
     private final List<BookDiscountData> booksData;
