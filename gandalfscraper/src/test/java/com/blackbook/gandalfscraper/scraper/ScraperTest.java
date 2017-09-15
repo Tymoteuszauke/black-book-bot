@@ -2,16 +2,13 @@ package com.blackbook.gandalfscraper.scraper;
 
 import com.blackbook.gandalfscraper.webconnector.JsoupWebConnector;
 import com.blackbook.gandalfscraper.webconnector.WebConnector;
-import core.CrawlerActionListener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
-import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -47,6 +44,7 @@ public class ScraperTest {
         //given
         int booksOnPage = 2;
         Scraper scraper = new Scraper(webConnector, lastPageChecker);
+
         //when
         scraper.start(booksData -> {
             //then

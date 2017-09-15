@@ -1,7 +1,7 @@
 package com.blackbook.gandalfscraper.controller;
 
+import com.blackbook.utils.core.BotService;
 import com.jayway.restassured.http.ContentType;
-import core.BotService;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;

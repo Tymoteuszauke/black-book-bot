@@ -1,4 +1,4 @@
-package view.log;
+package com.blackbook.utils.view.log;
 
 import lombok.Builder;
 import lombok.Getter;

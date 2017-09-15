@@ -1,11 +1,11 @@
 package com.blackbook.czytamplscraper.scraper;
 
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;

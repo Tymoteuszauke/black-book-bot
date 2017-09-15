@@ -1,15 +1,14 @@
-package view.bookdiscount;
+package com.blackbook.utils.view.creationmodel;
 
+import lombok.Builder;
 import lombok.Data;
 
-/**
- * Created by tymek on 25.08.17.
- */
 @Data
-public class BookView {
-    private long id;
+@Builder
+public class BookData {
     private String title;
     private String subtitle;
+    private String genre;
     private String authors;
     private String publisher;
     private String bookPageUrl;

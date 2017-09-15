@@ -1,6 +1,6 @@
-package core;
+package com.blackbook.utils.core;
 
-import view.creationmodel.BookDiscountData;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 
 import java.util.List;
 

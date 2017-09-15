@@ -2,14 +2,14 @@ package com.blackbook.googlecrawler.parser;
 
 import com.blackbook.googlecrawler.parser.core.DataParser;
 import com.blackbook.googlecrawler.parser.impl.GoogleParser;
+import com.blackbook.utils.view.creationmodel.BookData;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import view.creationmodel.BookData;
-import view.creationmodel.BookDiscountData;
 
 import java.util.List;
 

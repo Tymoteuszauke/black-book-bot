@@ -1,9 +1,9 @@
-package callable;
+package com.blackbook.utils.view.creationmodel;
 
+import com.blackbook.utils.view.log.LogEvent;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.client.RestTemplate;
-import view.creationmodel.BookDiscountData;
 
 import java.util.List;
 
@@ -12,8 +12,10 @@ import java.util.List;
  */
 @Getter
 @Builder
-public class SaveBooksCallableDataModel {
+public class SendLogCallableDataModel {
     private final List<BookDiscountData> booksData;
     private final RestTemplate restTemplate;
+    private final LogEvent.LogEventBuilder logEventBuilder;
+    private final long crawlerId;
     private final String persistenceApiEndpoint;
 }

@@ -1,20 +1,17 @@
 package com.blackbook.googlecrawler.impl;
 
 import com.blackbook.googlecrawler.paginator.core.Paginator;
-import com.blackbook.googlecrawler.paginator.impl.GooglePaginator;
-import core.CrawlerActionListener;
-import core.ICrawler;
-import org.mockito.Mockito;
+import com.blackbook.utils.view.creationmodel.BookDiscountData;
+
+
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import view.creationmodel.BookDiscountData;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -37,11 +34,11 @@ public class GoogleCrawlerTest {
         //given
         ExecutorService mockExecutorService = mock(ExecutorService.class);
         doNothing().when(mockExecutorService).execute(any());
-        CrawlerActionListener mockListener = mock(CrawlerActionListener.class);
+        Consumer<List<BookDiscountData>> mockConsumer = mock(Consumer.class);
         GoogleCrawler crawler = new GoogleCrawler(mockExecutorService);
 
         //when
-        crawler.start(mockListener);
+        crawler.start(mockConsumer);
 
         //then
         verify(mockExecutorService, times(1)).execute(any());
@@ -71,11 +68,11 @@ public class GoogleCrawlerTest {
         when(mockedPAginator.getItemsOnPage()).thenReturn(ITEMS_ON_PAGE);
         when(mockedPAginator.getTotalNumberOfItems()).thenReturn(TOTAL_ITEMS);
 
-        CrawlerActionListener actionListener = mock(CrawlerActionListener.class);
+        Consumer<List<BookDiscountData>> mockConsumer = mock(Consumer.class);
         GoogleCrawler crawler = new GoogleCrawler(mockExecutorService);
 
         //when
-        crawler.sendRestOfResponses(mockedPAginator, actionListener);
+        crawler.sendRestOfResponses(mockedPAginator, mockConsumer);
 
         //then
         verify(mockExecutorService, times(4)).execute(any());
