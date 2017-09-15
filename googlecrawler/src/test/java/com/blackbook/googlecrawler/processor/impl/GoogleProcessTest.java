@@ -1,7 +1,6 @@
-package com.blackbook.googlecrawler.processor;
+package com.blackbook.googlecrawler.processor.impl;
 
 import com.blackbook.googlecrawler.processor.core.CrawlerProcessorListener;
-import com.blackbook.googlecrawler.processor.impl.GoogleProcessor;
 import org.json.JSONObject;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeClass;

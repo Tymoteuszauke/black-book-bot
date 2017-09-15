@@ -13,7 +13,7 @@ public class FirstPageGoogleProcessor extends AbstractProcessor {
 
 
     public FirstPageGoogleProcessor(String request, CrawlerProcessorListener processorListener) {
-        super(request, processorListener);
+        super(new JsonRequestCreator(request), processorListener);
     }
 
     @Override

@@ -11,8 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.testng.Assert;
 
 import static com.jayway.restassured.RestAssured.given;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Siarhei Shauchenka at 07.09.17
@@ -41,6 +40,8 @@ public class CrawlerControllerTest {
 
         CrawlerController crawlerController = new CrawlerController(crawlerScraperService);
         Assert.assertEquals(crawlerController.postBookDiscounts().getCode(), HttpStatus.SC_OK);
+
+        verify(crawlerScraperService, times(1)).saveResultsInDatabase();
     }
 
 }

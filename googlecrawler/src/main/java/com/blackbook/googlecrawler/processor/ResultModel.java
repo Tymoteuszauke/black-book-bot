@@ -4,13 +4,14 @@ import com.blackbook.googlecrawler.paginator.core.Paginator;
 import com.blackbook.googlecrawler.paginator.impl.DefaultPaginator;
 import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.List;
 
 /**
  * @author Siarhei Shauchenka at 07.09.17
  */
-@Data
+@Getter
 public class ResultModel {
     private final List<BookDiscountData> bookData;
     private final Paginator paginator;
