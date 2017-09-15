@@ -3,10 +3,8 @@ package com.blackbook.googlecrawler;
 import com.blackbook.googlecrawler.impl.GoogleCrawler;
 import com.blackbook.utils.core.BotService;
 import com.blackbook.utils.service.CrawlerScraperService;
-import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -26,13 +24,6 @@ import java.util.concurrent.ScheduledExecutorService;
 @SpringBootApplication
 @EnableSwagger2
 public class CrawlerApp {
-
-    @Bean
-    ServletRegistrationBean h2ServletRegistration() {
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new WebServlet());
-        servletRegistrationBean.addUrlMappings("/console/*");
-        return servletRegistrationBean;
-    }
 
     @Bean
     public Docket api() {

@@ -1,8 +1,8 @@
 package com.blackbook.utils.service;
 
 import com.blackbook.utils.callable.SaveBooksCallable;
-import com.blackbook.utils.core.ICrawler;
-import com.blackbook.utils.view.response.SimpleResponse;
+import com.blackbook.utils.core.Collector;
+import com.blackbook.utils.model.response.SimpleResponse;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -44,7 +44,7 @@ public class CrawlerScraperServiceTest {
     @Test
     public void testStart(){
         //given
-        ICrawler crawler = mock(ICrawler.class);
+        Collector crawler = mock(Collector.class);
         ScheduledExecutorService mockedExecutorService = mock(ScheduledExecutorService.class);
         CrawlerScraperService service = new CrawlerScraperService(crawler, mockedExecutorService);
 
@@ -59,7 +59,7 @@ public class CrawlerScraperServiceTest {
     @Test
     public void testDataSuccessSending() throws ExecutionException, InterruptedException {
         //given
-        ICrawler crawler = mock(ICrawler.class);
+        Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
         CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
 
@@ -73,7 +73,7 @@ public class CrawlerScraperServiceTest {
 
         //when
         service.saveResultsInDatabase();
-        service.crawlerConsumer.accept(Collections.EMPTY_LIST);
+        service.collectorConsumer.accept(Collections.EMPTY_LIST);
 
         //then
         verify(executorService,times(2)).submit(any(SaveBooksCallable.class));
@@ -83,7 +83,7 @@ public class CrawlerScraperServiceTest {
     @Test
     public void testFirstTimeFailedSending() throws ExecutionException, InterruptedException {
         //given
-        ICrawler crawler = mock(ICrawler.class);
+        Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
         CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
 
@@ -95,7 +95,7 @@ public class CrawlerScraperServiceTest {
 
         //when
         service.saveResultsInDatabase();
-        service.crawlerConsumer.accept(Collections.EMPTY_LIST);
+        service.collectorConsumer.accept(Collections.EMPTY_LIST);
 
         //then
         verify(executorService,times(2)).submit(any(SaveBooksCallable.class));
@@ -105,7 +105,7 @@ public class CrawlerScraperServiceTest {
     @Test
     public void testFailedSending() throws ExecutionException, InterruptedException {
         //given
-        ICrawler crawler = mock(ICrawler.class);
+        Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
         CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
 
@@ -116,7 +116,7 @@ public class CrawlerScraperServiceTest {
 
         //when
         service.saveResultsInDatabase();
-        service.crawlerConsumer.accept(Collections.EMPTY_LIST);
+        service.collectorConsumer.accept(Collections.EMPTY_LIST);
 
         //then
         verify(executorService,times(1)).submit(any(SaveBooksCallable.class));
@@ -126,7 +126,7 @@ public class CrawlerScraperServiceTest {
     @Test
     public void testFailedSendingWithException() throws ExecutionException, InterruptedException {
         //given
-        ICrawler crawler = mock(ICrawler.class);
+        Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
         CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
         ScheduledFuture<SimpleResponse> mockFailedTestFutureWithException = mock(ScheduledFuture.class);
@@ -139,7 +139,7 @@ public class CrawlerScraperServiceTest {
 
         //when
         service.saveResultsInDatabase();
-        service.crawlerConsumer.accept(Collections.EMPTY_LIST);
+        service.collectorConsumer.accept(Collections.EMPTY_LIST);
 
         //then
         verify(executorService,times(1)).submit(any(SaveBooksCallable.class));
@@ -149,7 +149,7 @@ public class CrawlerScraperServiceTest {
     @Test
     public void testNormalTerminatingExecutor() throws InterruptedException {
         //given
-        ICrawler crawler = mock(ICrawler.class);
+        Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
         CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
 

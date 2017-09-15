@@ -1,10 +1,9 @@
 package com.blackbook.gandalfscraper.scraper;
 
-import com.blackbook.utils.view.creationmodel.BookData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
-
-import static com.blackbook.gandalfscraper.scraper.Scraper.BOOKSTORE_ID;
 
 @Slf4j
 class BookDiscountDataCreator {
@@ -22,7 +21,7 @@ class BookDiscountDataCreator {
         String publisher = bookDoc.extractPublisher();
 
         BookDiscountData bookDiscountData = BookDiscountData.builder()
-                .bookstoreId(BOOKSTORE_ID)
+                .bookstoreId(CollectorsData.GANDALF_SCRAPER.getBookStoreId())
                 .price(price)
                 .bookDiscountDetails(promoDetails)
                 .bookData(BookData.builder()

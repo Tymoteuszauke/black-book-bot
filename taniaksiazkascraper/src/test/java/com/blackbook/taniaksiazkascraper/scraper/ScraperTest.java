@@ -1,12 +1,11 @@
 package com.blackbook.taniaksiazkascraper.scraper;
 
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
 
 import java.io.File;
 import java.io.IOException;

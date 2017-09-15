@@ -1,6 +1,6 @@
 package com.blackbook.czytamplscraper.scraper;
 
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

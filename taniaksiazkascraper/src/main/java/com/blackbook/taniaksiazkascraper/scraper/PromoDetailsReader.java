@@ -1,13 +1,13 @@
 package com.blackbook.taniaksiazkascraper.scraper;
 
-import com.blackbook.utils.view.creationmodel.BookData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 
-import static com.blackbook.taniaksiazkascraper.scraper.Scraper.BOOKSTORE_ID;
 
 @Slf4j
 @Component
@@ -22,7 +22,7 @@ public class PromoDetailsReader {
         return BookDiscountData.builder()
                 .bookDiscountDetails(readPromoDetails(detailsPage))
                 .price(readPrice(detailsPage))
-                .bookstoreId(BOOKSTORE_ID)
+                .bookstoreId(CollectorsData.TANIA_KSIAZKA_SCRAPER.getBookStoreId())
                 .bookData(BookData.builder()
                         .title(readTitle(detailsPage))
                         .subtitle(readSubtitle(detailsPage))

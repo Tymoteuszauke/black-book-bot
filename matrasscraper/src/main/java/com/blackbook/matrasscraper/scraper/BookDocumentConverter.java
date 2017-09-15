@@ -1,7 +1,8 @@
 package com.blackbook.matrasscraper.scraper;
 
-import com.blackbook.utils.view.creationmodel.BookData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,7 +21,7 @@ class BookDocumentConverter {
         String coverUrl = bookDoc.extractBookCoverUrl();
 
         BookDiscountData bookDiscountData = BookDiscountData.builder()
-                .bookstoreId(Scraper.BOOKSTORE_ID)
+                .bookstoreId(CollectorsData.MATRAS_SCRAPER.getBookStoreId())
                 .price(price)
                 .bookDiscountDetails(promoDetails)
                 .bookData(BookData.builder()

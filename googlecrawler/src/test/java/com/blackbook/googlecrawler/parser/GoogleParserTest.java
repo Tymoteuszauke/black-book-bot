@@ -2,8 +2,8 @@ package com.blackbook.googlecrawler.parser;
 
 import com.blackbook.googlecrawler.parser.core.DataParser;
 import com.blackbook.googlecrawler.parser.impl.GoogleParser;
-import com.blackbook.utils.view.creationmodel.BookData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.creationmodel.BookData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

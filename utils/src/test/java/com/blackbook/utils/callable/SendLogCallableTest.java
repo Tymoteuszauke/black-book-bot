@@ -1,9 +1,9 @@
 package com.blackbook.utils.callable;
 
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
-import com.blackbook.utils.view.creationmodel.SendLogCallableDataModel;
-import com.blackbook.utils.view.log.LogEvent;
-import com.blackbook.utils.view.response.SimpleResponse;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.creationmodel.SendLogCallableDataModel;
+import com.blackbook.utils.model.log.LogEvent;
+import com.blackbook.utils.model.response.SimpleResponse;
 import org.apache.http.HttpStatus;
 import org.springframework.http.HttpRequest;
 import org.springframework.web.client.RestTemplate;

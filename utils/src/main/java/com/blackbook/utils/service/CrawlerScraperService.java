@@ -3,12 +3,12 @@ package com.blackbook.utils.service;
 import com.blackbook.utils.callable.SaveBooksCallable;
 import com.blackbook.utils.callable.SendLogCallable;
 import com.blackbook.utils.core.BotService;
-import com.blackbook.utils.core.ICrawler;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
-import com.blackbook.utils.view.creationmodel.SaveBooksCallableDataModel;
-import com.blackbook.utils.view.creationmodel.SendLogCallableDataModel;
-import com.blackbook.utils.view.log.LogEvent;
-import com.blackbook.utils.view.response.SimpleResponse;
+import com.blackbook.utils.core.Collector;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.creationmodel.SaveBooksCallableDataModel;
+import com.blackbook.utils.model.creationmodel.SendLogCallableDataModel;
+import com.blackbook.utils.model.log.LogEvent;
+import com.blackbook.utils.model.response.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,10 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 
@@ -32,19 +35,21 @@ import java.util.function.Consumer;
  */
 @Slf4j
 @Service
-public class CrawlerScraperService implements BotService{
+public class CrawlerScraperService implements BotService {
+
+    private final long DELAY_BEFORE_SECOND_TRY = 5;
 
     private final ScheduledExecutorService scheduledExecutorService;
-    private final ICrawler crawler;
+    private final Collector collector;
 
     @Value("${endpoints.persistence-api}")
     private String persistenceApiEndpoint;
 
-    Consumer<List<BookDiscountData>> crawlerConsumer;
+    Consumer<List<BookDiscountData>> collectorConsumer;
 
     @Autowired
-    public CrawlerScraperService(ICrawler crawler, ScheduledExecutorService scheduledExecutorService){
-        this.crawler = crawler;
+    public CrawlerScraperService(Collector collector, ScheduledExecutorService scheduledExecutorService) {
+        this.collector = collector;
         this.scheduledExecutorService = scheduledExecutorService;
     }
 
@@ -57,7 +62,7 @@ public class CrawlerScraperService implements BotService{
 
         logEventBuilder.startTime(LocalDateTime.now());
 
-        crawlerConsumer = booksData -> {
+        collectorConsumer = booksData -> {
             final SaveBooksCallable saveBooksDataCallable = new SaveBooksCallable(() -> SaveBooksCallableDataModel.builder()
                     .booksData(booksData)
                     .persistenceApiEndpoint(persistenceApiEndpoint)
@@ -68,14 +73,14 @@ public class CrawlerScraperService implements BotService{
                 Future<SimpleResponse> saveDataFuture = scheduledExecutorService.submit(saveBooksDataCallable);
                 if (saveDataFuture.get().getCode() != HttpStatus.SC_OK) {
                     log.warn("Save data failed. Try again...");
-                    saveDataFuture = scheduledExecutorService.schedule(saveBooksDataCallable, 5, TimeUnit.SECONDS); // try to save data again
+                    saveDataFuture = scheduledExecutorService.schedule(saveBooksDataCallable, DELAY_BEFORE_SECOND_TRY, TimeUnit.SECONDS); // try to save data again
                 }
                 log.info(saveDataFuture.get().getMessage());
 
                 if (saveDataFuture.get().getCode() == HttpStatus.SC_OK) {
                     final SendLogCallable sendLogCallable = new SendLogCallable(() -> SendLogCallableDataModel.builder()
                             .booksData(booksData)
-                            .crawlerId(crawler.getId())
+                            .crawlerId(collector.getId())
                             .logEventBuilder(logEventBuilder)
                             .persistenceApiEndpoint(persistenceApiEndpoint)
                             .restTemplate(restTemplate)
@@ -84,7 +89,7 @@ public class CrawlerScraperService implements BotService{
                     Future<SimpleResponse> sendLogDataFuture = scheduledExecutorService.submit(sendLogCallable);
                     if (sendLogDataFuture.get().getCode() != HttpStatus.SC_OK) {
                         log.warn("Log sending failed. Try again...");
-                        sendLogDataFuture = scheduledExecutorService.schedule(sendLogCallable, 5, TimeUnit.SECONDS); //try to send log again
+                        sendLogDataFuture = scheduledExecutorService.schedule(sendLogCallable, DELAY_BEFORE_SECOND_TRY, TimeUnit.SECONDS); //try to send log again
                     }
                     log.info(sendLogDataFuture.get().getMessage());
                 }
@@ -94,7 +99,7 @@ public class CrawlerScraperService implements BotService{
             }
         };
 
-        crawler.start(crawlerConsumer);
+        collector.start(collectorConsumer);
     }
 
     @PreDestroy

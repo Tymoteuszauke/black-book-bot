@@ -1,5 +1,6 @@
 package com.blackbook.gandalfscraper.scraper;
 
+import com.blackbook.utils.model.CollectorsData;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -11,7 +12,8 @@ import java.util.stream.Collectors;
  * @author "Patrycja Zaremba"
  */
 class BookPage {
-    private Document bookDoc;
+
+    private final Document bookDoc;
 
     BookPage(Document bookDoc) {
         this.bookDoc = bookDoc;
@@ -24,8 +26,8 @@ class BookPage {
     private String[] extractBookTitles() {
         String titlesHtml = bookDoc.select(".pdata1 > [itemprop=name]")
                 .html()
-                .replaceAll("\\(twarda\\)","")
-                .replaceAll("\\(miękka\\)","")
+                .replaceAll("\\(twarda\\)", "")
+                .replaceAll("\\(miękka\\)", "")
                 .trim();
         return titlesHtml.split("<br>");
     }
@@ -72,12 +74,12 @@ class BookPage {
     public String extractBookPromoDetails() {
         return bookDoc.select(".cheaper_info")
                 .text()
-                .replaceAll("[a-żA-Ż]","")
+                .replaceAll("[a-żA-Ż]", "")
                 .trim();
     }
 
     public String extractBookCoverUrl() {
-        return Scraper.GANDALF_BOOKSTORE_URL + bookDoc.getElementsByClass("pimage bigimg")
+        return CollectorsData.GANDALF_SCRAPER.getBaseUrl() + bookDoc.getElementsByClass("pimage bigimg")
                 .attr("src");
     }
 }

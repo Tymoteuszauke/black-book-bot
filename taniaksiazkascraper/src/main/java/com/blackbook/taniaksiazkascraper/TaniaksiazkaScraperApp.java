@@ -5,6 +5,7 @@ import com.blackbook.taniaksiazkascraper.scraper.LastPageChecker;
 import com.blackbook.taniaksiazkascraper.scraper.PromoDetailsReader;
 import com.blackbook.taniaksiazkascraper.scraper.Scraper;
 import com.blackbook.utils.core.BotService;
+import com.blackbook.utils.core.Collector;
 import com.blackbook.utils.service.CrawlerScraperService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,12 +23,16 @@ public class TaniaksiazkaScraperApp {
     }
 
     @Bean
-    public BotService scrapperService(){
-        return new CrawlerScraperService(new Scraper(new Connector(), new LastPageChecker(), new PromoDetailsReader()), schedulerService());
+    public ScheduledExecutorService schedulerService(){
+        return Executors.newSingleThreadScheduledExecutor();
     }
 
     @Bean
-    public ScheduledExecutorService schedulerService(){
-        return Executors.newScheduledThreadPool(5);
+    public BotService scrapperService(){
+        return new CrawlerScraperService(getCollector(), schedulerService());
+    }
+
+    private Collector getCollector(){
+        return new Scraper(new Connector(), new LastPageChecker(), new PromoDetailsReader());
     }
 }

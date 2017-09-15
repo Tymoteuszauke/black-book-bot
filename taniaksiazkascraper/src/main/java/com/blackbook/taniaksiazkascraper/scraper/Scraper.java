@@ -1,8 +1,9 @@
 package com.blackbook.taniaksiazkascraper.scraper;
 
 
-import com.blackbook.utils.core.ICrawler;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.core.Collector;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,24 +11,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
 @Component
-public class Scraper implements ICrawler {
+public class Scraper implements Collector {
 
-    public static final int BOOKSTORE_ID = 3;
-
-    private static final String PROMOTION_PAGE_URL = "http://www.taniaksiazka.pl/tanie-ksiazki/page-%d";
-    private Connector connector;
-    private LastPageChecker checker;
-    private PromoDetailsReader detailsReader;
+    private final Connector connector;
+    private final LastPageChecker checker;
+    private final PromoDetailsReader detailsReader;
+    private final CollectorsData collectorData;
 
     @Autowired
     public Scraper(Connector connector, LastPageChecker checker, PromoDetailsReader detailsReader) {
         this.connector = connector;
         this.checker = checker;
         this.detailsReader = detailsReader;
+        this.collectorData = CollectorsData.TANIA_KSIAZKA_SCRAPER;
     }
 
     @Override
@@ -37,7 +36,7 @@ public class Scraper implements ICrawler {
         boolean promotionsAreOnPage = true;
 
         while (promotionsAreOnPage) {
-            String promotionPageUrl = String.format(PROMOTION_PAGE_URL, pageId);
+            String promotionPageUrl = String.format(collectorData.getBaseUrl(), pageId);
             Document document = connector.getDocumentFromWebPage(promotionPageUrl);
             Elements books = document.select(".product-container");
             books.forEach(book -> discountData.add(detailsReader.readDiscountDataProperties(connector, book)));
@@ -53,6 +52,6 @@ public class Scraper implements ICrawler {
 
     @Override
     public int getId() {
-        return BOOKSTORE_ID;
+        return collectorData.getBookStoreId();
     }
 }

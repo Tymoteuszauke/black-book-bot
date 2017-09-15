@@ -1,10 +1,10 @@
 package com.blackbook.googlecrawler.parser.impl;
 
 
-import com.blackbook.googlecrawler.impl.GoogleCrawler;
 import com.blackbook.googlecrawler.parser.core.DataParser;
-import com.blackbook.utils.view.creationmodel.BookData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -83,7 +83,7 @@ public class GoogleParser implements DataParser<JSONObject> {
 
         bookDiscountDataBuilder.bookDiscountDetails(String.format("%1$,.2f%%", discountInfo));
 
-        bookDiscountDataBuilder.bookstoreId(GoogleCrawler.GOOGLE_CRAWLER_ID);
+        bookDiscountDataBuilder.bookstoreId(CollectorsData.GOOGLE_CRAWLER.getBookStoreId());
 
         return bookDiscountDataBuilder.build();
     }

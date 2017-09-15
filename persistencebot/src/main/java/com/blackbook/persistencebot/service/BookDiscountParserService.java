@@ -6,8 +6,8 @@ import com.blackbook.persistencebot.dao.BookstoresRepository;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
-import com.blackbook.utils.view.creationmodel.BookData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.creationmodel.BookData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +43,6 @@ public class BookDiscountParserService {
         Book book = booksRepository.findByTitleAndSubtitle(parsedBook.getTitle(), parsedBook.getSubtitle());
         if (book == null) {
             book = parsedBook;
-//            book = booksRepository.save(parsedBook);
         }
         bookDiscount.setBook(book);
 

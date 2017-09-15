@@ -25,7 +25,7 @@ logging:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n"
   file: persistencebot.log
 
-sring:
+spring:
   output:
   ansi:
   enabled: DETECT

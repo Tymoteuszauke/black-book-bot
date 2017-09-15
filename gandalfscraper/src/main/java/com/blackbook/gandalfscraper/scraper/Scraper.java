@@ -1,8 +1,9 @@
 package com.blackbook.gandalfscraper.scraper;
 
 import com.blackbook.gandalfscraper.webconnector.WebConnector;
-import com.blackbook.utils.core.ICrawler;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.core.Collector;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -19,24 +19,25 @@ import java.util.stream.Collectors;
  * @author "Patrycja Zaremba"
  */
 @Component
-public class Scraper implements ICrawler {
-    public static final int BOOKSTORE_ID = 5;
+public class Scraper implements Collector {
 
-    public static final String GANDALF_BOOKSTORE_URL = "http://www.gandalf.com.pl";
-    private static final String GANDALF_DISCOUNT_URL = GANDALF_BOOKSTORE_URL + "/k/okazje-do-60/";
-    private WebConnector webConnector;
-    private LastPageChecker lastPageChecker;
+    private final String discountUrl;
+    private final WebConnector webConnector;
+    private final LastPageChecker lastPageChecker;
+    private final CollectorsData collectorData;
 
     @Autowired
     public Scraper(WebConnector webConnector, LastPageChecker lastPageChecker) {
         this.webConnector = webConnector;
         this.lastPageChecker = lastPageChecker;
+        this.collectorData = CollectorsData.GANDALF_SCRAPER;
+        this.discountUrl = collectorData.getBaseUrl() + "/k/okazje-do-60/";
     }
 
     private List<BookDiscountData> extractBookElements(int lastPageNo) {
         List<BookDiscountData> bookDiscountData = new LinkedList<>();
         for (int i = 0; i < lastPageNo; i++) {
-            Document pageDoc = webConnector.connect(GANDALF_DISCOUNT_URL + i);
+            Document pageDoc = webConnector.connect(discountUrl + i);
             bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
         }
         return bookDiscountData;
@@ -46,7 +47,7 @@ public class Scraper implements ICrawler {
         Elements bookElements = document.getElementsByClass("prod");
         return bookElements.stream()
                 .map(bookElement -> {
-                    String bookUrl = GANDALF_BOOKSTORE_URL + extractBookUrl(bookElement);
+                    String bookUrl = collectorData.getBaseUrl() + extractBookUrl(bookElement);
                     BookPage bookDoc = new BookPage(webConnector.connect(bookUrl));
                     return BookDiscountDataCreator.createBookDiscountDataFrom(bookDoc, bookUrl);
                 })
@@ -61,13 +62,13 @@ public class Scraper implements ICrawler {
 
     @Override
     public void start(Consumer<List<BookDiscountData>> consumer) {
-        Document mainPageDoc = webConnector.connect(GANDALF_DISCOUNT_URL);
+        Document mainPageDoc = webConnector.connect(discountUrl);
         int lastPageNo = lastPageChecker.extractLastPage(mainPageDoc);
         consumer.accept(extractBookElements(lastPageNo));
     }
 
     @Override
     public int getId() {
-        return BOOKSTORE_ID;
+        return collectorData.getBookStoreId();
     }
 }
