@@ -23,10 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 
 
@@ -46,8 +43,9 @@ public class CrawlerScraperService implements BotService{
     Consumer<List<BookDiscountData>> crawlerConsumer;
 
     @Autowired
-    public CrawlerScraperService(ICrawler crawler)
-        this.scheduledExecutorService = new ScheduledThreadPoolExecutor(4);
+    public CrawlerScraperService(ICrawler crawler, ScheduledExecutorService scheduledExecutorService){
+        this.crawler = crawler;
+        this.scheduledExecutorService = scheduledExecutorService;
     }
 
     @Async

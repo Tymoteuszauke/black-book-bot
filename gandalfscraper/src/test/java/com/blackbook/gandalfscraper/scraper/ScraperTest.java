@@ -45,6 +45,6 @@ public class ScraperTest {
         int booksOnPage = 2;
         Scraper scraper = new Scraper(webConnector, lastPageChecker);
         //when
-        scraper.start(booksData -> assertEquals(booksOnPage, booksData.size()), null);
+        scraper.start(booksData -> assertEquals(booksOnPage, booksData.size()));
     }
 }

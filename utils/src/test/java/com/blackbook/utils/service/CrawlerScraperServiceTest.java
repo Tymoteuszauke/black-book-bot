@@ -45,15 +45,15 @@ public class CrawlerScraperServiceTest {
     public void testStart(){
         //given
         ICrawler crawler = mock(ICrawler.class);
-        ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
-        CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
+        ScheduledExecutorService mockedExecutorService = mock(ScheduledExecutorService.class);
+        CrawlerScraperService service = new CrawlerScraperService(crawler, mockedExecutorService);
 
         //when
-        doNothing().when(crawler).start(any(), any());
+        doNothing().when(crawler).start(any());
         service.saveResultsInDatabase();
 
         //then
-        verify(crawler,times(1)).start(any(), any());
+        verify(crawler,times(1)).start(any());
     }
 
     @Test

@@ -64,7 +64,7 @@ public class ScraperTest {
             assertEquals(discountData.size(), 1);
             assertEquals(discountData.get(0).getPrice(), 25.00);
             assertEquals(discountData.get(0).getBookDiscountDetails(), "-25%");
-        }, null);
+        });
     }
 
 }

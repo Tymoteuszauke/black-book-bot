@@ -9,7 +9,6 @@ import com.blackbook.googlecrawler.processor.impl.GoogleProcessor;
 import com.blackbook.utils.core.ICrawler;
 import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
-import view.creationmodel.BookDiscountData;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -37,7 +36,6 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
     public static final int GOOGLE_CRAWLER_ID = 4;
 
     private final List<BookDiscountData> booksData;
-    private Consumer<List<BookDiscountData>> consumer;
 
     private int completedPages;
     private final Lock crawlerLock;

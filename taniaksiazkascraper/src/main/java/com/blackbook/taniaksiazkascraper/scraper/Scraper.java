@@ -31,7 +31,7 @@ public class Scraper implements ICrawler {
     }
 
     @Override
-    public void start(Consumer<List<BookDiscountData>> consumer, ExecutorService executorService) {
+    public void start(Consumer<List<BookDiscountData>> consumer) {
         List<BookDiscountData> discountData = new LinkedList<>();
         int pageId = 1;
         boolean promotionsAreOnPage = true;

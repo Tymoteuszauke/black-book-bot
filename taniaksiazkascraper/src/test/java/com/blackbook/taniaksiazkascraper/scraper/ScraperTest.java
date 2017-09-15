@@ -53,6 +53,6 @@ public class ScraperTest {
         scraper.start(booksData -> {
             // Then
             Assert.assertEquals(56, booksData.size());
-        }, null);
+        });
     }
 }

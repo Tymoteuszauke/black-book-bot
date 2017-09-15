@@ -60,7 +60,7 @@ public class Scraper implements ICrawler {
     }
 
     @Override
-    public void start(Consumer<List<BookDiscountData>> consumer, ExecutorService executorService) {
+    public void start(Consumer<List<BookDiscountData>> consumer) {
         Document mainPageDoc = webConnector.connect(GANDALF_DISCOUNT_URL);
         int lastPageNo = lastPageChecker.extractLastPage(mainPageDoc);
         consumer.accept(extractBookElements(lastPageNo));

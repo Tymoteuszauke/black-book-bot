@@ -1,13 +1,13 @@
 package com.blackbook.googlecrawler;
 
 import com.blackbook.googlecrawler.impl.GoogleCrawler;
-import core.BotService;
+import com.blackbook.utils.core.BotService;
+import com.blackbook.utils.service.CrawlerScraperService;
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import service.CrawlerScraperService;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -47,12 +47,12 @@ public class CrawlerApp {
 
     @Bean
     public ScheduledExecutorService schedulerService(){
-        return Executors.newScheduledThreadPool(5);
+        return Executors.newSingleThreadScheduledExecutor();
     }
 
     @Bean
     public BotService scrapperService(){
-        return new CrawlerScraperService(new GoogleCrawler(Executors.newCachedThreadPool()));
+        return new CrawlerScraperService(new GoogleCrawler(Executors.newCachedThreadPool()), schedulerService());
     }
 
     private ApiInfo apiInfo() {

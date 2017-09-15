@@ -38,6 +38,6 @@ public class ScraperTest {
 
         scraper.start(bookDiscountData -> {
             assertEquals(booksOnPage, bookDiscountData.size());
-        }, null);
+        });
     }
 }
