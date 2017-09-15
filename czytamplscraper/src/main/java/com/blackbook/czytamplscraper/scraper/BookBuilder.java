@@ -1,5 +1,6 @@
 package com.blackbook.czytamplscraper.scraper;
 
+import com.blackbook.utils.view.CollectorsData;
 import com.blackbook.utils.view.creationmodel.BookData;
 import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
@@ -12,7 +13,7 @@ public class BookBuilder {
 
     BookDiscountData buildBookDiscountDataObject(Document detailsPage) {
         return BookDiscountData.builder()
-                .bookstoreId(Scraper.BOOKSTORE_ID)
+                .bookstoreId(CollectorsData.CZYTAMPL_SCRAPER.getBookStoreId())
                 .price(readBookPrice(detailsPage))
                 .bookDiscountDetails(readPromoDetails(detailsPage))
                 .bookData(BookData.builder()

@@ -4,6 +4,7 @@ import com.blackbook.gandalfscraper.scraper.LastPageChecker;
 import com.blackbook.gandalfscraper.scraper.Scraper;
 import com.blackbook.gandalfscraper.webconnector.JsoupWebConnector;
 import com.blackbook.utils.core.BotService;
+import com.blackbook.utils.core.Collector;
 import com.blackbook.utils.service.CrawlerScraperService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,12 +23,16 @@ public class GandalfScraperApp {
 
     @Bean
     public ScheduledExecutorService schedulerService(){
-        return Executors.newScheduledThreadPool(5);
+        return Executors.newSingleThreadScheduledExecutor();
     }
 
     @Bean
     public BotService scrapperService(){
-        return new CrawlerScraperService(new Scraper(new JsoupWebConnector(), new LastPageChecker()), schedulerService());
+        return new CrawlerScraperService(getCollector(), schedulerService());
+    }
+
+    private Collector getCollector(){
+        return new Scraper(new JsoupWebConnector(), new LastPageChecker());
     }
 
     public static void main(String[] args) {

@@ -1,6 +1,7 @@
 package com.blackbook.googlecrawler.impl;
 
 import com.blackbook.googlecrawler.paginator.core.Paginator;
+import com.blackbook.utils.view.CollectorsData;
 import com.blackbook.utils.view.creationmodel.BookDiscountData;
 
 
@@ -53,7 +54,7 @@ public class GoogleCrawlerTest {
         SoftAssert softAssert = new SoftAssert();
 
         //then
-        softAssert.assertEquals(crawler.getId(), GoogleCrawler.GOOGLE_CRAWLER_ID);
+        softAssert.assertEquals(crawler.getId(), CollectorsData.GOOGLE_CRAWLER.getBookStoreId());
         softAssert.assertEquals(crawler.getBaseUrl(), BASE_URL);
         softAssert.assertEquals(crawler.getCriteria(), CRITERIA);
     }

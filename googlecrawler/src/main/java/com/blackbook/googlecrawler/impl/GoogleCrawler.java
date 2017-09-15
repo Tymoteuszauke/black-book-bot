@@ -6,7 +6,8 @@ import com.blackbook.googlecrawler.processor.ResultModel;
 import com.blackbook.googlecrawler.processor.core.CrawlerProcessorListener;
 import com.blackbook.googlecrawler.processor.impl.FirstPageGoogleProcessor;
 import com.blackbook.googlecrawler.processor.impl.GoogleProcessor;
-import com.blackbook.utils.core.ICrawler;
+import com.blackbook.utils.core.Collector;
+import com.blackbook.utils.view.CollectorsData;
 import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,25 +28,23 @@ import static com.blackbook.googlecrawler.paginator.impl.GooglePaginator.NUMBER_
  * @since 17.08.17
  */
 @Slf4j
-public class GoogleCrawler implements ICrawler, KeyAccess {
+public class GoogleCrawler implements Collector, KeyAccess {
 
     private static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     private static final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
     private static final String CRITERIA = "-";
 
-    public static final int GOOGLE_CRAWLER_ID = 4;
-
     private final List<BookDiscountData> booksData;
-
     private int completedPages;
     private final Lock crawlerLock;
-
-    private ExecutorService executorService;
+    private final ExecutorService executorService;
+    private final CollectorsData collectorData;
 
     public GoogleCrawler(ExecutorService executorService) {
         this.executorService = executorService;
-        booksData = new LinkedList<>();
-        crawlerLock = new ReentrantLock();
+        this.booksData = new LinkedList<>();
+        this.crawlerLock = new ReentrantLock();
+        this.collectorData = CollectorsData.GOOGLE_CRAWLER;
     }
 
     @Override
@@ -133,7 +132,7 @@ public class GoogleCrawler implements ICrawler, KeyAccess {
 
     @Override
     public int getId() {
-        return GOOGLE_CRAWLER_ID;
+        return collectorData.getBookStoreId();
     }
 
 

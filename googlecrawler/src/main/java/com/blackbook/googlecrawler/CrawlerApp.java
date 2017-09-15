@@ -28,13 +28,6 @@ import java.util.concurrent.ScheduledExecutorService;
 public class CrawlerApp {
 
     @Bean
-    ServletRegistrationBean h2ServletRegistration() {
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new WebServlet());
-        servletRegistrationBean.addUrlMappings("/console/*");
-        return servletRegistrationBean;
-    }
-
-    @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("Google crawler API")

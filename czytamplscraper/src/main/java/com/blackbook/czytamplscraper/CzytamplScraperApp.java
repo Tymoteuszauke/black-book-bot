@@ -1,6 +1,7 @@
 package com.blackbook.czytamplscraper;
 
 import com.blackbook.utils.core.BotService;
+import com.blackbook.utils.core.Collector;
 import com.blackbook.utils.service.CrawlerScraperService;
 import com.blackbook.czytamplscraper.scraper.BookBuilder;
 import com.blackbook.czytamplscraper.scraper.BookstoreReader;
@@ -26,11 +27,15 @@ public class CzytamplScraperApp {
 
     @Bean
     public ScheduledExecutorService schedulerService(){
-        return Executors.newScheduledThreadPool(5);
+        return Executors.newSingleThreadScheduledExecutor();
     }
 
     @Bean
     public BotService scrapperService(){
-        return new CrawlerScraperService(new Scraper(new Connector(), new BookstoreReader(), new PromotionsPageReader(), new BookBuilder()), schedulerService());
+        return new CrawlerScraperService(getCollector(), schedulerService());
+    }
+
+    private Collector getCollector(){
+        return new Scraper(new Connector(), new BookstoreReader(), new PromotionsPageReader(), new BookBuilder());
     }
 }

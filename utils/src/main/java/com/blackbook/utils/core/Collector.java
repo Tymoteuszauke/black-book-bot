@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  * @author Sergey Shevchenko
  * @since 16.08.2017
  */
-public interface ICrawler {
+public interface Collector {
     void start(Consumer<List<BookDiscountData>> supplier);
     int getId();
 }

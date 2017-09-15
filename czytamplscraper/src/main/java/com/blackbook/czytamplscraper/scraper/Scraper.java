@@ -1,23 +1,22 @@
 package com.blackbook.czytamplscraper.scraper;
 
-import com.blackbook.utils.core.ICrawler;
+import com.blackbook.utils.core.Collector;
+import com.blackbook.utils.view.CollectorsData;
 import com.blackbook.utils.view.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
-public class Scraper implements ICrawler {
+public class Scraper implements Collector {
 
-    public static final int BOOKSTORE_ID = 2;
-
-    private Connector connector;
-    private BookstoreReader bookstoreReader;
-    private PromotionsPageReader promotionsPageReader;
-    private BookBuilder bookBuilder;
+    private final Connector connector;
+    private final BookstoreReader bookstoreReader;
+    private final PromotionsPageReader promotionsPageReader;
+    private final BookBuilder bookBuilder;
+    private final CollectorsData collectorData;
 
     public Scraper(Connector connector, BookstoreReader bookstoreReader,
                    PromotionsPageReader promotionsPageReader, BookBuilder bookBuilder) {
@@ -25,6 +24,7 @@ public class Scraper implements ICrawler {
         this.bookstoreReader = bookstoreReader;
         this.promotionsPageReader = promotionsPageReader;
         this.bookBuilder = bookBuilder;
+        this.collectorData = CollectorsData.CZYTAMPL_SCRAPER;
     }
 
     @Override
@@ -45,6 +45,6 @@ public class Scraper implements ICrawler {
 
     @Override
     public int getId() {
-        return BOOKSTORE_ID;
+        return collectorData.getBookStoreId();
     }
 }
