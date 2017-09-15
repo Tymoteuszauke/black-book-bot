@@ -1,6 +1,6 @@
-package com.blackbook.utils.view.creationmodel;
+package com.blackbook.utils.model.creationmodel;
 
-import com.blackbook.utils.view.log.LogEvent;
+import com.blackbook.utils.model.log.LogEvent;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.client.RestTemplate;

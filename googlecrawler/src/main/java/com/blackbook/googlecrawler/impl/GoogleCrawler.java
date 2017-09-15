@@ -7,8 +7,8 @@ import com.blackbook.googlecrawler.processor.core.CrawlerProcessorListener;
 import com.blackbook.googlecrawler.processor.impl.FirstPageGoogleProcessor;
 import com.blackbook.googlecrawler.processor.impl.GoogleProcessor;
 import com.blackbook.utils.core.Collector;
-import com.blackbook.utils.view.CollectorsData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
@@ -30,7 +30,6 @@ import static com.blackbook.googlecrawler.paginator.impl.GooglePaginator.NUMBER_
 @Slf4j
 public class GoogleCrawler implements Collector, KeyAccess {
 
-    private static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     private static final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";
     private static final String CRITERIA = "-";
 
@@ -135,11 +134,9 @@ public class GoogleCrawler implements Collector, KeyAccess {
         return collectorData.getBookStoreId();
     }
 
-
     String getBaseUrl() {
-        return BASE_URL;
+        return collectorData.getBaseUrl();
     }
-
 
     String getRequest(int startPosition, int numberOfItemsOnPage) {
         StringBuilder builder = new StringBuilder();

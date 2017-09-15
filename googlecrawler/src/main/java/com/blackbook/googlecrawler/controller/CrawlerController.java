@@ -1,7 +1,7 @@
 package com.blackbook.googlecrawler.controller;
 
 import com.blackbook.utils.core.BotService;
-import com.blackbook.utils.view.response.SimpleResponse;
+import com.blackbook.utils.model.response.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;

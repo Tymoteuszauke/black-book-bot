@@ -2,8 +2,8 @@ package com.blackbook.taniaksiazkascraper.scraper;
 
 
 import com.blackbook.utils.core.Collector;
-import com.blackbook.utils.view.CollectorsData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,10 @@ import java.util.function.Consumer;
 @Component
 public class Scraper implements Collector {
 
-    private static final String PROMOTION_PAGE_URL = "http://www.taniaksiazka.pl/tanie-ksiazki/page-%d";
-
     private final Connector connector;
     private final LastPageChecker checker;
     private final PromoDetailsReader detailsReader;
     private final CollectorsData collectorData;
-
 
     @Autowired
     public Scraper(Connector connector, LastPageChecker checker, PromoDetailsReader detailsReader) {
@@ -39,7 +36,7 @@ public class Scraper implements Collector {
         boolean promotionsAreOnPage = true;
 
         while (promotionsAreOnPage) {
-            String promotionPageUrl = String.format(PROMOTION_PAGE_URL, pageId);
+            String promotionPageUrl = String.format(collectorData.getBaseUrl(), pageId);
             Document document = connector.getDocumentFromWebPage(promotionPageUrl);
             Elements books = document.select(".product-container");
             books.forEach(book -> discountData.add(detailsReader.readDiscountDataProperties(connector, book)));

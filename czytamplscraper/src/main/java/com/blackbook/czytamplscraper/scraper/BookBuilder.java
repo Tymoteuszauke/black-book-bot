@@ -1,19 +1,19 @@
 package com.blackbook.czytamplscraper.scraper;
 
-import com.blackbook.utils.view.CollectorsData;
-import com.blackbook.utils.view.creationmodel.BookData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
 
 import java.util.List;
 
 public class BookBuilder {
 
-    private static final String STORE_PAGE = "http://czytam.pl";
+    private final CollectorsData collectorData = CollectorsData.CZYTAMPL_SCRAPER;
 
     BookDiscountData buildBookDiscountDataObject(Document detailsPage) {
         return BookDiscountData.builder()
-                .bookstoreId(CollectorsData.CZYTAMPL_SCRAPER.getBookStoreId())
+                .bookstoreId(collectorData.getBookStoreId())
                 .price(readBookPrice(detailsPage))
                 .bookDiscountDetails(readPromoDetails(detailsPage))
                 .bookData(BookData.builder()
@@ -28,7 +28,7 @@ public class BookBuilder {
     }
 
     String getReadPageUrl(Document detailsPage) {
-        return STORE_PAGE + detailsPage.getElementById("panel3-1").select("a").attr("href");
+        return collectorData.getBaseUrl() + detailsPage.getElementById("panel3-1").select("a").attr("href");
     }
 
     Double readBookPrice(Document detailsPage) {

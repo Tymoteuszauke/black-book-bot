@@ -2,8 +2,7 @@ package com.blackbook.googlecrawler.processor;
 
 import com.blackbook.googlecrawler.paginator.core.Paginator;
 import com.blackbook.googlecrawler.paginator.impl.DefaultPaginator;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
-import lombok.Data;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import lombok.Getter;
 
 import java.util.List;

@@ -1,10 +1,8 @@
 package com.blackbook.googlecrawler.impl;
 
 import com.blackbook.googlecrawler.paginator.core.Paginator;
-import com.blackbook.utils.view.CollectorsData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
-
-
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;

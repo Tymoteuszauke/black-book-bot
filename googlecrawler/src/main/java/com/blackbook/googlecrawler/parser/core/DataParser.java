@@ -1,7 +1,7 @@
 package com.blackbook.googlecrawler.parser.core;
 
 
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 
 import java.util.List;
 

@@ -4,11 +4,11 @@ import com.blackbook.utils.callable.SaveBooksCallable;
 import com.blackbook.utils.callable.SendLogCallable;
 import com.blackbook.utils.core.BotService;
 import com.blackbook.utils.core.Collector;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
-import com.blackbook.utils.view.creationmodel.SaveBooksCallableDataModel;
-import com.blackbook.utils.view.creationmodel.SendLogCallableDataModel;
-import com.blackbook.utils.view.log.LogEvent;
-import com.blackbook.utils.view.response.SimpleResponse;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.creationmodel.SaveBooksCallableDataModel;
+import com.blackbook.utils.model.creationmodel.SendLogCallableDataModel;
+import com.blackbook.utils.model.log.LogEvent;
+import com.blackbook.utils.model.response.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,10 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 

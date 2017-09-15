@@ -1,8 +1,8 @@
 package com.blackbook.gandalfscraper.scraper;
 
-import com.blackbook.utils.view.CollectorsData;
-import com.blackbook.utils.view.creationmodel.BookData;
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.CollectorsData;
+import com.blackbook.utils.model.creationmodel.BookData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

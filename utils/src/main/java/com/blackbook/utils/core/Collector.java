@@ -1,9 +1,8 @@
 package com.blackbook.utils.core;
 
-import com.blackbook.utils.view.creationmodel.BookDiscountData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
 
