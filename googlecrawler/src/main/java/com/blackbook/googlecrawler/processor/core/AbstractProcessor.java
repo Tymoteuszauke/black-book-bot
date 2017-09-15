@@ -2,12 +2,8 @@ package com.blackbook.googlecrawler.processor.core;
 
 import com.blackbook.googlecrawler.parser.core.DataParser;
 import com.blackbook.googlecrawler.parser.impl.GoogleParser;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.blackbook.googlecrawler.processor.impl.JsonRequestCreator;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 
 /**
@@ -16,32 +12,23 @@ import org.json.JSONObject;
 @Slf4j
 public abstract class AbstractProcessor implements CrawlerProcessor, ResponseListener {
 
-    private final String request;
+    private final JsonRequestCreator requestCreator;
     private final DataParser<JSONObject> dataParser;
     private final CrawlerProcessorListener processorListener;
 
-    public AbstractProcessor(String request, CrawlerProcessorListener processorListener) {
-        this.request = request;
+    public AbstractProcessor(JsonRequestCreator requestCreator, CrawlerProcessorListener processorListener) {
+        this.requestCreator = requestCreator;
         this.dataParser = new GoogleParser();
         this.processorListener = processorListener;
     }
 
     @Override
     public void run() {
-        try {
-            log.info(request);
-            HttpResponse<JsonNode> jsonResponse = Unirest.get(request)
-                    .header("accept", "application/json")
-                    .asJson();
-            int code = jsonResponse.getStatus();
-            if (code == HttpStatus.SC_OK) {
-                JSONObject responseBody = jsonResponse.getBody().getObject();
-                onSuccess(responseBody);
-            } else {
-                onFailed(jsonResponse.getStatusText());
-            }
-        } catch (UnirestException e) {
-            onFailed(e.getMessage());
+        requestCreator.makeRequest();
+        if (requestCreator.isSuccess()){
+            onSuccess(requestCreator.getResponseBody());
+        } else {
+            onFailed(requestCreator.getErrorMessage());
         }
     }
 

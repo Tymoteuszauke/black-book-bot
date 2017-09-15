@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class GoogleProcessor extends AbstractProcessor {
 
     public GoogleProcessor(String request, CrawlerProcessorListener processorListener) {
-        super(request, processorListener);
+        super(new JsonRequestCreator(request), processorListener);
     }
 
     @Override
