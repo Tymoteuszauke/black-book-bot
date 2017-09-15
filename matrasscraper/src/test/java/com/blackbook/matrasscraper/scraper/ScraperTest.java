@@ -36,6 +36,7 @@ public class ScraperTest {
         scraper.lastPageNo = 1;
         //when
         scraper.start(booksData -> {
+
             //then
             assertEquals(booksOnPage, booksData.size());
         });

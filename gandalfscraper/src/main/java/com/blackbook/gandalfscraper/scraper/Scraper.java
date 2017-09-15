@@ -60,11 +60,7 @@ public class Scraper implements ICrawler {
     }
 
     @Override
-<<<<<<< efa3cef6cfae92fd552abcb908a5fab9f4b408cb
     public void start(Consumer<List<BookDiscountData>> consumer) {
-=======
-    public void start(CrawlerActionListener actionListener) {
->>>>>>> added tests for googlecrawler
         Document mainPageDoc = webConnector.connect(GANDALF_DISCOUNT_URL);
         int lastPageNo = lastPageChecker.extractLastPage(mainPageDoc);
         consumer.accept(extractBookElements(lastPageNo));
