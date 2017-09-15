@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
 public class AbstractProcessorTest {
 
     @Test
-    public void testSuccessRunMethod(){
+    public void testSuccessRunMethod() {
         //given
         JSONObject fakeResponseBody = new JSONObject();
         JsonRequestCreator requestCreator = mock(JsonRequestCreator.class);
@@ -21,14 +21,13 @@ public class AbstractProcessorTest {
         when(requestCreator.isSuccess()).thenReturn(true);
         when(requestCreator.getResponseBody()).thenReturn(fakeResponseBody);
 
-
-
         CrawlerProcessorListener mockedListener = mock(CrawlerProcessorListener.class);
         AbstractProcessor processor = new AbstractProcessor(requestCreator, mockedListener) {
             @Override
             public void onSuccess(JSONObject responseBody) {
                 //then
                 Assert.assertEquals(responseBody, fakeResponseBody);
+                verify(requestCreator, times(1)).makeRequest();
             }
         };
 
@@ -37,15 +36,13 @@ public class AbstractProcessorTest {
     }
 
     @Test
-    public void testFailedRunMethod(){
+    public void testFailedRunMethod() {
         //given
         String failMessage = "failed";
         JsonRequestCreator requestCreator = mock(JsonRequestCreator.class);
         doNothing().when(requestCreator).makeRequest();
         when(requestCreator.isSuccess()).thenReturn(false);
         when(requestCreator.getErrorMessage()).thenReturn(failMessage);
-
-
 
         CrawlerProcessorListener mockedListener = mock(CrawlerProcessorListener.class);
         AbstractProcessor processor = new AbstractProcessor(requestCreator, mockedListener) {
