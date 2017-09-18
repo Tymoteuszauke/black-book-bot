@@ -4,9 +4,11 @@ import com.blackbook.utils.model.CollectorsData;
 import com.blackbook.utils.model.creationmodel.BookData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class BookBuilder {
 
     private final CollectorsData collectorData = CollectorsData.CZYTAMPL_SCRAPER;

@@ -1,14 +1,11 @@
 package com.blackbook.gandalfscraper;
 
-import com.blackbook.gandalfscraper.scraper.LastPageChecker;
-import com.blackbook.gandalfscraper.scraper.Scraper;
-import com.blackbook.gandalfscraper.webconnector.JsoupWebConnector;
-import com.blackbook.utils.core.BotService;
-import com.blackbook.utils.core.Collector;
-import com.blackbook.utils.service.CrawlerScraperService;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.concurrent.Executors;
@@ -27,12 +24,8 @@ public class GandalfScraperApp {
     }
 
     @Bean
-    public BotService scrapperService(){
-        return new CrawlerScraperService(getCollector(), schedulerService());
-    }
-
-    private Collector getCollector(){
-        return new Scraper(new JsoupWebConnector(), new LastPageChecker());
+    public TaskExecutor taskExecutor(){
+        return new SimpleAsyncTaskExecutor();
     }
 
     public static void main(String[] args) {

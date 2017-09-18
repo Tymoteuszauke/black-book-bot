@@ -1,8 +1,5 @@
 package com.blackbook.googlecrawler;
 
-import com.blackbook.googlecrawler.impl.GoogleCrawler;
-import com.blackbook.utils.core.BotService;
-import com.blackbook.utils.service.CrawlerScraperService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,13 +14,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-/**
- *
- *
- */
 @SpringBootApplication
 @EnableSwagger2
-public class CrawlerApp {
+public class GoogleCrawlerApp {
 
     @Bean
     public Docket api() {
@@ -41,10 +34,6 @@ public class CrawlerApp {
         return Executors.newSingleThreadScheduledExecutor();
     }
 
-    @Bean
-    public BotService scrapperService(){
-        return new CrawlerScraperService(new GoogleCrawler(Executors.newCachedThreadPool()), schedulerService());
-    }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -54,6 +43,6 @@ public class CrawlerApp {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(CrawlerApp.class, args);
+        SpringApplication.run(GoogleCrawlerApp.class, args);
     }
 }

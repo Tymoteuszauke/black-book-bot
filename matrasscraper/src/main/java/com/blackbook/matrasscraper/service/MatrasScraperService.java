@@ -1,4 +1,4 @@
-package com.blackbook.utils.service;
+package com.blackbook.matrasscraper.service;
 
 import com.blackbook.utils.callable.SaveBooksCallable;
 import com.blackbook.utils.callable.SendLogCallable;
@@ -35,7 +35,7 @@ import java.util.function.Consumer;
  */
 @Slf4j
 @Service
-public class CrawlerScraperService implements BotService {
+public class MatrasScraperService implements BotService {
 
     private final long DELAY_BEFORE_SECOND_TRY = 5;
 
@@ -48,7 +48,7 @@ public class CrawlerScraperService implements BotService {
     Consumer<List<BookDiscountData>> collectorConsumer;
 
     @Autowired
-    public CrawlerScraperService(Collector collector, ScheduledExecutorService scheduledExecutorService) {
+    public MatrasScraperService(Collector collector, ScheduledExecutorService scheduledExecutorService) {
         this.collector = collector;
         this.scheduledExecutorService = scheduledExecutorService;
     }
