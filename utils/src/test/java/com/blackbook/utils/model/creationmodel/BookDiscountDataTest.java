@@ -67,6 +67,12 @@ public class BookDiscountDataTest {
     }
 
     @Test
+    public void sameObjectsShouldHaveSameHashCode() {
+        // Then
+        assertEquals(discountData.hashCode(), otherDiscountData.hashCode());
+    }
+
+    @Test
     public void shouldReturnFalseForNotEqualsObjects() {
         // When
         otherDiscountData.setBookDiscountDetails("-25%");

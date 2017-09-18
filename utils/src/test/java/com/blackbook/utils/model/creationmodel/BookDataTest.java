@@ -54,6 +54,12 @@ public class BookDataTest {
     }
 
     @Test
+    public void sameObjectsShouldHaveSameHashCode() {
+        // Then
+        assertEquals(bookData.hashCode(), otherBookData.hashCode());
+    }
+
+    @Test
     public void shouldReturnFalseForNotEqualsObjects() {
         // When
         otherBookData.setTitle("Pan Tymke");
