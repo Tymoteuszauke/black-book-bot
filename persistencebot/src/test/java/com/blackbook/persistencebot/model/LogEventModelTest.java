@@ -136,7 +136,7 @@ public class LogEventModelTest {
     }
 
     @Test
-    public void shouldReturnFalseForObjectsWithDifferentBookstore() throws Exception {
+    public void shouldReturnFalseForObjectsWithDifferentBookstoreName() throws Exception {
         // When
         otherBookstore.setName("Other");
         otherLogEventModel.setBookStore(otherBookstore);
@@ -146,9 +146,29 @@ public class LogEventModelTest {
     }
 
     @Test
-    public void shouldReturnDifferentHashCodeForObjectsWithDifferentBookstore() throws Exception {
+    public void shouldReturnDifferentHashCodeForObjectsWithDifferentBookstoreName() throws Exception {
         // When
         otherBookstore.setName("Other");
+        otherLogEventModel.setBookStore(otherBookstore);
+
+        // Then
+        assertNotEquals(logEventModel.hashCode(), otherLogEventModel.hashCode());
+    }
+
+    @Test
+    public void shouldReturnFalseForObjectsWithDifferentBookstoreDetails() throws Exception {
+        // When
+        otherBookstore.setDetails("Other details");
+        otherLogEventModel.setBookStore(otherBookstore);
+
+        // Then
+        assertFalse(logEventModel.equals(otherLogEventModel));
+    }
+
+    @Test
+    public void shouldReturnDifferentHashCodeForObjectsWithDifferentBookstoreDetails() throws Exception {
+        // When
+        otherBookstore.setDetails("Other details");
         otherLogEventModel.setBookStore(otherBookstore);
 
         // Then
