@@ -60,7 +60,12 @@ public class PromoDetailsReader {
     }
 
     private String readReadBookGenre(Document detailsPage) {
-        return detailsPage.getElementById("path-top").select(".active").text();
+        try {
+            return detailsPage.getElementById("path-top").select(".active").text();
+        } catch (NullPointerException e) {
+            log.info("Cannot read genre of: " + readTitle(detailsPage));
+            return "Unknown";
+        }
     }
 
     private String readBookDetailsPagePath(Element book) {

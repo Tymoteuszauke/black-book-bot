@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class BookBuilder {
 
-    private final CollectorsData collectorData = CollectorsData.CZYTAMPL_SCRAPER;
+    private static final CollectorsData collectorData = CollectorsData.CZYTAMPL_SCRAPER;
 
     BookDiscountData buildBookDiscountDataObject(Document detailsPage) {
         return BookDiscountData.builder()
