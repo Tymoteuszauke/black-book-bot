@@ -1,15 +1,10 @@
 package com.blackbook.taniaksiazkascraper;
 
-import com.blackbook.taniaksiazkascraper.scraper.Connector;
-import com.blackbook.taniaksiazkascraper.scraper.LastPageChecker;
-import com.blackbook.taniaksiazkascraper.scraper.PromoDetailsReader;
-import com.blackbook.taniaksiazkascraper.scraper.Scraper;
-import com.blackbook.utils.core.BotService;
-import com.blackbook.utils.core.Collector;
-import com.blackbook.utils.service.CrawlerScraperService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.concurrent.Executors;
@@ -28,11 +23,8 @@ public class TaniaksiazkaScraperApp {
     }
 
     @Bean
-    public BotService scrapperService(){
-        return new CrawlerScraperService(getCollector(), schedulerService());
+    public TaskExecutor taskExecutor(){
+        return new SimpleAsyncTaskExecutor();
     }
 
-    private Collector getCollector(){
-        return new Scraper(new Connector(), new LastPageChecker(), new PromoDetailsReader());
-    }
 }

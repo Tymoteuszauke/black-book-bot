@@ -1,7 +1,7 @@
 package com.blackbook.googlecrawler.controller;
 
 
-import com.blackbook.utils.service.CrawlerScraperService;
+import com.blackbook.googlecrawler.service.GoogleCrawlerService;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,13 +35,13 @@ public class CrawlerControllerTest {
 
     @Test
     public void testPostBookDiscountsMethodResponse(){
-        CrawlerScraperService crawlerScraperService = mock(CrawlerScraperService.class);
-        doNothing().when(crawlerScraperService).saveResultsInDatabase();
+        GoogleCrawlerService service = mock(GoogleCrawlerService.class);
+        doNothing().when(service).saveResultsInDatabase();
 
-        CrawlerController crawlerController = new CrawlerController(crawlerScraperService);
+        CrawlerController crawlerController = new CrawlerController(service);
         Assert.assertEquals(crawlerController.postBookDiscounts().getCode(), HttpStatus.SC_OK);
 
-        verify(crawlerScraperService, times(1)).saveResultsInDatabase();
+        verify(service, times(1)).saveResultsInDatabase();
     }
 
 }

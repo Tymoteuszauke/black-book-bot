@@ -5,11 +5,14 @@ import com.blackbook.utils.model.CollectorsData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
+@Component
 public class Scraper implements Collector {
 
     private final Connector connector;
@@ -18,6 +21,7 @@ public class Scraper implements Collector {
     private final BookBuilder bookBuilder;
     private final CollectorsData collectorData;
 
+    @Autowired
     public Scraper(Connector connector, BookstoreReader bookstoreReader,
                    PromotionsPageReader promotionsPageReader, BookBuilder bookBuilder) {
         this.connector = connector;

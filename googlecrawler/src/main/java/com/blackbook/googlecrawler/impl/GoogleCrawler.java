@@ -10,6 +10,7 @@ import com.blackbook.utils.core.Collector;
 import com.blackbook.utils.model.CollectorsData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -28,6 +29,7 @@ import static com.blackbook.googlecrawler.paginator.impl.GooglePaginator.NUMBER_
  * @since 17.08.17
  */
 @Slf4j
+@Component
 public class GoogleCrawler implements Collector, KeyAccess {
 
     private static final String KEY_STRING = "&key=AIzaSyD5fIReicRyjqkK-TKO5akZ2Uw2v_Qhs_4";

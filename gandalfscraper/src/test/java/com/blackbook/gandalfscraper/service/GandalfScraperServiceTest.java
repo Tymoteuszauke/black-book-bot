@@ -1,4 +1,4 @@
-package com.blackbook.utils.service;
+package com.blackbook.gandalfscraper.service;
 
 import com.blackbook.utils.callable.SaveBooksCallable;
 import com.blackbook.utils.core.Collector;
@@ -14,12 +14,13 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.*;
 
 /**
  * @author Siarhei Shauchenka at 13.09.17
  */
-public class CrawlerScraperServiceTest {
+public class GandalfScraperServiceTest {
 
     private SimpleResponse successMockResponse;
     private SimpleResponse failedMockResponse;
@@ -46,7 +47,7 @@ public class CrawlerScraperServiceTest {
         //given
         Collector crawler = mock(Collector.class);
         ScheduledExecutorService mockedExecutorService = mock(ScheduledExecutorService.class);
-        CrawlerScraperService service = new CrawlerScraperService(crawler, mockedExecutorService);
+        GandalfScraperService service = new GandalfScraperService(crawler, mockedExecutorService);
 
         //when
         doNothing().when(crawler).start(any());
@@ -61,7 +62,7 @@ public class CrawlerScraperServiceTest {
         //given
         Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
-        CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
+        GandalfScraperService service = new GandalfScraperService(crawler, executorService);
 
         ScheduledFuture<SimpleResponse> mockTestFuture = mock(ScheduledFuture.class);
 
@@ -85,7 +86,7 @@ public class CrawlerScraperServiceTest {
         //given
         Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
-        CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
+        GandalfScraperService service = new GandalfScraperService(crawler, executorService);
 
         when(mockSuccessTestFuture.get()).thenReturn(successMockResponse);
         when(mockFailedTestFuture.get()).thenReturn(failedMockResponse);
@@ -107,7 +108,7 @@ public class CrawlerScraperServiceTest {
         //given
         Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
-        CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
+        GandalfScraperService service = new GandalfScraperService(crawler, executorService);
 
         when(mockFailedTestFuture.get()).thenReturn(failedMockResponse);
 
@@ -128,7 +129,7 @@ public class CrawlerScraperServiceTest {
         //given
         Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
-        CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
+        GandalfScraperService service = new GandalfScraperService(crawler, executorService);
         ScheduledFuture<SimpleResponse> mockFailedTestFutureWithException = mock(ScheduledFuture.class);
 
         when(mockFailedTestFuture.get()).thenReturn(failedMockResponse);
@@ -151,7 +152,7 @@ public class CrawlerScraperServiceTest {
         //given
         Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
-        CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
+        GandalfScraperService service = new GandalfScraperService(crawler, executorService);
 
         when(executorService.awaitTermination(anyLong(), any(TimeUnit.class))).thenReturn(false);
 
@@ -163,24 +164,4 @@ public class CrawlerScraperServiceTest {
         verify(executorService,times(1)).awaitTermination(anyLong(),any(TimeUnit.class));
         verify(executorService,times(1)).shutdownNow();
     }
-
-    //This test broke JVM normal execution. The cause needs to be researched.
-
-//    @Test
-//    public void testTerminatingExecutorWithException() throws InterruptedException {
-//        //given
-//        ICrawler crawler = mock(ICrawler.class);
-//        ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
-//        CrawlerScraperService service = new CrawlerScraperService(crawler, executorService);
-//
-//        when(executorService.awaitTermination(anyLong(), any(TimeUnit.class))).thenThrow(InterruptedException.class);
-//
-//        //when
-//        service.terminateExecutor();
-//
-//        //then
-//        verify(executorService,times(1)).shutdown();
-//        verify(executorService,times(1)).awaitTermination(anyLong(),any(TimeUnit.class));
-//        verify(executorService,times(1)).shutdownNow();
-//    }
 }

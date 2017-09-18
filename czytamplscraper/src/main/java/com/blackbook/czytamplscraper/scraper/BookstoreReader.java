@@ -1,11 +1,14 @@
 package com.blackbook.czytamplscraper.scraper;
 
 import org.jsoup.nodes.Document;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+
+@Component
 public class BookstoreReader {
     private static final String START_PAGE = "http://czytam.pl/tania-ksiazka.html";
     private static final String PROMOTION_PAGE_TEMPLATE = "http://czytam.pl/tania-ksiazka,%d.html";
