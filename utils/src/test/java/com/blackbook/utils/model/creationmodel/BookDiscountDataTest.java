@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
 public class BookDiscountDataTest {
@@ -79,13 +80,73 @@ public class BookDiscountDataTest {
     }
 
     @Test
-    public void shouldReturnFalseForNotEqualsObjects() {
+    public void shouldReturnFalseObjectsWithDifferentDiscountDetails() {
         // When
         otherDiscountData.setBookDiscountDetails("-25%");
-        otherDiscountData.setPrice(15.49);
-        otherDiscountData.setBookstoreId(10);
-        otherDiscountData.setBookData(otherBookData);
         // Then
         assertFalse(discountData.equals(otherDiscountData));
+    }
+
+    @Test
+    public void shouldReturnDifferentHashCodeForObjectsWithDifferentDiscountData() {
+        // When
+        otherDiscountData.setBookDiscountDetails("-25%");
+
+        // Then
+        assertNotEquals(discountData.hashCode(), otherDiscountData.hashCode());
+    }
+
+    @Test
+    public void shouldReturnFalseObjectsWithDifferentPrice() {
+        // When
+        otherDiscountData.setPrice(15.49);
+
+        // Then
+        assertFalse(discountData.equals(otherDiscountData));
+    }
+
+    @Test
+    public void shouldReturnDifferentHashCodeForObjectsWithDifferentPrice() {
+        // When
+        otherDiscountData.setPrice(15.49);
+
+        // Then
+        assertNotEquals(discountData.hashCode(), otherDiscountData.hashCode());
+    }
+
+    @Test
+    public void shouldReturnFalseObjectsWithDifferentBookstoreId() {
+        // When
+        otherDiscountData.setBookstoreId(10);
+
+        // Then
+        assertFalse(discountData.equals(otherDiscountData));
+    }
+
+    @Test
+    public void shouldReturnDifferentHashCodeForObjectsWithDifferentBookstoreId() {
+        // When
+        otherDiscountData.setBookstoreId(10);
+
+        // Then
+        assertNotEquals(discountData.hashCode(), otherDiscountData.hashCode());
+    }
+
+    @Test
+    public void shouldReturnFalseObjectsWithDifferentBookData() {
+        // When
+        otherDiscountData.setBookData(otherBookData);
+
+        // Then
+        assertFalse(discountData.equals(otherDiscountData));
+    }
+
+    @Test
+    public void shouldReturnDifferentHashCodeForObjectsWithDifferentBookData() {
+        // When
+        otherDiscountData.setBookData(otherBookData);
+
+        // Then
+        assertNotEquals(discountData.hashCode(), otherDiscountData.hashCode());
     }
 }
