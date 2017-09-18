@@ -7,21 +7,21 @@ import com.blackbook.googlecrawler.paginator.core.Paginator;
  */
 public class DefaultPaginator implements Paginator{
 
-    private static final int defaultNumberOfPages = 1;
-    private static final int defaultItemsOnPage = 20;
+    private static final int DEFAULT_NUMBER_OF_PAGES = 1;
+    private static final int DEFAULT_ITEMS_ON_PAGE = 20;
 
     @Override
     public int getNumberOfPages() {
-        return defaultNumberOfPages;
+        return DEFAULT_NUMBER_OF_PAGES;
     }
 
     @Override
     public int getItemsOnPage() {
-        return defaultItemsOnPage;
+        return DEFAULT_ITEMS_ON_PAGE;
     }
 
     @Override
     public int getTotalNumberOfItems() {
-        return defaultItemsOnPage;
+        return DEFAULT_ITEMS_ON_PAGE;
     }
 }

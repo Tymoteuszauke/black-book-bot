@@ -60,6 +60,12 @@ public class BookDataTest {
     }
 
     @Test
+    public void shouldReturnSameStringsForSameObjects() throws Exception {
+        // Then
+        assertEquals(bookData.toString(), otherBookData.toString());
+    }
+
+    @Test
     public void shouldReturnFalseForNotEqualsObjects() {
         // When
         otherBookData.setTitle("Pan Tymke");

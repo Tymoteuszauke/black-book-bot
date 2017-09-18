@@ -48,6 +48,12 @@ public class BookViewTest {
     }
 
     @Test
+    public void shouldReturnSameStringsForSameObjects() throws Exception {
+        // Then
+        assertEquals(bookView.toString(), otherBookView.toString());
+    }
+
+    @Test
     public void shouldReturnFalseForObjectsWithDifferentId() throws Exception {
         // When
         otherBookView.setId(5L);

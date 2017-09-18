@@ -40,6 +40,12 @@ public class BookstoreViewTest {
     }
 
     @Test
+    public void shouldReturnSameStringsForSameObjects() throws Exception {
+        // Then
+        assertEquals(bookstoreView.toString(), otherBookstoreView.toString());
+    }
+
+    @Test
     public void shouldReturnFalseForBookstoresWithDifferentId() {
         // When
         otherBookstoreView.setId(5L);

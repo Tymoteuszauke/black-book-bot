@@ -37,7 +37,7 @@ import java.util.function.Consumer;
 @Service
 public class GandalfScraperService implements BotService {
 
-    private final long DELAY_BEFORE_SECOND_TRY = 5;
+    private static final long DELAY_BEFORE_SECOND_TRY = 5;
 
     private final ScheduledExecutorService scheduledExecutorService;
     private final Collector collector;

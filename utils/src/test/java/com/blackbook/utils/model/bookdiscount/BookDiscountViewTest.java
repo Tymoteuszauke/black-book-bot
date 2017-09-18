@@ -75,6 +75,12 @@ public class BookDiscountViewTest {
     }
 
     @Test
+    public void shouldReturnSameStringsForSameObjects() throws Exception {
+        // Then
+        assertEquals(discountView.toString(), otherDiscountView.toString());
+    }
+
+    @Test
     public void shouldReturnFalseForDiscountWithDifferentId() throws Exception {
         // When
         otherDiscountView.setId(5L);

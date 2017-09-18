@@ -67,6 +67,12 @@ public class BookDiscountDataTest {
     }
 
     @Test
+    public void shouldReturnSameStringsForSameObjects() throws Exception {
+        // Then
+        assertEquals(discountData.toString(), otherDiscountData.toString());
+    }
+
+    @Test
     public void sameObjectsShouldHaveSameHashCode() {
         // Then
         assertEquals(discountData.hashCode(), otherDiscountData.hashCode());
