@@ -43,7 +43,7 @@ public class Scraper implements Collector {
     }
 
     private List<BookDiscountData> extractBookElementsFromSinglePage(Document document) {
-        Elements bookElements = document.getElementsByClass("s-item eqh");
+        Elements bookElements = document.select("main .s-item.eqh");
         return bookElements.stream()
                 .map(bookElement -> {
                     String bookUrl = extractBookUrl(bookElement);
@@ -65,7 +65,7 @@ public class Scraper implements Collector {
         Document mainPageDoc = htmlDocumentProvider.provide(collectorData.getBaseUrl());
         lastPageNo = Math.min(lastPageNo, extractLastPageNo(mainPageDoc));
         List<BookDiscountData> bookDiscountData = new LinkedList<>();
-        for (int i = 0; i < lastPageNo; i++) {
+        for (int i = 1; i < lastPageNo; i++) {
             Document pageDoc = htmlDocumentProvider.provide(matrasUrlPage + i);
             bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
         }

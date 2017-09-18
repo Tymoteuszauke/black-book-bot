@@ -78,8 +78,8 @@ public class BookDiscountsController {
             log.info("Transaction: POST /api/book-discounts");
             bookDiscountData
                     .stream()
-                    .map(bookDiscountParserService::parseBookDiscountData)
                     .distinct()
+                    .map(bookDiscountParserService::parseBookDiscountData)
                     .collect(Collectors.toList());
 
             return SimpleResponse.builder()
