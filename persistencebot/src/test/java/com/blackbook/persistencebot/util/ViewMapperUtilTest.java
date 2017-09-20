@@ -43,7 +43,7 @@ public class ViewMapperUtilTest {
         book.setTitle("Pan Tymek");
         book.setSubtitle("-");
         book.setAuthors("Tymke Wergiliusz");
-        book.setGenre("Biografia");
+//        book.setGenre("Biografia");
         book.setCoverUrl("www.covers.com/tymek");
         book.setBookPageUrl("www.bookstore.com/book/pan-tymek");
 
@@ -67,7 +67,7 @@ public class ViewMapperUtilTest {
         book.setTitle("Pan Tymek");
         book.setSubtitle("-");
         book.setAuthors("Tymke Wergiliusz");
-        book.setGenre("Biografia");
+//        book.setGenre("Biografia");
         book.setCoverUrl("www.covers.com/tymek");
         book.setBookPageUrl("www.bookstore.com/book/pan-tymek");
 

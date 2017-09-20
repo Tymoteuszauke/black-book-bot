@@ -27,7 +27,7 @@ public class MatrasScraperApp {
     }
 
     @Bean
-    public TaskExecutor taskExecutor(){
+    public TaskExecutor taskExecutor() {
         return new SimpleAsyncTaskExecutor();
     }
 }

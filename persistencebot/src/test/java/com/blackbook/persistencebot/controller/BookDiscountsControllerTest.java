@@ -8,6 +8,7 @@ import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
 import com.blackbook.persistencebot.model.LogEventModel;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
+import com.blackbook.persistencebot.service.GenreService;
 import com.blackbook.utils.model.bookdiscount.BookDiscountView;
 import com.blackbook.utils.model.creationmodel.BookData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
@@ -29,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
@@ -87,7 +89,7 @@ public class BookDiscountsControllerTest {
         book.setTitle("Pan Tymek");
         book.setSubtitle("-");
         book.setAuthors("Tymke Wergiliusz");
-        book.setGenre("Biografia");
+//        book.setGenre("Biografia");
         book.setCoverUrl("www.covers.com/tymek");
         book.setBookPageUrl("www.bookstore.com/book/pan-tymek");
 
@@ -139,7 +141,11 @@ public class BookDiscountsControllerTest {
         initDataForSavingTest();
         when(service.parseBookDiscountData(bookDiscountData)).thenReturn(discount);
         when(repo.save(discount)).thenReturn(savedDiscount);
-
+        GenreService genreService = mock(GenreService.class);
+        doNothing().when(genreService).addGenreToDatabase(any(), any());
+        doNothing().when(genreService).setGenres();
+        service.setGenreService(genreService);
+        controller.setGenreService(genreService);
         // When
         SimpleResponse response = controller.postBookDiscounts(discountList);
 
@@ -169,7 +175,7 @@ public class BookDiscountsControllerTest {
         Book book = new Book();
         book.setTitle(bookData.getTitle());
         book.setSubtitle(bookData.getSubtitle());
-        book.setGenre(bookData.getGenre());
+//        book.setGenre(bookData.getGenre());
         book.setAuthors(bookData.getAuthors());
         book.setBookPageUrl(bookData.getBookPageUrl());
         book.setCoverUrl(bookData.getCoverUrl());

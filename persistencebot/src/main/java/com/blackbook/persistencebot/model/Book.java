@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,8 +31,6 @@ public class Book {
     @Column(name = "subtitle")
     private String subtitle;
 
-    @Column(name = "genre")
-    private String genre;
 
     @Column(name = "authors")
     private String authors;
@@ -45,6 +44,12 @@ public class Book {
     @Column(name = "book_page_url")
     private String bookPageUrl;
 
-    @ManyToMany(mappedBy = "book")
+    @ManyToMany
+    @JoinTable(name = "book_genre",
+            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
+    private List<Genre> genres = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book")
     private List<BookDiscount> bookDiscounts;
 }
