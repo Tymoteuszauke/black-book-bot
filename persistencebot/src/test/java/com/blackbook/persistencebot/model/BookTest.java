@@ -28,12 +28,12 @@ public class BookTest {
         Book book1 = new Book();
         book1.setTitle(title);
         book1.setSubtitle(subtitle);
-        book1.setGenre(genre);
+//        book1.setGenre(genre);
 
         Book book2 = new Book();
         book2.setTitle(title);
         book2.setSubtitle(subtitle);
-        book2.setGenre(genre);
+//        book2.setGenre(genre);
 
         // Then
         assertTrue(book1.equals(book2));
@@ -45,12 +45,12 @@ public class BookTest {
         Book book1 = new Book();
         book1.setTitle(title);
         book1.setSubtitle(subtitle);
-        book1.setGenre(genre);
+//        book1.setGenre(genre);
 
         Book book2 = new Book();
         book2.setTitle(title);
         book2.setSubtitle(subtitle);
-        book2.setGenre(genre);
+//        book2.setGenre(genre);
 
         // Then
         assertEquals(book1.hashCode(), book2.hashCode());
@@ -62,12 +62,12 @@ public class BookTest {
         Book book1 = new Book();
         book1.setTitle(title);
         book1.setSubtitle(subtitle);
-        book1.setGenre(genre);
+//        book1.setGenre(genre);
 
         Book book2 = new Book();
         book2.setTitle(title);
         book2.setSubtitle(subtitle);
-        book2.setGenre(genre);
+//        book2.setGenre(genre);
 
         // Then
         assertEquals(book1.toString(), book2.toString());

@@ -3,6 +3,6 @@ CREATE TABLE logs (
     bookstore_id int,
     start_time timestamp,
     finish_time timestamp,
-    result int
+    result int,
     FOREIGN KEY (bookstore_id) REFERENCES bookstores(id)
 );

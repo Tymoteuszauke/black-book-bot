@@ -2,10 +2,13 @@ package com.blackbook.persistencebot.controller;
 
 import com.blackbook.persistencebot.dao.BookDiscountsRepository;
 import com.blackbook.persistencebot.dao.BookstoresRepository;
+import com.blackbook.persistencebot.dao.GenreRepository;
 import com.blackbook.persistencebot.dao.LogEventRepository;
 import com.blackbook.persistencebot.model.BookDiscount;
+import com.blackbook.persistencebot.model.Genre;
 import com.blackbook.persistencebot.model.LogEventModel;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
+import com.blackbook.persistencebot.service.GenreService;
 import com.blackbook.persistencebot.util.ViewMapperUtil;
 import com.blackbook.utils.model.bookdiscount.BookDiscountView;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
@@ -21,6 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +38,7 @@ public class BookDiscountsController {
     private LogEventRepository logEventRepository;
     private BookstoresRepository bookstoresRepository;
     private BookDiscountParserService bookDiscountParserService;
+    private GenreService genreService;
 
     @Autowired
     public BookDiscountsController(BookDiscountsRepository bookDiscountsRepository, BookDiscountParserService bookDiscountParserService, LogEventRepository logEventRepository, BookstoresRepository bookstoresRepository) {
@@ -41,6 +46,11 @@ public class BookDiscountsController {
         this.bookDiscountParserService = bookDiscountParserService;
         this.logEventRepository = logEventRepository;
         this.bookstoresRepository = bookstoresRepository;
+    }
+
+    @Autowired
+    public void setGenreService(GenreService genreService) {
+        this.genreService = genreService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -76,11 +86,14 @@ public class BookDiscountsController {
     public SimpleResponse postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountData) {
         try {
             log.info("Transaction: POST /api/book-discounts");
+            List<Genre> genres = new ArrayList<>();
             bookDiscountData
                     .stream()
                     .distinct()
                     .map(bookDiscountParserService::parseBookDiscountData)
                     .collect(Collectors.toList());
+
+            genreService.setGenres();
 
             return SimpleResponse.builder()
                     .code(HttpStatus.SC_OK)
@@ -115,6 +128,5 @@ public class BookDiscountsController {
                     .message("Something went wrong! Log was not saved!")
                     .build();
         }
-
     }
 }

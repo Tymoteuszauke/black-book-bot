@@ -13,19 +13,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @Slf4j
+@Service
 public class BookDiscountParserService {
 
     private BooksRepository booksRepository;
     private BookstoresRepository bookstoresRepository;
     private BookDiscountsRepository bookDiscountsRepository;
+    private GenreService genreService;
 
     @Autowired
     public BookDiscountParserService(BooksRepository booksRepository, BookstoresRepository bookstoresRepository, BookDiscountsRepository bookDiscountsRepository) {
         this.booksRepository = booksRepository;
         this.bookstoresRepository = bookstoresRepository;
         this.bookDiscountsRepository = bookDiscountsRepository;
+    }
+
+    @Autowired
+    public void setGenreService(GenreService genreService) {
+        this.genreService = genreService;
     }
 
     /**
@@ -56,15 +62,17 @@ public class BookDiscountParserService {
         return bookDiscountsRepository.save(bookDiscount);
     }
 
+
     private Book parseBookData(BookData bookData) {
         Book book = new Book();
         book.setTitle(bookData.getTitle());
         book.setSubtitle(bookData.getSubtitle());
-        book.setGenre(bookData.getGenre());
         book.setAuthors(bookData.getAuthors());
         book.setPublisher(bookData.getPublisher());
         book.setBookPageUrl(bookData.getBookPageUrl());
         book.setCoverUrl(bookData.getCoverUrl());
+
+        genreService.addGenreToDatabase(bookData, book);
         return book;
     }
 }

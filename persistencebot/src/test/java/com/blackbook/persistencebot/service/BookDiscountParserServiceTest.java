@@ -8,6 +8,7 @@ import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
 import com.blackbook.utils.model.creationmodel.BookData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.mockito.Matchers.any;
@@ -20,6 +21,7 @@ public class BookDiscountParserServiceTest {
     private BooksRepository booksRepository;
     private BookstoresRepository bookstoresRepository;
     private BookDiscountsRepository discountsRepository;
+    private GenreService genreService;
 
     private BookData data = BookData.builder()
             .title("Pan Tymek")
@@ -36,6 +38,12 @@ public class BookDiscountParserServiceTest {
             .bookData(data)
             .build();
 
+    @BeforeMethod
+    public void setupGenreService() {
+        genreService = mock(GenreService.class);
+        doNothing().when(genreService).addGenreToDatabase(any(), any());
+    }
+
     @Test
     public void shouldParseDiscountData() throws Exception {
         // Given
@@ -47,7 +55,7 @@ public class BookDiscountParserServiceTest {
 
         when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
         service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
-
+        service.setGenreService(genreService);
         // When
         BookDiscount getDiscount = service.parseBookDiscountData(discountData);
 
@@ -56,7 +64,7 @@ public class BookDiscountParserServiceTest {
         assertEquals("-25%", getDiscount.getBookDiscountDetails());
         assertEquals("Pan Tymek", getDiscount.getBook().getTitle());
         assertEquals("-", getDiscount.getBook().getSubtitle());
-        assertEquals("Biografia", getDiscount.getBook().getGenre());
+//        assertEquals("Biografia", getDiscount.getBook().getGenre());
         assertEquals("Tymke Wergiliusz", getDiscount.getBook().getAuthors());
         assertEquals("www.bookstore.com/book/pan-tymek", getDiscount.getBook().getBookPageUrl());
         assertEquals("www.covers.com/tymek", getDiscount.getBook().getCoverUrl());
@@ -68,7 +76,7 @@ public class BookDiscountParserServiceTest {
         Book foundBook = new Book();
         foundBook.setTitle("Pani Patrycja");
         foundBook.setSubtitle("Java developer");
-        foundBook.setGenre("Poradnik");
+//        foundBook.setGenre("Poradnik");
         foundBook.setAuthors("Jan Tymke");
         foundBook.setBookPageUrl("www.bookstore.com/book/pani-patrycja");
         foundBook.setCoverUrl("www.covers.com/patkkka");
@@ -83,6 +91,7 @@ public class BookDiscountParserServiceTest {
         when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
 
         service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
+        service.setGenreService(genreService);
 
         // When
         BookDiscount getDiscount = service.parseBookDiscountData(discountData);
@@ -92,7 +101,7 @@ public class BookDiscountParserServiceTest {
         assertEquals("-25%", getDiscount.getBookDiscountDetails());
         assertEquals("Pani Patrycja", getDiscount.getBook().getTitle());
         assertEquals("Java developer", getDiscount.getBook().getSubtitle());
-        assertEquals("Poradnik", getDiscount.getBook().getGenre());
+//        assertEquals("Poradnik", getDiscount.getBook().getGenre());
         assertEquals("Jan Tymke", getDiscount.getBook().getAuthors());
         assertEquals("www.bookstore.com/book/pani-patrycja", getDiscount.getBook().getBookPageUrl());
         assertEquals("www.covers.com/patkkka", getDiscount.getBook().getCoverUrl());
@@ -112,6 +121,7 @@ public class BookDiscountParserServiceTest {
         doNothing().when(discountsRepository).delete(any(Long.class));
 
         service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
+        service.setGenreService(genreService);
 
         // When
         BookDiscount getDiscount = service.parseBookDiscountData(discountData);
@@ -121,7 +131,7 @@ public class BookDiscountParserServiceTest {
         assertEquals("-25%", getDiscount.getBookDiscountDetails());
         assertEquals("Pan Tymek", getDiscount.getBook().getTitle());
         assertEquals("-", getDiscount.getBook().getSubtitle());
-        assertEquals("Biografia", getDiscount.getBook().getGenre());
+//        assertEquals("Biografia", getDiscount.getBook().getGenre());
         assertEquals("Tymke Wergiliusz", getDiscount.getBook().getAuthors());
         assertEquals("www.bookstore.com/book/pan-tymek", getDiscount.getBook().getBookPageUrl());
         assertEquals("www.covers.com/tymek", getDiscount.getBook().getCoverUrl());
@@ -136,7 +146,7 @@ public class BookDiscountParserServiceTest {
         book.setId(1);
         book.setTitle("Pan Tymek");
         book.setSubtitle("-");
-        book.setGenre("Biografia");
+//        book.setGenre("Biografia");
         book.setAuthors("Tymke Wergiliusz");
         book.setBookPageUrl("www.bookstore.com/book/pan-tymek");
         book.setCoverUrl("www.covers.com/tymek");
@@ -156,7 +166,7 @@ public class BookDiscountParserServiceTest {
         book.setId(1);
         book.setTitle(found.getTitle());
         book.setSubtitle(found.getSubtitle());
-        book.setGenre(found.getGenre());
+//        book.setGenre(found.getGenre());
         book.setAuthors(found.getAuthors());
         book.setBookPageUrl(found.getBookPageUrl());
         book.setCoverUrl(found.getCoverUrl());
