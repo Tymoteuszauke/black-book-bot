@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "genres")
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id", "books"})
 public class Genre {
 
@@ -21,9 +21,13 @@ public class Genre {
 
     @Getter
     @Column(name = "name")
-    private final String name;
+    private String name;
 
     @Getter
     @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "genres")
     private List<Book> books = new ArrayList<>();
+
+    public Genre(String name) {
+        this.name = name;
+    }
 }

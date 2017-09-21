@@ -9,7 +9,7 @@ import com.blackbook.persistencebot.model.Bookstore;
 import com.blackbook.persistencebot.model.LogEventModel;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
 import com.blackbook.persistencebot.service.GenreService;
-import com.blackbook.utils.model.bookdiscount.BookDiscountView;
+import com.blackbook.utils.model.view.BookDiscountView;
 import com.blackbook.utils.model.creationmodel.BookData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.log.LogEvent;

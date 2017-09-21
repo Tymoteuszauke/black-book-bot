@@ -3,9 +3,9 @@ package com.blackbook.persistencebot.util;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
-import com.blackbook.utils.model.bookdiscount.BookDiscountView;
-import com.blackbook.utils.model.bookdiscount.BookView;
-import com.blackbook.utils.model.bookdiscount.BookstoreView;
+import com.blackbook.utils.model.view.BookDiscountView;
+import com.blackbook.utils.model.view.BookView;
+import com.blackbook.utils.model.view.BookstoreView;
 
 public class ViewMapperUtil {
 

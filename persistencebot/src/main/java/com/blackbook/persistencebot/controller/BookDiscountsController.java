@@ -2,7 +2,6 @@ package com.blackbook.persistencebot.controller;
 
 import com.blackbook.persistencebot.dao.BookDiscountsRepository;
 import com.blackbook.persistencebot.dao.BookstoresRepository;
-import com.blackbook.persistencebot.dao.GenreRepository;
 import com.blackbook.persistencebot.dao.LogEventRepository;
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Genre;
@@ -10,7 +9,7 @@ import com.blackbook.persistencebot.model.LogEventModel;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
 import com.blackbook.persistencebot.service.GenreService;
 import com.blackbook.persistencebot.util.ViewMapperUtil;
-import com.blackbook.utils.model.bookdiscount.BookDiscountView;
+import com.blackbook.utils.model.view.BookDiscountView;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.log.LogEvent;
 import com.blackbook.utils.model.response.SimpleResponse;
@@ -105,7 +104,6 @@ public class BookDiscountsController {
                     .message("Something went wrong! Books was not saved!")
                     .build();
         }
-
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/log")
