@@ -4,11 +4,9 @@ import com.blackbook.matrasscraper.htmlprovider.HTMLDocumentProvider;
 import com.blackbook.matrasscraper.htmlprovider.JsoupHTMLDocumentProvider;
 import org.jsoup.Jsoup;
 import org.junit.Test;
-import view.creationmodel.BookDiscountData;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -21,19 +19,26 @@ import static org.testng.AssertJUnit.assertEquals;
 public class ScraperTest {
 
     @Test
-    public void shouldScrapBooksFromGivenHTML() throws IOException{
+    public void shouldScrapBooksFromGivenHTML() throws IOException {
         //given
-        int booksOnPage = 1;
+        int booksOnPage = 2;
         File mainPage = new File("src/test/resources/matras.html");
         File bookPage = new File("src/test/resources/matras_book.html");
+        File bookPageNoSubtitle = new File("src/test/resources/matras_book_no_subtitle.html");
         File paginationPage = new File("src/test/resources/matras_pagination.html");
         HTMLDocumentProvider htmlDocumentProvider = mock(JsoupHTMLDocumentProvider.class);
         when(htmlDocumentProvider.provide(anyString()))
-                .thenReturn(Jsoup.parse(paginationPage, "UTF-8"), Jsoup.parse(mainPage, "UTF-8"), Jsoup.parse(bookPage, "UTF-8"));
+                .thenReturn(Jsoup.parse(paginationPage, "UTF-8"),
+                        Jsoup.parse(mainPage, "UTF-8"),
+                        Jsoup.parse(bookPageNoSubtitle, "UTF-8"),
+                        Jsoup.parse(bookPage, "UTF-8"));
         Scraper scraper = new Scraper(htmlDocumentProvider);
+        scraper.lastPageNo = 1;
         //when
-        List<BookDiscountData> bookDiscountData = scraper.extractBookElements();
-        //then
-        assertEquals(booksOnPage, bookDiscountData.size());
+        scraper.start(booksData -> {
+
+            //then
+            assertEquals(booksOnPage, booksData.size());
+        });
     }
 }

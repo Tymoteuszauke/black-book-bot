@@ -3,9 +3,9 @@ package com.blackbook.persistencebot.util;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
-import view.bookdiscount.BookDiscountView;
-import view.bookdiscount.BookView;
-import view.bookdiscount.BookstoreView;
+import com.blackbook.utils.model.view.BookDiscountView;
+import com.blackbook.utils.model.view.BookView;
+import com.blackbook.utils.model.view.BookstoreView;
 
 public class ViewMapperUtil {
 
@@ -26,6 +26,7 @@ public class ViewMapperUtil {
         bookView.setId(book.getId());
         bookView.setTitle(book.getTitle());
         bookView.setSubtitle(book.getSubtitle());
+        bookView.setPublisher(book.getPublisher());
         bookView.setAuthors(book.getAuthors());
         bookView.setBookPageUrl(book.getBookPageUrl());
         bookView.setCoverUrl(book.getCoverUrl());

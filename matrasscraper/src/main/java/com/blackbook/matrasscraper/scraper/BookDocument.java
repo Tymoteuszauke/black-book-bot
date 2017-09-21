@@ -61,6 +61,11 @@ class BookDocument {
                 .attr("content"));
     }
 
+    public String extractPublisher() {
+        return bookDoc.select("[itemprop=publisher] > span > a")
+                .text();
+    }
+
     public String extractBookPromoDetails() {
         return bookDoc.select(".savings > .bold")
                 .text();

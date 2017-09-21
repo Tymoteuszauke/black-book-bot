@@ -3,6 +3,7 @@ package com.blackbook.matrasscraper.htmlprovider;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
  * @author "Patrycja Zaremba"
  */
 @Slf4j
+@Component
 public class JsoupHTMLDocumentProvider implements HTMLDocumentProvider {
     @Override
     public Document provide(String url) {
@@ -17,12 +19,11 @@ public class JsoupHTMLDocumentProvider implements HTMLDocumentProvider {
     }
 
     private Document connectToUrl(String url) {
-        Document document = null;
         try {
-            document = Jsoup.connect(url).get();
+            return Jsoup.connect(url).get();
         } catch (IOException e) {
-            log.error("Unable to connect with URL" + url);
+            log.error("Unable to connect with URL " + url);
+            throw new IllegalArgumentException("Unable to connect with URL " + url);
         }
-        return document;
     }
 }

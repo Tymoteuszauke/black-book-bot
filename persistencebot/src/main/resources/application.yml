@@ -3,6 +3,33 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE;
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
     username: sa
     password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+  output:
+    ansi:
+    enabled: DETECT
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n"
+  file: persistencebot.log
+
+  jackson:
+    serialization:
+    write-dates-as-timestamps: false

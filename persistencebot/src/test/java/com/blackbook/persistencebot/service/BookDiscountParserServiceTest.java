@@ -3,70 +3,176 @@ package com.blackbook.persistencebot.service;
 import com.blackbook.persistencebot.dao.BookDiscountsRepository;
 import com.blackbook.persistencebot.dao.BooksRepository;
 import com.blackbook.persistencebot.dao.BookstoresRepository;
+import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.blackbook.persistencebot.model.Bookstore;
+import com.blackbook.utils.model.creationmodel.BookData;
+import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import view.creationmodel.BookData;
-import view.creationmodel.BookDiscountData;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
 public class BookDiscountParserServiceTest {
 
-    @InjectMocks
     private BookDiscountParserService service;
-
-    @Mock
     private BooksRepository booksRepository;
-
-    @Mock
     private BookstoresRepository bookstoresRepository;
+    private BookDiscountsRepository discountsRepository;
+    private GenreService genreService;
 
-    @Mock
-    private BookDiscountsRepository bookDiscountsRepository;
-
+    private BookData data = BookData.builder()
+            .title("Pan Tymek")
+            .subtitle("-")
+            .genre("Biografia")
+            .authors("Tymke Wergiliusz")
+            .bookPageUrl("www.bookstore.com/book/pan-tymek")
+            .coverUrl("www.covers.com/tymek")
+            .build();
+    private BookDiscountData discountData = BookDiscountData.builder()
+            .price(25.99)
+            .bookstoreId(2)
+            .bookDiscountDetails("-25%")
+            .bookData(data)
+            .build();
 
     @BeforeMethod
-    public void initMocks() {
-        MockitoAnnotations.initMocks(this);
+    public void setupGenreService() {
+        genreService = mock(GenreService.class);
+        doNothing().when(genreService).addGenreToDatabase(any(), any());
     }
 
     @Test
-    public void testParseBookDiscountData() throws Exception {
+    public void shouldParseDiscountData() throws Exception {
         // Given
-        BookData data = BookData.builder()
-                .title("Pan Tymek")
-                .subtitle("-")
-                .genre("Biografia")
-                .authors("Tymke Wergiliusz")
-                .bookPageUrl("www.bookstore.com/book/pan-tymek")
-                .coverUrl("www.covers.com/tymek")
-                .build();
-        BookDiscountData discountData = BookDiscountData.builder()
-                .price(25.99)
-                .bookstoreId(2)
-                .bookDiscountDetails("-25%")
-                .bookData(data)
-                .build();
+        BookDiscount bookDiscount = prepareBookDiscount();
 
+        booksRepository = mock(BooksRepository.class);
+        bookstoresRepository = mock(BookstoresRepository.class);
+        discountsRepository = mock(BookDiscountsRepository.class);
+
+        when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
+        service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
+        service.setGenreService(genreService);
         // When
-        BookDiscount bookDiscount = service.parseBookDiscountData(discountData);
+        BookDiscount getDiscount = service.parseBookDiscountData(discountData);
 
         // Then
-        assertEquals(25.99, bookDiscount.getPrice());
-        assertEquals("-25%", bookDiscount.getBookDiscountDetails());
-        assertEquals("Pan Tymek", bookDiscount.getBook().getTitle());
-        assertEquals("-", bookDiscount.getBook().getSubtitle());
-        assertEquals("Biografia", bookDiscount.getBook().getGenre());
-        assertEquals("Tymke Wergiliusz", bookDiscount.getBook().getAuthors());
-        assertEquals("www.bookstore.com/book/pan-tymek", bookDiscount.getBook().getBookPageUrl());
-        assertEquals("www.covers.com/tymek", bookDiscount.getBook().getCoverUrl());
+        assertEquals(25.99, getDiscount.getPrice());
+        assertEquals("-25%", getDiscount.getBookDiscountDetails());
+        assertEquals("Pan Tymek", getDiscount.getBook().getTitle());
+        assertEquals("-", getDiscount.getBook().getSubtitle());
+//        assertEquals("Biografia", getDiscount.getBook().getGenre());
+        assertEquals("Tymke Wergiliusz", getDiscount.getBook().getAuthors());
+        assertEquals("www.bookstore.com/book/pan-tymek", getDiscount.getBook().getBookPageUrl());
+        assertEquals("www.covers.com/tymek", getDiscount.getBook().getCoverUrl());
+    }
+
+    @Test
+    public void shouldParseFoundInRepoBook() throws Exception {
+        // Given
+        Book foundBook = new Book();
+        foundBook.setTitle("Pani Patrycja");
+        foundBook.setSubtitle("Java developer");
+//        foundBook.setGenre("Poradnik");
+        foundBook.setAuthors("Jan Tymke");
+        foundBook.setBookPageUrl("www.bookstore.com/book/pani-patrycja");
+        foundBook.setCoverUrl("www.covers.com/patkkka");
+
+        BookDiscount bookDiscount = prepareBookDiscount(foundBook);
+
+        booksRepository = mock(BooksRepository.class);
+        bookstoresRepository = mock(BookstoresRepository.class);
+        discountsRepository = mock(BookDiscountsRepository.class);
+
+        when(booksRepository.findByTitleAndSubtitle("Pan Tymek", "-")).thenReturn(foundBook);
+        when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
+
+        service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
+        service.setGenreService(genreService);
+
+        // When
+        BookDiscount getDiscount = service.parseBookDiscountData(discountData);
+
+        // Then
+        assertEquals(25.99, getDiscount.getPrice());
+        assertEquals("-25%", getDiscount.getBookDiscountDetails());
+        assertEquals("Pani Patrycja", getDiscount.getBook().getTitle());
+        assertEquals("Java developer", getDiscount.getBook().getSubtitle());
+//        assertEquals("Poradnik", getDiscount.getBook().getGenre());
+        assertEquals("Jan Tymke", getDiscount.getBook().getAuthors());
+        assertEquals("www.bookstore.com/book/pani-patrycja", getDiscount.getBook().getBookPageUrl());
+        assertEquals("www.covers.com/patkkka", getDiscount.getBook().getCoverUrl());
+    }
+
+    @Test
+    public void shouldParseDiscountDataWhenNoOfferWasInRepository() throws Exception {
+        // Given
+        BookDiscount bookDiscount = prepareBookDiscount();
+
+        booksRepository = mock(BooksRepository.class);
+        bookstoresRepository = mock(BookstoresRepository.class);
+        discountsRepository = mock(BookDiscountsRepository.class);
+
+        when(discountsRepository.save(bookDiscount)).thenReturn(bookDiscount);
+        when(discountsRepository.findByBookIdAndBookstoreId(1, 2)).thenReturn(null);
+        doNothing().when(discountsRepository).delete(any(Long.class));
+
+        service = new BookDiscountParserService(booksRepository, bookstoresRepository, discountsRepository);
+        service.setGenreService(genreService);
+
+        // When
+        BookDiscount getDiscount = service.parseBookDiscountData(discountData);
+
+        // Then
+        assertEquals(25.99, getDiscount.getPrice());
+        assertEquals("-25%", getDiscount.getBookDiscountDetails());
+        assertEquals("Pan Tymek", getDiscount.getBook().getTitle());
+        assertEquals("-", getDiscount.getBook().getSubtitle());
+//        assertEquals("Biografia", getDiscount.getBook().getGenre());
+        assertEquals("Tymke Wergiliusz", getDiscount.getBook().getAuthors());
+        assertEquals("www.bookstore.com/book/pan-tymek", getDiscount.getBook().getBookPageUrl());
+        assertEquals("www.covers.com/tymek", getDiscount.getBook().getCoverUrl());
+    }
+
+    private BookDiscount prepareBookDiscount() {
+        BookDiscount bookDiscount = new BookDiscount();
+        bookDiscount.setId(34);
+        bookDiscount.setPrice(25.99);
+        bookDiscount.setBookDiscountDetails("-25%");
+        Book book = new Book();
+        book.setId(1);
+        book.setTitle("Pan Tymek");
+        book.setSubtitle("-");
+//        book.setGenre("Biografia");
+        book.setAuthors("Tymke Wergiliusz");
+        book.setBookPageUrl("www.bookstore.com/book/pan-tymek");
+        book.setCoverUrl("www.covers.com/tymek");
+        bookDiscount.setBook(book);
+        Bookstore bookstore = new Bookstore();
+        bookstore.setId(100);
+        bookDiscount.setBookstore(bookstore);
+        return bookDiscount;
+    }
+
+    private BookDiscount prepareBookDiscount(Book found) {
+        BookDiscount bookDiscount = new BookDiscount();
+        bookDiscount.setId(34);
+        bookDiscount.setPrice(25.99);
+        bookDiscount.setBookDiscountDetails("-25%");
+        Book book = new Book();
+        book.setId(1);
+        book.setTitle(found.getTitle());
+        book.setSubtitle(found.getSubtitle());
+//        book.setGenre(found.getGenre());
+        book.setAuthors(found.getAuthors());
+        book.setBookPageUrl(found.getBookPageUrl());
+        book.setCoverUrl(found.getCoverUrl());
+        bookDiscount.setBook(book);
+        Bookstore bookstore = new Bookstore();
+        bookDiscount.setBookstore(bookstore);
+        return bookDiscount;
     }
 }
