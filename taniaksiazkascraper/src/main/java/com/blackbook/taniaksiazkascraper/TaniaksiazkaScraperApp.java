@@ -13,17 +13,18 @@ import java.util.concurrent.ScheduledExecutorService;
 @SpringBootApplication
 @EnableAsync
 public class TaniaksiazkaScraperApp {
+
     public static void main(String[] args) {
         SpringApplication.run(TaniaksiazkaScraperApp.class, args);
     }
 
     @Bean
-    public ScheduledExecutorService schedulerService(){
+    public ScheduledExecutorService schedulerService() {
         return Executors.newSingleThreadScheduledExecutor();
     }
 
     @Bean
-    public TaskExecutor taskExecutor(){
+    public TaskExecutor taskExecutor() {
         return new SimpleAsyncTaskExecutor();
     }
 
