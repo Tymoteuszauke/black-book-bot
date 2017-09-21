@@ -33,7 +33,7 @@ public class ScraperTest {
                         Jsoup.parse(bookPageNoSubtitle, "UTF-8"),
                         Jsoup.parse(bookPage, "UTF-8"));
         Scraper scraper = new Scraper(htmlDocumentProvider);
-        scraper.lastPageNo = 2;
+        scraper.lastPageNo = 1;
         //when
         scraper.start(booksData -> {
 

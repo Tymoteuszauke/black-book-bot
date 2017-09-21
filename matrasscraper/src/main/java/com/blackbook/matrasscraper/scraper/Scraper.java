@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author "Patrycja Zaremba"
@@ -36,6 +37,20 @@ public class Scraper implements Collector {
         this.matrasUrlPage = collectorData.getBaseUrl() + "?p=";
     }
 
+    @Override
+    public void start(Consumer<List<BookDiscountData>> consumer) {
+        Document mainPageDoc = htmlDocumentProvider.provide(collectorData.getBaseUrl());
+        lastPageNo = Math.min(lastPageNo, extractLastPageNo(mainPageDoc));
+        List<BookDiscountData> bookDiscountData = new LinkedList<>();
+        IntStream.rangeClosed(1, lastPageNo)
+                .parallel()
+                .forEach(i -> {
+                    Document pageDoc = htmlDocumentProvider.provide(matrasUrlPage + i);
+                    bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
+                });
+        consumer.accept(bookDiscountData);
+    }
+
     private int extractLastPageNo(Document mainPageDoc) {
         return Integer.parseInt(mainPageDoc.select(".pagination-list > li:not(.next)")
                 .last()
@@ -45,6 +60,7 @@ public class Scraper implements Collector {
     private List<BookDiscountData> extractBookElementsFromSinglePage(Document document) {
         Elements bookElements = document.select("main .s-item.eqh");
         return bookElements.stream()
+                .parallel()
                 .map(bookElement -> {
                     String bookUrl = extractBookUrl(bookElement);
                     BookDocument bookDoc = new BookDocument(htmlDocumentProvider.provide(bookUrl));
@@ -58,18 +74,6 @@ public class Scraper implements Collector {
                 .select("a")
                 .first()
                 .attr("href");
-    }
-
-    @Override
-    public void start(Consumer<List<BookDiscountData>> consumer) {
-        Document mainPageDoc = htmlDocumentProvider.provide(collectorData.getBaseUrl());
-        lastPageNo = Math.min(lastPageNo, extractLastPageNo(mainPageDoc));
-        List<BookDiscountData> bookDiscountData = new LinkedList<>();
-        for (int i = 1; i < lastPageNo; i++) {
-            Document pageDoc = htmlDocumentProvider.provide(matrasUrlPage + i);
-            bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
-        }
-        consumer.accept(bookDiscountData);
     }
 
     @Override

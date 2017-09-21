@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author "Patrycja Zaremba"
@@ -36,16 +37,19 @@ public class Scraper implements Collector {
 
     private List<BookDiscountData> extractBookElements(int lastPageNo) {
         List<BookDiscountData> bookDiscountData = new LinkedList<>();
-        for (int i = 0; i < lastPageNo; i++) {
-            Document pageDoc = webConnector.connect(discountUrl + i);
-            bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
-        }
+        IntStream.rangeClosed(1, lastPageNo)
+                .parallel()
+                .forEach(i -> {
+                    Document pageDoc = webConnector.connect(discountUrl + i);
+                    bookDiscountData.addAll(extractBookElementsFromSinglePage(pageDoc));
+                });
         return bookDiscountData;
     }
 
     private List<BookDiscountData> extractBookElementsFromSinglePage(Document document) {
         Elements bookElements = document.getElementsByClass("prod");
         return bookElements.stream()
+                .parallel()
                 .map(bookElement -> {
                     String bookUrl = collectorData.getBaseUrl() + extractBookUrl(bookElement);
                     BookPage bookDoc = new BookPage(webConnector.connect(bookUrl));
