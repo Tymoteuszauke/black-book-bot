@@ -74,15 +74,15 @@ public class BookDiscountsControllerTest {
     @DataProvider
     private Object[][] searchParamsProvider() {
         return new Object[][]{
-                {"query1", "1", "100", null},
-                {"query1", "1", "", null},
-                {"query1", "", "100", null},
-                {"query2", "", "", null},
+                {"query1", "genre", "1", "100", null},
+                {"query1", "genre", "1", "", null},
+                {"query1", "genre", "", "100", null},
+                {"query2", "genre", "", "", null},
         };
     }
 
     @Test(dataProvider = "searchParamsProvider")
-    public void shouldGetBookDiscounts(String query, String priceFrom, String priceTo, Pageable pageable) throws Exception {
+    public void shouldGetBookDiscounts(String query, String genre, String priceFrom, String priceTo, Pageable pageable) throws Exception {
         // Given
         Book book = new Book();
         book.setId(12L);
@@ -114,7 +114,7 @@ public class BookDiscountsControllerTest {
         when(repo.findAllTextualSearch(query, pageable)).thenReturn(page);
 
         // When
-        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, pageable);
+        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, genre, priceFrom, priceTo, pageable);
 
         // Then
         assertEquals(2, bookDiscounts.getContent().size());
@@ -123,13 +123,13 @@ public class BookDiscountsControllerTest {
     }
 
     @Test(dataProvider = "searchParamsProvider")
-    public void shouldReturnEmptyPageForNoDiscountsGetFromRepo(String query, String priceFrom, String priceTo, Pageable pageable) {
+    public void shouldReturnEmptyPageForNoDiscountsGetFromRepo(String query, String genre,String priceFrom, String priceTo, Pageable pageable) {
         // Given
         when(repo.findAllTextualSearchBetweenPrices(query, 1d, 100d, pageable)).thenReturn(null);
         when(repo.findAllTextualSearch(query, pageable)).thenReturn(null);
 
         // When
-        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, pageable);
+        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, genre, priceFrom, priceTo, pageable);
 
         // Then
         assertEquals(Collections.EMPTY_LIST, bookDiscounts.getContent());

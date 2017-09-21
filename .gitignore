@@ -8,6 +8,9 @@ reated by https://www.gitignore.io/api/java,maven,intellij+all
 .idea/*
 *.iml
 
+#logs
+*.log.*
+
 # CMake
 cmake-build-debug/
 
