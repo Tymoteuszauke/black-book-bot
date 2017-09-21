@@ -57,7 +57,7 @@ public class GoogleCrawler implements Collector, KeyAccess {
             public void success(Supplier<ResultModel> resultModelSupplier) {
                 addBooksToResultList(resultModelSupplier.get().getBookData());
                 Paginator firstPaginator = resultModelSupplier.get().getPaginator();
-
+           
                 if (isFinished(firstPaginator)) {
                     finishCrawler(consumer);
                 } else {
