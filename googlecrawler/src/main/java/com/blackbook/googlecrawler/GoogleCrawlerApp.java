@@ -11,6 +11,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -34,6 +35,10 @@ public class GoogleCrawlerApp {
         return Executors.newSingleThreadScheduledExecutor();
     }
 
+    @Bean
+    public ExecutorService executorService(){
+        return Executors.newCachedThreadPool();
+    }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
