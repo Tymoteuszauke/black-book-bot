@@ -42,6 +42,7 @@ public class GenreService {
     @Async
     public void setGenres() {
         genres.forEach((book, genre) -> {
+            book = booksRepository.findByTitleAndSubtitleAndPublisher(book.getTitle(), book.getSubtitle(), book.getPublisher());
             book.getGenres().add(genre);
             booksRepository.save(book);
         });

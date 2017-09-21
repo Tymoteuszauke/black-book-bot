@@ -13,6 +13,6 @@ public interface BooksRepository extends PagingAndSortingRepository<Book, Long> 
 
     Page<Book> findAll(Pageable pageable);
 
-    Book findByTitle(String title);
-    Book findByTitleAndSubtitle(String title, String subTitle);
+    Book findByTitleAndSubtitle(String title, String subtitle);
+    Book findByTitleAndSubtitleAndPublisher(String title, String subtitle, String publisher);
 }
