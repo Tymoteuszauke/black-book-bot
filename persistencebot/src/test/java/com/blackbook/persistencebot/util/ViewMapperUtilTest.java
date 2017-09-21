@@ -3,7 +3,7 @@ package com.blackbook.persistencebot.util;
 import com.blackbook.persistencebot.model.Book;
 import com.blackbook.persistencebot.model.BookDiscount;
 import com.blackbook.persistencebot.model.Bookstore;
-import com.blackbook.utils.model.bookdiscount.BookDiscountView;
+import com.blackbook.utils.model.view.BookDiscountView;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
