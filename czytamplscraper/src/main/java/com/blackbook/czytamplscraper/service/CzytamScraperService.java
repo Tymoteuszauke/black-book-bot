@@ -29,7 +29,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-
 /**
  * @author Siarhei Shauchenka
  */
@@ -115,5 +114,4 @@ public class CzytamScraperService implements BotService {
             scheduledExecutorService.shutdownNow();
         }
     }
-
 }

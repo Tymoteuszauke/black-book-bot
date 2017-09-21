@@ -19,12 +19,12 @@ public class CzytamplScraperApp {
     }
 
     @Bean
-    public ScheduledExecutorService schedulerService(){
+    public ScheduledExecutorService schedulerService() {
         return Executors.newSingleThreadScheduledExecutor();
     }
 
     @Bean
-    public TaskExecutor taskExecutor(){
+    public TaskExecutor taskExecutor() {
         return new SimpleAsyncTaskExecutor();
     }
 }
