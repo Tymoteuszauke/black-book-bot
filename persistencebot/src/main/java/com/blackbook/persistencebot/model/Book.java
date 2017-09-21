@@ -15,10 +15,10 @@ import java.util.List;
  */
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"id", "authors", "coverUrl", "bookPageUrl", "bookDiscounts"})
+@EqualsAndHashCode(exclude = {"id", "authors", "coverUrl", "bookPageUrl", "bookDiscounts", "genres"})
 @Entity
 @Table(name = "books")
-@ToString(exclude = {"bookDiscounts"})
+@ToString(exclude = {"bookDiscounts", "genres"})
 public class Book {
 
     @Id
@@ -30,7 +30,6 @@ public class Book {
 
     @Column(name = "subtitle")
     private String subtitle;
-
 
     @Column(name = "authors")
     private String authors;

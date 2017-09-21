@@ -5,7 +5,7 @@ endpoints:
   persistence-api: http://localhost:8101
 
 const:
-  pages-limit: 1
+  pages-limit: 3
 
 logging:
   pattern:
