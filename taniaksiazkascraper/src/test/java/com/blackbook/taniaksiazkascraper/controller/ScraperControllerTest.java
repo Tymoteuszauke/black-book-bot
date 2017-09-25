@@ -2,7 +2,6 @@ package com.blackbook.taniaksiazkascraper.controller;
 
 
 import com.blackbook.taniaksiazkascraper.service.TaniaksiazkaScraperService;
-import com.blackbook.utils.model.response.SimpleResponse;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Test;

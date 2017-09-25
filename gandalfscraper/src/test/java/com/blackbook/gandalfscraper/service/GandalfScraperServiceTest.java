@@ -2,7 +2,6 @@ package com.blackbook.gandalfscraper.service;
 
 import com.blackbook.utils.callable.SaveBooksCallable;
 import com.blackbook.utils.core.Collector;
-import com.blackbook.utils.model.response.SimpleResponse;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

@@ -2,7 +2,6 @@ package com.blackbook.utils.callable;
 
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.creationmodel.SaveBooksCallableDataModel;
-import com.blackbook.utils.model.response.SimpleResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;

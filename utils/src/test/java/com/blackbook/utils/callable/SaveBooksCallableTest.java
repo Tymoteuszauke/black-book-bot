@@ -2,7 +2,6 @@ package com.blackbook.utils.callable;
 
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.creationmodel.SaveBooksCallableDataModel;
-import com.blackbook.utils.model.response.SimpleResponse;
 import org.apache.http.HttpStatus;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;

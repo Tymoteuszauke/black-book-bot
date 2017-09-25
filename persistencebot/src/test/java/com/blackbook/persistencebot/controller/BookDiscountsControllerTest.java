@@ -13,7 +13,6 @@ import com.blackbook.utils.model.view.BookDiscountView;
 import com.blackbook.utils.model.creationmodel.BookData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.log.LogEvent;
-import com.blackbook.utils.model.response.SimpleResponse;
 import org.apache.http.HttpStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

@@ -8,7 +8,6 @@ import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.creationmodel.SaveBooksCallableDataModel;
 import com.blackbook.utils.model.creationmodel.SendLogCallableDataModel;
 import com.blackbook.utils.model.log.LogEvent;
-import com.blackbook.utils.model.response.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;

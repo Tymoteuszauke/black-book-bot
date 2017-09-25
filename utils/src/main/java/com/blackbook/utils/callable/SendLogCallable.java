@@ -3,7 +3,6 @@ package com.blackbook.utils.callable;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.creationmodel.SendLogCallableDataModel;
 import com.blackbook.utils.model.log.LogEvent;
-import com.blackbook.utils.model.response.SimpleResponse;
 import lombok.Getter;
 import org.apache.http.HttpStatus;
 import org.springframework.http.HttpEntity;
