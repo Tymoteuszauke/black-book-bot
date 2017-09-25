@@ -27,6 +27,7 @@ public class GenreController {
                 .findAll()
                 .stream().map(genre -> {
                     GenreView genreView = new GenreView();
+                    genreView.setId(genre.getId());
                     genreView.setName(genre.getName());
                     return genreView;
         }).collect(Collectors.toList());
