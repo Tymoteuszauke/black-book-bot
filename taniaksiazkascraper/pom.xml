@@ -2,14 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.blackbook.bot</groupId>
+    <artifactId>taniaksiazkascraper</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <name>taniaksiazkascraper</name>
+    <description>Taniaksiazka.pl bookstore scrapper for black-book-bot project</description>
+
     <parent>
         <artifactId>bot</artifactId>
         <groupId>com.blackbook</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>taniaksiazkascraper</artifactId>
 
     <properties>
         <jsoup.version>1.10.3</jsoup.version>
@@ -27,5 +35,4 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
 </project>
