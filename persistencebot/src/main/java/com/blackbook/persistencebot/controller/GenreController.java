@@ -25,11 +25,7 @@ public class GenreController {
     public List<GenreView> getGenres() {
         return genreRepository
                 .findAll()
-                .stream().map(genre -> {
-                    GenreView genreView = new GenreView();
-                    genreView.setId(genre.getId());
-                    genreView.setName(genre.getName());
-                    return genreView;
-        }).collect(Collectors.toList());
+                .stream()
+                .map(genre -> new GenreView(genre.getId(), genre.getName())).collect(Collectors.toList());
     }
 }
