@@ -3,8 +3,11 @@ package com.blackbook.utils.callable;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.creationmodel.SendLogCallableDataModel;
 import com.blackbook.utils.model.log.LogEvent;
+import com.blackbook.utils.response.SimpleResponse;
 import lombok.Getter;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,7 +20,7 @@ import java.util.function.Supplier;
  * @author Siarhei Shauchenka at 12.09.17
  */
 @Getter
-public class SendLogCallable implements Callable<ResponseEntity<String>> {
+public class SendLogCallable implements Callable<ResponseEntity<SimpleResponse<String>>> {
 
     private final List<BookDiscountData> booksData;
     private final RestTemplate restTemplate;
@@ -34,15 +37,19 @@ public class SendLogCallable implements Callable<ResponseEntity<String>> {
     }
 
     @Override
-    public ResponseEntity<String> call() {
+    public ResponseEntity<SimpleResponse<String>> call() {
         try {
             logEventBuilder.finishTime(LocalDateTime.now());
             logEventBuilder.result(booksData.size());
             logEventBuilder.bookStoreId(crawlerId);
             HttpEntity<Object> logRequest = new HttpEntity<>(logEventBuilder.build());
-            return restTemplate.postForObject(persistenceApiEndpoint + "/api/book-discounts/log", logRequest, ResponseEntity.class);
+            return restTemplate.exchange(
+                    persistenceApiEndpoint + "/api/book-discounts/log",
+                    HttpMethod.POST,
+                    logRequest,
+                    new ParameterizedTypeReference<SimpleResponse<String>>() {});
         } catch (Exception e) {
-            return new ResponseEntity<String>("Log sending failed, the reason is: " + e.getLocalizedMessage(),
+            return new ResponseEntity(new SimpleResponse<>("Log sending failed, the reason is: " + e.getLocalizedMessage()),
                     org.springframework.http.HttpStatus.NOT_IMPLEMENTED);
         }
 

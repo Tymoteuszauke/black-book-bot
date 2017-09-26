@@ -4,7 +4,6 @@ import com.blackbook.persistencebot.dao.BookDiscountsRepository;
 import com.blackbook.persistencebot.dao.BookstoresRepository;
 import com.blackbook.persistencebot.dao.LogEventRepository;
 import com.blackbook.persistencebot.model.BookDiscount;
-import com.blackbook.persistencebot.model.Genre;
 import com.blackbook.persistencebot.model.LogEventModel;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
 import com.blackbook.persistencebot.service.GenreService;
@@ -12,6 +11,7 @@ import com.blackbook.persistencebot.util.ViewMapperUtil;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.log.LogEvent;
 import com.blackbook.utils.model.view.BookDiscountView;
+import com.blackbook.utils.response.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,24 +86,23 @@ public class BookDiscountsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<String> postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountData) {
+    public ResponseEntity<SimpleResponse<String>> postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountData) {
         try {
             log.info("Transaction: POST /api/book-discounts");
-            List<Genre> genres = new ArrayList<>();
             bookDiscountData
                     .stream()
                     .distinct()
                     .map(bookDiscountParserService::parseBookDiscountData)
                     .collect(Collectors.toList());
             genreService.setGenres();
-            return ResponseEntity.ok("Books stored!");
+            return ResponseEntity.ok(new SimpleResponse<>("Books stored!"));
         } catch (Exception e) {
-            return new ResponseEntity<String>("Something went wrong! Books were not saved!", HttpStatus.CONFLICT);
+            return new ResponseEntity(new SimpleResponse<>("Something went wrong! Books were not saved!"), HttpStatus.CONFLICT);
         }
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/log")
-    public ResponseEntity<String> postLogEvent(@RequestBody LogEvent logEvent) {
+    public ResponseEntity<SimpleResponse<String>> postLogEvent(@RequestBody LogEvent logEvent) {
         try {
             log.info("Transaction: POST /api/book-discounts/log");
             LogEventModel logEventModel = new LogEventModel();
@@ -113,17 +111,17 @@ public class BookDiscountsController {
             logEventModel.setFinishTime(Timestamp.valueOf(logEvent.getFinishTime()));
             logEventModel.setResult(logEvent.getResult());
             logEventRepository.save(logEventModel);
-            return ResponseEntity.ok("Log has been saved!");
+            return ResponseEntity.ok(new SimpleResponse<>("Log has been saved!"));
         } catch (Exception e) {
-            return new ResponseEntity<String>("Something went wrong! Log was not saved!", HttpStatus.CONFLICT);
+            return new ResponseEntity(new SimpleResponse<>("Something went wrong! Log was not saved!"), HttpStatus.CONFLICT);
         }
     }
 
     @GetMapping(path = "/max-price", produces = "application/json")
-    public ResponseEntity<Double> getMaxBookPrice() {
-        log.info("Transaction: POST /api/book-discounts/max-price");
+    public ResponseEntity<SimpleResponse<Double>> getMaxBookPrice() {
+        log.info("Transaction: GET /api/book-discounts/max-price");
         Double maxPrice = bookDiscountsRepository.findMaxPrice();
-        return ResponseEntity.ok(maxPrice);
+        return ResponseEntity.ok(new SimpleResponse<>(maxPrice));
     }
 
 }

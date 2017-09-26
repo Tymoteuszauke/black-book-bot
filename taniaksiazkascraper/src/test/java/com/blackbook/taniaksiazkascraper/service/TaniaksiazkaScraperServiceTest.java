@@ -2,6 +2,7 @@ package com.blackbook.taniaksiazkascraper.service;
 
 import com.blackbook.utils.callable.SaveBooksCallable;
 import com.blackbook.utils.core.Collector;
+import com.blackbook.utils.response.SimpleResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.testng.annotations.BeforeClass;
@@ -26,14 +27,14 @@ import static org.mockito.Mockito.when;
  */
 public class TaniaksiazkaScraperServiceTest {
 
-    private ResponseEntity<String> successMockResponse;
-    private ResponseEntity<String> failedMockResponse;
-    private ScheduledFuture<ResponseEntity<String>> mockSuccessTestFuture, mockFailedTestFuture;
+    private ResponseEntity<SimpleResponse<String>> successMockResponse;
+    private ResponseEntity<SimpleResponse<String>> failedMockResponse;
+    private ScheduledFuture<ResponseEntity<SimpleResponse<String>>> mockSuccessTestFuture, mockFailedTestFuture;
 
     @BeforeClass
     public void prepareData(){
-        successMockResponse = ResponseEntity.ok("OK test response");
-        failedMockResponse = new ResponseEntity<String>("Failed test response", HttpStatus.NOT_IMPLEMENTED);
+        successMockResponse = ResponseEntity.ok(new SimpleResponse<>("OK test response"));
+        failedMockResponse = new ResponseEntity(new SimpleResponse<>("Failed test response"), HttpStatus.NOT_IMPLEMENTED);
         mockSuccessTestFuture = mock(ScheduledFuture.class);
         mockFailedTestFuture = mock(ScheduledFuture.class);
     }
@@ -60,7 +61,7 @@ public class TaniaksiazkaScraperServiceTest {
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
         TaniaksiazkaScraperService service = new TaniaksiazkaScraperService(crawler, executorService);
 
-        ScheduledFuture<ResponseEntity<String>> mockTestFuture = mock(ScheduledFuture.class);
+        ScheduledFuture<ResponseEntity<SimpleResponse<String>>> mockTestFuture = mock(ScheduledFuture.class);
 
 
         when(mockTestFuture.get()).thenReturn(successMockResponse);
@@ -126,7 +127,7 @@ public class TaniaksiazkaScraperServiceTest {
         Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
         TaniaksiazkaScraperService service = new TaniaksiazkaScraperService(crawler, executorService);
-        ScheduledFuture<ResponseEntity<String>> mockFailedTestFutureWithException = mock(ScheduledFuture.class);
+        ScheduledFuture<ResponseEntity<SimpleResponse<String>>> mockFailedTestFutureWithException = mock(ScheduledFuture.class);
 
         when(mockFailedTestFuture.get()).thenReturn(failedMockResponse);
         when(mockFailedTestFutureWithException.get()).thenThrow(InterruptedException.class);

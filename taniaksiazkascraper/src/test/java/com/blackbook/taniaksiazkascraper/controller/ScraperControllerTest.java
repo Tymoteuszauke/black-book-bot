@@ -2,6 +2,7 @@ package com.blackbook.taniaksiazkascraper.controller;
 
 
 import com.blackbook.taniaksiazkascraper.service.TaniaksiazkaScraperService;
+import com.blackbook.utils.response.SimpleResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,7 +45,7 @@ public class ScraperControllerTest {
         ScraperController controller = new ScraperController(scraperService);
 
         // When
-        ResponseEntity<String> getResponse = controller.postBookDiscounts();
+        ResponseEntity<SimpleResponse<String>> getResponse = controller.postBookDiscounts();
 
         // Then
         Assert.assertEquals(HttpStatus.OK, getResponse.getStatusCode());

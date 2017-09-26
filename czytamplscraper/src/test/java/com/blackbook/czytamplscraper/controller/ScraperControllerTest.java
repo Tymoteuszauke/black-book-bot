@@ -2,6 +2,7 @@ package com.blackbook.czytamplscraper.controller;
 
 
 import com.blackbook.utils.core.BotService;
+import com.blackbook.utils.response.SimpleResponse;
 import com.jayway.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
@@ -54,7 +55,7 @@ public class ScraperControllerTest {
         ScraperController controller = new ScraperController(scraperService);
 
         // When
-        ResponseEntity<String> getResponse = controller.postBookDiscounts();
+        ResponseEntity<SimpleResponse<String>> getResponse = controller.postBookDiscounts();
 
         // Then
         Assert.assertEquals(org.springframework.http.HttpStatus.OK, getResponse.getStatusCode());

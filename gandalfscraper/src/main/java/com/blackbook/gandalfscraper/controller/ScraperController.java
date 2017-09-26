@@ -1,6 +1,7 @@
 package com.blackbook.gandalfscraper.controller;
 
 import com.blackbook.utils.core.BotService;
+import com.blackbook.utils.response.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,9 @@ public class ScraperController {
     BotService botService;
 
     @PostMapping(produces = "application/json")
-    public ResponseEntity<String> postBookDiscounts() {
+    public ResponseEntity<SimpleResponse<String>> postBookDiscounts() {
         log.info("Transaction: POST /api/gandalf-scraper");
         botService.saveResultsInDatabase();
-        return ResponseEntity.ok("Gandalf scraper started!!");
+        return ResponseEntity.ok(new SimpleResponse<>("Gandalf scraper started!!"));
     }
 }

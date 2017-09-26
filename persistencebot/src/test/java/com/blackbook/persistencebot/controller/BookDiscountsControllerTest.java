@@ -13,6 +13,7 @@ import com.blackbook.utils.model.creationmodel.BookData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.log.LogEvent;
 import com.blackbook.utils.model.view.BookDiscountView;
+import com.blackbook.utils.response.SimpleResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -147,7 +148,7 @@ public class BookDiscountsControllerTest {
         service.setGenreService(genreService);
         controller.setGenreService(genreService);
         // When
-        ResponseEntity<String> response = controller.postBookDiscounts(discountList);
+        ResponseEntity<SimpleResponse<String>> response = controller.postBookDiscounts(discountList);
 
         // Then
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
@@ -163,7 +164,7 @@ public class BookDiscountsControllerTest {
                 .build();
 
         when(logRepo.save(any(LogEventModel.class))).thenReturn(any());
-        ResponseEntity<String> response = controller.postLogEvent(logEvent);
+        ResponseEntity<SimpleResponse<String>> response = controller.postLogEvent(logEvent);
         Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 

@@ -8,6 +8,7 @@ import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.creationmodel.SaveBooksCallableDataModel;
 import com.blackbook.utils.model.creationmodel.SendLogCallableDataModel;
 import com.blackbook.utils.model.log.LogEvent;
+import com.blackbook.utils.response.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,12 +73,12 @@ public class TaniaksiazkaScraperService implements BotService {
                     .build());
 
             try {
-                Future<ResponseEntity<String>> saveDataFuture = scheduledExecutorService.submit(saveBooksDataCallable);
+                Future<ResponseEntity<SimpleResponse<String>>> saveDataFuture = scheduledExecutorService.submit(saveBooksDataCallable);
                 if (saveDataFuture.get().getStatusCode() != HttpStatus.OK) {
                     log.warn("Save data failed. Try again...");
                     saveDataFuture = scheduledExecutorService.schedule(saveBooksDataCallable, DELAY_BEFORE_SECOND_TRY, TimeUnit.SECONDS); // try to save data again
                 }
-                log.info(saveDataFuture.get().getBody());
+                log.info(saveDataFuture.get().getBody().getResponse());
 
                 if (saveDataFuture.get().getStatusCode() == HttpStatus.OK) {
                     final SendLogCallable sendLogCallable = new SendLogCallable(() -> SendLogCallableDataModel.builder()
@@ -88,12 +89,12 @@ public class TaniaksiazkaScraperService implements BotService {
                             .restTemplate(restTemplate)
                             .build());
 
-                    Future<ResponseEntity<String>> sendLogDataFuture = scheduledExecutorService.submit(sendLogCallable);
+                    Future<ResponseEntity<SimpleResponse<String>>> sendLogDataFuture = scheduledExecutorService.submit(sendLogCallable);
                     if (sendLogDataFuture.get().getStatusCode() != HttpStatus.OK) {
                         log.warn("Log sending failed. Try again...");
                         sendLogDataFuture = scheduledExecutorService.schedule(sendLogCallable, DELAY_BEFORE_SECOND_TRY, TimeUnit.SECONDS); //try to send log again
                     }
-                    log.info(sendLogDataFuture.get().getBody());
+                    log.info(sendLogDataFuture.get().getBody().getResponse());
                 }
 
             } catch (InterruptedException | ExecutionException e) {
