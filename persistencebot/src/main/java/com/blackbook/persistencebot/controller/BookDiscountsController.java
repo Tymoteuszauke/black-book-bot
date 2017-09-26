@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -60,6 +61,7 @@ public class BookDiscountsController {
     public Page<BookDiscountView> getBookDiscounts(@RequestParam(defaultValue = "") String query,
                                                    @RequestParam(required = false) String priceFrom,
                                                    @RequestParam(required = false) String priceTo,
+                                                   @RequestParam(required = false) String genre,
                                                    Pageable pageable) {
         log.info("Transaction: GET /api/book-discounts");
 
@@ -68,7 +70,7 @@ public class BookDiscountsController {
         if (arePricesSpecified(priceFrom, priceTo)) {
             Double from = Double.parseDouble(priceFrom);
             Double to = Double.parseDouble(priceTo);
-            bookDiscounts = bookDiscountsRepository.findAllTextualSearchBetweenPrices(query, from, to, pageable);
+            bookDiscounts = bookDiscountsRepository.findAllTextualSearchBetweenPricesAndGenres(query, from, to, genre, pageable);
         } else {
             bookDiscounts = bookDiscountsRepository.findAllTextualSearch(query, pageable);
         }

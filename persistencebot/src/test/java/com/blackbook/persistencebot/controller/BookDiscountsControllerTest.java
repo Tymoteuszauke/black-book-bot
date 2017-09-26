@@ -75,15 +75,15 @@ public class BookDiscountsControllerTest {
     @DataProvider
     private Object[][] searchParamsProvider() {
         return new Object[][]{
-                {"query1", "1", "100", null},
-                {"query1", "1", "", null},
-                {"query1", "", "100", null},
-                {"query2", "", "", null},
+                {"query1", "1", "100", "1", null},
+                {"query1", "1", "", "1", null},
+                {"query1", "", "100", "1", null},
+                {"query2", "", "", "1", null},
         };
     }
 
     @Test(dataProvider = "searchParamsProvider")
-    public void shouldGetBookDiscounts(String query, String priceFrom, String priceTo, Pageable pageable) throws Exception {
+    public void shouldGetBookDiscounts(String query, String priceFrom, String priceTo, String genre, Pageable pageable) throws Exception {
         // Given
         Book book = new Book();
         book.setId(12L);
@@ -111,11 +111,11 @@ public class BookDiscountsControllerTest {
         discountList.add(discount2);
 
         Page page = new PageImpl(discountList);
-        when(repo.findAllTextualSearchBetweenPrices(query, 1d, 100d, pageable)).thenReturn(page);
+        when(repo.findAllTextualSearchBetweenPricesAndGenres(query, 1d, 100d, "1", pageable)).thenReturn(page);
         when(repo.findAllTextualSearch(query, pageable)).thenReturn(page);
 
         // When
-        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, pageable);
+        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, genre, pageable);
 
         // Then
         assertEquals(2, bookDiscounts.getContent().size());
@@ -124,13 +124,13 @@ public class BookDiscountsControllerTest {
     }
 
     @Test(dataProvider = "searchParamsProvider")
-    public void shouldReturnEmptyPageForNoDiscountsGetFromRepo(String query, String priceFrom, String priceTo, Pageable pageable) {
+    public void shouldReturnEmptyPageForNoDiscountsGetFromRepo(String query, String priceFrom, String priceTo, String genre, Pageable pageable) {
         // Given
         when(repo.findAllTextualSearchBetweenPrices(query, 1d, 100d, pageable)).thenReturn(null);
         when(repo.findAllTextualSearch(query, pageable)).thenReturn(null);
 
         // When
-        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, pageable);
+        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, genre, pageable);
 
         // Then
         assertEquals(Collections.EMPTY_LIST, bookDiscounts.getContent());
