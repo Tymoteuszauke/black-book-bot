@@ -9,9 +9,10 @@ import com.blackbook.utils.model.creationmodel.SaveBooksCallableDataModel;
 import com.blackbook.utils.model.creationmodel.SendLogCallableDataModel;
 import com.blackbook.utils.model.log.LogEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -69,14 +70,14 @@ public class MatrasScraperService implements BotService {
                     .build());
 
             try {
-                Future<SimpleResponse> saveDataFuture = scheduledExecutorService.submit(saveBooksDataCallable);
-                if (saveDataFuture.get().getCode() != HttpStatus.SC_OK) {
+                Future<ResponseEntity<String>> saveDataFuture = scheduledExecutorService.submit(saveBooksDataCallable);
+                if (saveDataFuture.get().getStatusCode() != HttpStatus.OK) {
                     log.warn("Save data failed. Try again...");
                     saveDataFuture = scheduledExecutorService.schedule(saveBooksDataCallable, DELAY_BEFORE_SECOND_TRY, TimeUnit.SECONDS); // try to save data again
                 }
-                log.info(saveDataFuture.get().getMessage());
+                log.info(saveDataFuture.get().getBody());
 
-                if (saveDataFuture.get().getCode() == HttpStatus.SC_OK) {
+                if (saveDataFuture.get().getStatusCode() == HttpStatus.OK) {
                     final SendLogCallable sendLogCallable = new SendLogCallable(() -> SendLogCallableDataModel.builder()
                             .booksData(booksData)
                             .crawlerId(collector.getId())
@@ -85,12 +86,12 @@ public class MatrasScraperService implements BotService {
                             .restTemplate(restTemplate)
                             .build());
 
-                    Future<SimpleResponse> sendLogDataFuture = scheduledExecutorService.submit(sendLogCallable);
-                    if (sendLogDataFuture.get().getCode() != HttpStatus.SC_OK) {
+                    Future<ResponseEntity<String>> sendLogDataFuture = scheduledExecutorService.submit(sendLogCallable);
+                    if (sendLogDataFuture.get().getStatusCode() != HttpStatus.OK) {
                         log.warn("Log sending failed. Try again...");
                         sendLogDataFuture = scheduledExecutorService.schedule(sendLogCallable, DELAY_BEFORE_SECOND_TRY, TimeUnit.SECONDS); //try to send log again
                     }
-                    log.info(sendLogDataFuture.get().getMessage());
+                    log.info(sendLogDataFuture.get().getBody());
                 }
 
             } catch (InterruptedException | ExecutionException e) {

@@ -3,8 +3,8 @@ package com.blackbook.czytamplscraper.controller;
 
 import com.blackbook.utils.core.BotService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,12 +22,9 @@ public class ScraperController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public SimpleResponse postBookDiscounts() {
+    public ResponseEntity<String> postBookDiscounts() {
         log.info("Transaction: POST /api/czytampl-scraper");
         scraperService.saveResultsInDatabase();
-        return SimpleResponse.builder()
-                .code(HttpStatus.SC_OK)
-                .message("Czytam.pl scraper started!")
-                .build();
+        return ResponseEntity.ok("Czytam.pl scraper started!");
     }
 }

@@ -11,14 +11,12 @@ import com.blackbook.persistencebot.service.GenreService;
 import com.blackbook.persistencebot.util.ViewMapperUtil;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.log.LogEvent;
-import com.blackbook.utils.model.response.SimpleResponse;
 import com.blackbook.utils.model.view.BookDiscountView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -89,7 +87,7 @@ public class BookDiscountsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public SimpleResponse<String> postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountData) {
+    public ResponseEntity<String> postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountData) {
         try {
             log.info("Transaction: POST /api/book-discounts");
             List<Genre> genres = new ArrayList<>();
@@ -98,18 +96,10 @@ public class BookDiscountsController {
                     .distinct()
                     .map(bookDiscountParserService::parseBookDiscountData)
                     .collect(Collectors.toList());
-
             genreService.setGenres();
-
-            return SimpleResponse.<String>builder()
-                    .code(HttpStatus.OK)
-                    .body("Books stored")
-                    .build();
+            return ResponseEntity.ok("Books stored!");
         } catch (Exception e) {
-            return SimpleResponse.<String>builder()
-                    .code(HttpStatus.CONFLICT)
-                    .body("Something went wrong! Books was not saved!")
-                    .build();
+            return new ResponseEntity<String>("Something went wrong! Books were not saved!", HttpStatus.CONFLICT);
         }
     }
 
@@ -123,17 +113,17 @@ public class BookDiscountsController {
             logEventModel.setFinishTime(Timestamp.valueOf(logEvent.getFinishTime()));
             logEventModel.setResult(logEvent.getResult());
             logEventRepository.save(logEventModel);
-            return new ResponseEntity<String>("Log has been saved!", HttpStatus.OK);
+            return ResponseEntity.ok("Log has been saved!");
         } catch (Exception e) {
             return new ResponseEntity<String>("Something went wrong! Log was not saved!", HttpStatus.CONFLICT);
         }
     }
 
     @GetMapping(path = "/max-price", produces = "application/json")
-    public Double getMaxBookPrice() {
+    public ResponseEntity<Double> getMaxBookPrice() {
         log.info("Transaction: POST /api/book-discounts/max-price");
-        SimpleResponse<Double>
-        return bookDiscountsRepository.findMaxPrice();
+        Double maxPrice = bookDiscountsRepository.findMaxPrice();
+        return ResponseEntity.ok(maxPrice);
     }
 
 }

@@ -2,8 +2,9 @@ package com.blackbook.utils.callable;
 
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.creationmodel.SaveBooksCallableDataModel;
-import org.apache.http.HttpStatus;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -48,10 +49,7 @@ public class SaveBooksCallableTest {
     public void testCall(){
         //given
         List<BookDiscountData> booksDataMock = Collections.emptyList();
-        SimpleResponse responseForMock = SimpleResponse.builder()
-                .code(HttpStatus.SC_OK)
-                .message(TEST_MESSAGE)
-                .build();
+        ResponseEntity<String> responseForMock = ResponseEntity.ok(TEST_MESSAGE);
         RestTemplate restTemplateMock = mock(RestTemplate.class);
         when(restTemplateMock.postForObject(any(String.class), any(HttpEntity.class), any())).thenReturn(responseForMock);
 
@@ -61,11 +59,11 @@ public class SaveBooksCallableTest {
                 .booksData(booksDataMock)
                 .build());
         //when
-        SimpleResponse simpleResponse = saveBooksCallable.call();
+        ResponseEntity<String> response = saveBooksCallable.call();
 
         //then
-        Assert.assertEquals(simpleResponse.getCode(), HttpStatus.SC_OK);
-        Assert.assertEquals(simpleResponse.getMessage(), TEST_MESSAGE);
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        Assert.assertEquals(response.getBody(), TEST_MESSAGE);
     }
 
     @Test
@@ -81,10 +79,10 @@ public class SaveBooksCallableTest {
                 .booksData(booksDataMock)
                 .build());
         //when
-        SimpleResponse response = saveBooksCallable.call();
+        ResponseEntity<String> response = saveBooksCallable.call();
 
         //then
-        Assert.assertEquals(response.getCode(), HttpStatus.SC_NOT_IMPLEMENTED);
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_IMPLEMENTED);
     }
 
 }

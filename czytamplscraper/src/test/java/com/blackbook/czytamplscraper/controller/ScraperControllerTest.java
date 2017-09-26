@@ -10,10 +10,13 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.jayway.restassured.RestAssured.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -51,9 +54,9 @@ public class ScraperControllerTest {
         ScraperController controller = new ScraperController(scraperService);
 
         // When
-        SimpleResponse getResponse = controller.postBookDiscounts();
+        ResponseEntity<String> getResponse = controller.postBookDiscounts();
 
         // Then
-        Assert.assertEquals(HttpStatus.SC_OK, getResponse.getCode());
+        Assert.assertEquals(org.springframework.http.HttpStatus.OK, getResponse.getStatusCode());
     }
 }
