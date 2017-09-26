@@ -168,7 +168,6 @@
             <artifactId>json</artifactId>
             <version>${json.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>

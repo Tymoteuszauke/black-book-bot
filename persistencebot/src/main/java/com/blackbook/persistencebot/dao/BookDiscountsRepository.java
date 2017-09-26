@@ -23,4 +23,7 @@ public interface BookDiscountsRepository extends PagingAndSortingRepository<Book
     Page<BookDiscount> findAllTextualSearchBetweenPrices(String query, Double priceFrom, Double priceTo, Pageable pageable);
 
     BookDiscount findByBookIdAndBookstoreId(long id, long bookstoreId);
+
+    @Query(value = "SELECT coalesce(max(b.price), 0) FROM BookDiscount b")
+    Double findMaxPrice();
 }

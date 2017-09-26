@@ -9,15 +9,16 @@ import com.blackbook.persistencebot.model.Bookstore;
 import com.blackbook.persistencebot.model.LogEventModel;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
 import com.blackbook.persistencebot.service.GenreService;
-import com.blackbook.utils.model.view.BookDiscountView;
 import com.blackbook.utils.model.creationmodel.BookData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.log.LogEvent;
-import com.blackbook.utils.model.response.SimpleResponse;
-import org.apache.http.HttpStatus;
+import com.blackbook.utils.model.view.BookDiscountView;
+import com.blackbook.utils.response.SimpleResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -147,10 +148,10 @@ public class BookDiscountsControllerTest {
         service.setGenreService(genreService);
         controller.setGenreService(genreService);
         // When
-        SimpleResponse response = controller.postBookDiscounts(discountList);
+        ResponseEntity<SimpleResponse<String>> response = controller.postBookDiscounts(discountList);
 
         // Then
-        Assert.assertEquals(response.getCode(), HttpStatus.SC_OK);
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
     @Test
@@ -163,8 +164,8 @@ public class BookDiscountsControllerTest {
                 .build();
 
         when(logRepo.save(any(LogEventModel.class))).thenReturn(any());
-        SimpleResponse response = controller.postLogEvent(logEvent);
-        Assert.assertEquals(response.getCode(), HttpStatus.SC_OK);
+        ResponseEntity<SimpleResponse<String>> response = controller.postLogEvent(logEvent);
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
     }
 
     private void initDataForSavingTest() {

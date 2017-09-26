@@ -2,9 +2,12 @@ package com.blackbook.utils.callable;
 
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.creationmodel.SaveBooksCallableDataModel;
-import com.blackbook.utils.model.response.SimpleResponse;
-import org.apache.http.HttpStatus;
+import com.blackbook.utils.response.SimpleResponse;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -49,12 +52,10 @@ public class SaveBooksCallableTest {
     public void testCall(){
         //given
         List<BookDiscountData> booksDataMock = Collections.emptyList();
-        SimpleResponse responseForMock = SimpleResponse.builder()
-                .code(HttpStatus.SC_OK)
-                .message(TEST_MESSAGE)
-                .build();
+        ResponseEntity<SimpleResponse<String>> responseForMock = ResponseEntity.ok(new SimpleResponse<>(TEST_MESSAGE));
         RestTemplate restTemplateMock = mock(RestTemplate.class);
-        when(restTemplateMock.postForObject(any(String.class), any(HttpEntity.class), any())).thenReturn(responseForMock);
+        when(restTemplateMock.exchange(any(String.class), any(HttpMethod.class), any(HttpEntity.class), any(ParameterizedTypeReference.class)))
+                .thenReturn(responseForMock);
 
         SaveBooksCallable saveBooksCallable = new SaveBooksCallable(()-> SaveBooksCallableDataModel.builder()
                 .restTemplate(restTemplateMock)
@@ -62,30 +63,11 @@ public class SaveBooksCallableTest {
                 .booksData(booksDataMock)
                 .build());
         //when
-        SimpleResponse simpleResponse = saveBooksCallable.call();
+        ResponseEntity<SimpleResponse<String>> response = saveBooksCallable.call();
 
         //then
-        Assert.assertEquals(simpleResponse.getCode(), HttpStatus.SC_OK);
-        Assert.assertEquals(simpleResponse.getMessage(), TEST_MESSAGE);
-    }
-
-    @Test
-    public void testBadRequest(){
-        //given
-        List<BookDiscountData> booksDataMock = Collections.emptyList();
-        RestTemplate restTemplateMock = mock(RestTemplate.class);
-        when(restTemplateMock.postForObject(any(String.class), any(Object.class), any())).thenCallRealMethod();
-
-        SaveBooksCallable saveBooksCallable = new SaveBooksCallable(()-> SaveBooksCallableDataModel.builder()
-                .restTemplate(restTemplateMock)
-                .persistenceApiEndpoint(TEST_API_END_POIND)
-                .booksData(booksDataMock)
-                .build());
-        //when
-        SimpleResponse response = saveBooksCallable.call();
-
-        //then
-        Assert.assertEquals(response.getCode(), HttpStatus.SC_NOT_IMPLEMENTED);
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        Assert.assertEquals(response.getBody().getResponse(), TEST_MESSAGE);
     }
 
 }

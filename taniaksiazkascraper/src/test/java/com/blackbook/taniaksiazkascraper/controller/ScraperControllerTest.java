@@ -2,15 +2,19 @@ package com.blackbook.taniaksiazkascraper.controller;
 
 
 import com.blackbook.taniaksiazkascraper.service.TaniaksiazkaScraperService;
-import com.blackbook.utils.model.response.SimpleResponse;
-import org.apache.http.HttpStatus;
+import com.blackbook.utils.response.SimpleResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 
 public class ScraperControllerTest {
@@ -41,9 +45,9 @@ public class ScraperControllerTest {
         ScraperController controller = new ScraperController(scraperService);
 
         // When
-        SimpleResponse getResponse = controller.postBookDiscounts();
+        ResponseEntity<SimpleResponse<String>> getResponse = controller.postBookDiscounts();
 
         // Then
-        Assert.assertEquals(HttpStatus.SC_OK, getResponse.getCode());
+        Assert.assertEquals(HttpStatus.OK, getResponse.getStatusCode());
     }
 }
