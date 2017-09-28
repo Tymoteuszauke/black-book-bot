@@ -48,7 +48,7 @@ public class GoogleParserTest {
 
     private static final double TEST_LIST_PRISE = 10.00;
     private static final double TEST_RETAIL_PRISE = 8.00;
-    private static final String TEST_DISCOUNT_RESULT = "20,00%";
+    private static final String TEST_DISCOUNT_RESULT = "20.00%";
 
 
     private DataParser<JSONObject> parser;
