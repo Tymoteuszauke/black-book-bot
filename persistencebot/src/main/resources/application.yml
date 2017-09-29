@@ -3,10 +3,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://blackbookdb.ce3tk7fr9nov.eu-central-1.rds.amazonaws.com:3306/blackbook
+    url: jdbc:mysql://blackbookdb.ce3tk7fr9nov.eu-central-1.rds.amazonaws.com:3306/blackbook?characterEncoding=utf-8
 #    driverClassName: org.h2.Driver
     username: bbb_user
-    password: black0987654321
+    password: bot0987654321
   jpa:
     hibernate:
       ddl-auto: none
