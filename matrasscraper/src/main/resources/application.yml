@@ -5,7 +5,7 @@ endpoints:
   persistence-api: http://persistence-bot:8101
 
 const:
-  pages-limit: 4
+  pages-limit: 12
 
 logging:
   pattern:

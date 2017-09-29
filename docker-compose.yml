@@ -35,3 +35,9 @@ services:
         build: ./taniaksiazkascraper
         ports:
             - 8104:8104
+
+    blackbookwebapp:
+        image: blackbookwebappimage
+        build: ../black-book-webapp/
+        ports: 
+            - 3000:3000
