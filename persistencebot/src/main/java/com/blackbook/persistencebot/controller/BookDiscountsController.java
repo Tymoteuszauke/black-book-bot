@@ -4,28 +4,33 @@ import com.blackbook.persistencebot.dao.BookDiscountsRepository;
 import com.blackbook.persistencebot.dao.BookstoresRepository;
 import com.blackbook.persistencebot.dao.LogEventRepository;
 import com.blackbook.persistencebot.model.BookDiscount;
-import com.blackbook.persistencebot.model.Genre;
 import com.blackbook.persistencebot.model.LogEventModel;
 import com.blackbook.persistencebot.service.BookDiscountParserService;
 import com.blackbook.persistencebot.service.GenreService;
 import com.blackbook.persistencebot.util.ViewMapperUtil;
-import com.blackbook.utils.model.view.BookDiscountView;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.log.LogEvent;
-import com.blackbook.utils.model.response.SimpleResponse;
+import com.blackbook.utils.model.view.BookDiscountView;
+import com.blackbook.utils.response.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -56,6 +61,7 @@ public class BookDiscountsController {
     public Page<BookDiscountView> getBookDiscounts(@RequestParam(defaultValue = "") String query,
                                                    @RequestParam(required = false) String priceFrom,
                                                    @RequestParam(required = false) String priceTo,
+                                                   @RequestParam(required = false) String genre,
                                                    Pageable pageable) {
         log.info("Transaction: GET /api/book-discounts");
 
@@ -64,7 +70,7 @@ public class BookDiscountsController {
         if (arePricesSpecified(priceFrom, priceTo)) {
             Double from = Double.parseDouble(priceFrom);
             Double to = Double.parseDouble(priceTo);
-            bookDiscounts = bookDiscountsRepository.findAllTextualSearchBetweenPrices(query, from, to, pageable);
+            bookDiscounts = bookDiscountsRepository.findAllTextualSearchBetweenPricesAndGenres(query, from, to, genre, pageable);
         } else {
             bookDiscounts = bookDiscountsRepository.findAllTextualSearch(query, pageable);
         }
@@ -82,32 +88,23 @@ public class BookDiscountsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public SimpleResponse postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountData) {
+    public ResponseEntity<SimpleResponse<String>> postBookDiscounts(@RequestBody List<BookDiscountData> bookDiscountData) {
         try {
             log.info("Transaction: POST /api/book-discounts");
-            List<Genre> genres = new ArrayList<>();
             bookDiscountData
                     .stream()
                     .distinct()
                     .map(bookDiscountParserService::parseBookDiscountData)
                     .collect(Collectors.toList());
-
             genreService.setGenres();
-
-            return SimpleResponse.builder()
-                    .code(HttpStatus.SC_OK)
-                    .message("Books stored")
-                    .build();
+            return ResponseEntity.ok(new SimpleResponse<>("Books stored!"));
         } catch (Exception e) {
-            return SimpleResponse.builder()
-                    .code(HttpStatus.SC_CONFLICT)
-                    .message("Something went wrong! Books was not saved!")
-                    .build();
+            return new ResponseEntity(new SimpleResponse<>("Something went wrong! Books were not saved!"), HttpStatus.CONFLICT);
         }
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/log")
-    public SimpleResponse postLogEvent(@RequestBody LogEvent logEvent) {
+    public ResponseEntity<SimpleResponse<String>> postLogEvent(@RequestBody LogEvent logEvent) {
         try {
             log.info("Transaction: POST /api/book-discounts/log");
             LogEventModel logEventModel = new LogEventModel();
@@ -116,15 +113,17 @@ public class BookDiscountsController {
             logEventModel.setFinishTime(Timestamp.valueOf(logEvent.getFinishTime()));
             logEventModel.setResult(logEvent.getResult());
             logEventRepository.save(logEventModel);
-            return SimpleResponse.builder()
-                    .code(HttpStatus.SC_OK)
-                    .message("Log has been saved!")
-                    .build();
+            return ResponseEntity.ok(new SimpleResponse<>("Log has been saved!"));
         } catch (Exception e) {
-            return SimpleResponse.builder()
-                    .code(HttpStatus.SC_CONFLICT)
-                    .message("Something went wrong! Log was not saved!")
-                    .build();
+            return new ResponseEntity(new SimpleResponse<>("Something went wrong! Log was not saved!"), HttpStatus.CONFLICT);
         }
     }
+
+    @GetMapping(path = "/max-price", produces = "application/json")
+    public ResponseEntity<SimpleResponse<Double>> getMaxBookPrice() {
+        log.info("Transaction: GET /api/book-discounts/max-price");
+        Double maxPrice = bookDiscountsRepository.findMaxPrice();
+        return ResponseEntity.ok(new SimpleResponse<>(maxPrice));
+    }
+
 }

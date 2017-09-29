@@ -2,8 +2,8 @@ package com.blackbook.czytamplscraper.service;
 
 import com.blackbook.utils.callable.SaveBooksCallable;
 import com.blackbook.utils.core.Collector;
-import com.blackbook.utils.model.response.SimpleResponse;
-import org.apache.http.HttpStatus;
+import com.blackbook.utils.response.SimpleResponse;
+import org.springframework.http.ResponseEntity;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -15,29 +15,26 @@ import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Siarhei Shauchenka at 13.09.17
  */
 public class CzytamScraperServiceTest {
 
-    private SimpleResponse successMockResponse;
-    private SimpleResponse failedMockResponse;
-    private ScheduledFuture<SimpleResponse> mockSuccessTestFuture, mockFailedTestFuture;
+    private ResponseEntity<SimpleResponse<String>> successMockResponse;
+    private ResponseEntity<SimpleResponse<String>> failedMockResponse;
+    private ScheduledFuture<ResponseEntity<SimpleResponse<String>>> mockSuccessTestFuture, mockFailedTestFuture;
 
     @BeforeClass
     public void prepareData(){
-        successMockResponse = SimpleResponse.builder()
-                .code(HttpStatus.SC_OK)
-                .message("OK test response")
-                .build();
-
-        failedMockResponse = SimpleResponse.builder()
-                .code(HttpStatus.SC_NOT_IMPLEMENTED)
-                .message("Failed test response")
-                .build();
-
+        successMockResponse = ResponseEntity.ok(new SimpleResponse<>("OK test response"));
+        failedMockResponse = new ResponseEntity(new SimpleResponse<>("Failed test response"),
+                org.springframework.http.HttpStatus.NOT_IMPLEMENTED);
         mockSuccessTestFuture = mock(ScheduledFuture.class);
         mockFailedTestFuture = mock(ScheduledFuture.class);
     }
@@ -64,7 +61,7 @@ public class CzytamScraperServiceTest {
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
         CzytamScraperService service = new CzytamScraperService(crawler, executorService);
 
-        ScheduledFuture<SimpleResponse> mockTestFuture = mock(ScheduledFuture.class);
+        ScheduledFuture<ResponseEntity<SimpleResponse<String>>> mockTestFuture = mock(ScheduledFuture.class);
 
 
         when(mockTestFuture.get()).thenReturn(successMockResponse);
@@ -130,7 +127,7 @@ public class CzytamScraperServiceTest {
         Collector crawler = mock(Collector.class);
         ScheduledExecutorService executorService = mock(ScheduledExecutorService.class);
         CzytamScraperService service = new CzytamScraperService(crawler, executorService);
-        ScheduledFuture<SimpleResponse> mockFailedTestFutureWithException = mock(ScheduledFuture.class);
+        ScheduledFuture<ResponseEntity<SimpleResponse<String>>> mockFailedTestFutureWithException = mock(ScheduledFuture.class);
 
         when(mockFailedTestFuture.get()).thenReturn(failedMockResponse);
         when(mockFailedTestFutureWithException.get()).thenThrow(InterruptedException.class);

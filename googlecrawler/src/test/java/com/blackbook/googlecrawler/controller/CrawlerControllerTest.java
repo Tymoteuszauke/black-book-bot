@@ -39,7 +39,7 @@ public class CrawlerControllerTest {
         doNothing().when(service).saveResultsInDatabase();
 
         CrawlerController crawlerController = new CrawlerController(service);
-        Assert.assertEquals(crawlerController.postBookDiscounts().getCode(), HttpStatus.SC_OK);
+        Assert.assertEquals(crawlerController.postBookDiscounts().getStatusCode(), org.springframework.http.HttpStatus.OK);
 
         verify(service, times(1)).saveResultsInDatabase();
     }

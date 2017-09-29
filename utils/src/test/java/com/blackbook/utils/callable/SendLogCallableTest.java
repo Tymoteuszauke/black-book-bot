@@ -3,9 +3,12 @@ package com.blackbook.utils.callable;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
 import com.blackbook.utils.model.creationmodel.SendLogCallableDataModel;
 import com.blackbook.utils.model.log.LogEvent;
-import com.blackbook.utils.model.response.SimpleResponse;
-import org.apache.http.HttpStatus;
-import org.springframework.http.HttpRequest;
+import com.blackbook.utils.response.SimpleResponse;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -58,12 +61,9 @@ public class SendLogCallableTest {
         //given
         List<BookDiscountData> booksData = Collections.emptyList();
         LogEvent.LogEventBuilder logEventBuilder = mock(LogEvent.LogEventBuilder.class);
-        SimpleResponse responseForMock = SimpleResponse.builder()
-                .code(HttpStatus.SC_OK)
-                .message(TEST_MESSAGE)
-                .build();
+        ResponseEntity<SimpleResponse<String>> responseForMock = ResponseEntity.ok(new SimpleResponse<>(TEST_MESSAGE));
         RestTemplate restTemplate = mock(RestTemplate.class);
-        when(restTemplate.postForObject(any(String.class), any(HttpRequest.class), any())).thenReturn(responseForMock);
+        when(restTemplate.exchange(any(String.class), any(HttpMethod.class), any(HttpEntity.class), any(ParameterizedTypeReference.class))).thenReturn(responseForMock);
 
         SendLogCallable sendLogCallable = new SendLogCallable(() -> SendLogCallableDataModel.builder()
                 .booksData(booksData)
@@ -74,32 +74,10 @@ public class SendLogCallableTest {
                 .build());
 
         //when
-        SimpleResponse response = sendLogCallable.call();
+        ResponseEntity<SimpleResponse<String>> response = sendLogCallable.call();
 
         //then
-        Assert.assertEquals(response.getCode(), HttpStatus.SC_OK);
-        Assert.assertEquals(response.getMessage(), TEST_MESSAGE);
-    }
-
-    @Test
-    public void testBadRequest(){
-        //given
-        List<BookDiscountData> booksData = Collections.emptyList();
-        LogEvent.LogEventBuilder logEventBuilder = mock(LogEvent.LogEventBuilder.class);
-        RestTemplate restTemplate = mock(RestTemplate.class);
-        when(restTemplate.postForObject(any(String.class), any(Object.class), any())).thenCallRealMethod();
-
-        SendLogCallable sendLogCallable = new SendLogCallable(() -> SendLogCallableDataModel.builder()
-                .booksData(booksData)
-                .crawlerId(FAKE_CRAWLER_ID)
-                .logEventBuilder(logEventBuilder)
-                .persistenceApiEndpoint(TEST_API_END_POIND)
-                .restTemplate(restTemplate)
-                .build());
-        //when
-        SimpleResponse response = sendLogCallable.call();
-
-        //then
-        Assert.assertEquals(response.getCode(), HttpStatus.SC_NOT_IMPLEMENTED);
+        Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        Assert.assertEquals(response.getBody().getResponse(), TEST_MESSAGE);
     }
 }

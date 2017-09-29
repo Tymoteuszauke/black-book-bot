@@ -19,8 +19,22 @@ public interface BookDiscountsRepository extends PagingAndSortingRepository<Book
     @Query(value = "SELECT b FROM BookDiscount b WHERE b.book.title LIKE %?1% OR b.book.authors LIKE %?1%")
     Page<BookDiscount> findAllTextualSearch(String query, Pageable pageable);
 
-    @Query(value = "SELECT b FROM BookDiscount b WHERE (b.book.title LIKE %?1%) AND (b.price BETWEEN ?2 AND ?3)")
+    @Query(value = "SELECT b FROM BookDiscount b " +
+            "JOIN b.book.genres g " +
+            "WHERE (b.book.title LIKE %?1% " +
+            "OR b.book.authors LIKE %?1%) " +
+            "AND (g.name LIKE %?4%) " +
+            "AND (b.price BETWEEN ?2 AND ?3)")
+    Page<BookDiscount> findAllTextualSearchBetweenPricesAndGenres(String query, Double priceFrom, Double priceTo, String genre, Pageable pageable);
+
+    @Query(value = "SELECT b FROM BookDiscount b " +
+            "WHERE b.book.title LIKE %?1% " +
+            "OR b.book.authors LIKE %?1% " +
+            "AND (b.price BETWEEN ?2 AND ?3)")
     Page<BookDiscount> findAllTextualSearchBetweenPrices(String query, Double priceFrom, Double priceTo, Pageable pageable);
 
     BookDiscount findByBookIdAndBookstoreId(long id, long bookstoreId);
+
+    @Query(value = "SELECT coalesce(max(b.price), 0) FROM BookDiscount b")
+    Double findMaxPrice();
 }
