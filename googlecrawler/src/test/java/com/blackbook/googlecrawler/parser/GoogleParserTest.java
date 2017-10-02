@@ -11,7 +11,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Siarhei Shauchenka at 07.09.17
@@ -48,13 +50,14 @@ public class GoogleParserTest {
 
     private static final double TEST_LIST_PRISE = 10.00;
     private static final double TEST_RETAIL_PRISE = 8.00;
-    private static final String TEST_DISCOUNT_RESULT = "20.00%";
+    private static final String TEST_DISCOUNT_RESULT = "20,00%";
 
 
     private DataParser<JSONObject> parser;
     private JSONObject oneSuccessBookFakeObject;
     private JSONObject oneNotSuccessBookFakeObject;
 
+    private NumberFormat formatter = NumberFormat.getInstance(Locale.UK);
 
     @BeforeClass
     private void prepareParser() {
@@ -146,7 +149,7 @@ public class GoogleParserTest {
 
         Assert.assertEquals(discountData.getBookstoreId().intValue(), GOOGLE_CRAWLER_ID);
         Assert.assertEquals(discountData.getPrice(), TEST_RETAIL_PRISE);
-        Assert.assertEquals(discountData.getBookDiscountDetails(), TEST_DISCOUNT_RESULT);
+        Assert.assertEquals(discountData.getBookDiscountDetails(),TEST_DISCOUNT_RESULT);
 
         BookData bookData = discountData.getBookData();
 

@@ -35,9 +35,9 @@ class BookDiscountDataCreator {
                         .build())
                 .build();
 
-        String separator = " - ";
-        log.info(title + separator + subtitle + separator + authors + separator + publisher + separator +
-                genre + separator + price + separator + promoDetails + separator + bookUrl + separator + coverUrl);
+//        String separator = " - ";
+//        log.info(title + separator + subtitle + separator + authors + separator + publisher + separator +
+//                genre + separator + price + separator + promoDetails + separator + bookUrl + separator + coverUrl);
         return bookDiscountData;
     }
 }
