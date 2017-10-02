@@ -21,7 +21,7 @@ public class CollectorsDataTest {
         // Then
         assertEquals("http://www.gandalf.com.pl", CollectorsData.GANDALF_SCRAPER.getBaseUrl());
         assertEquals("https://www.googleapis.com/books/v1/volumes?q=", CollectorsData.GOOGLE_CRAWLER.getBaseUrl());
-        assertEquals("http://www.taniaksiazka.pl/tanie-ksiazki/page-%d", CollectorsData.TANIA_KSIAZKA_SCRAPER.getBaseUrl());
+        assertEquals("https://www.taniaksiazka.pl/tanie-ksiazki/page-%d", CollectorsData.TANIA_KSIAZKA_SCRAPER.getBaseUrl());
         assertEquals("http://czytam.pl", CollectorsData.CZYTAMPL_SCRAPER.getBaseUrl());
         assertEquals("http://www.matras.pl/ksiazki/promocje,k,53", CollectorsData.MATRAS_SCRAPER.getBaseUrl());
     }
