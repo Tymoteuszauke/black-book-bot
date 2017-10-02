@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,7 +18,7 @@ public class GenreService {
 
     private GenreRepository genreRepository;
     private BooksRepository booksRepository;
-    private Map<Book, Genre> genres = new ConcurrentHashMap<>();
+    private Map<Book, Genre> genres = new HashMap<>();
 
     @Autowired
     public void setGenreRepository(GenreRepository genreRepository) {
@@ -29,7 +30,6 @@ public class GenreService {
         this.booksRepository = booksRepository;
     }
 
-    @Async
     public void addGenreToDatabase(BookData bookData, Book book) {
         Genre genre = genreRepository.findByName(bookData.getGenre());
         if (genre == null) {
@@ -39,7 +39,7 @@ public class GenreService {
         genres.put(book, genre);
     }
 
-    @Async
+
     public void setGenres() {
         genres.forEach((book, genre) -> {
             book = booksRepository.findByTitleAndSubtitleAndPublisher(book.getTitle(), book.getSubtitle(), book.getPublisher());

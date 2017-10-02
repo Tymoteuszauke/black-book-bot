@@ -21,11 +21,13 @@ public interface BookDiscountsRepository extends PagingAndSortingRepository<Book
 
     @Query(value = "SELECT b FROM BookDiscount b " +
             "JOIN b.book.genres g " +
+            "JOIN b.bookstore bs " +
             "WHERE (b.book.title LIKE %?1% " +
             "OR b.book.authors LIKE %?1%) " +
+            "AND (bs.name LIKE %?5%) " +
             "AND (g.name LIKE %?4%) " +
             "AND (b.price BETWEEN ?2 AND ?3)")
-    Page<BookDiscount> findAllTextualSearchBetweenPricesAndGenres(String query, Double priceFrom, Double priceTo, String genre, Pageable pageable);
+    Page<BookDiscount> findAllTextualSearchBetweenPricesAndGenres(String query, Double priceFrom, Double priceTo, String genre, String bookstore, Pageable pageable);
 
     @Query(value = "SELECT b FROM BookDiscount b " +
             "WHERE b.book.title LIKE %?1% " +

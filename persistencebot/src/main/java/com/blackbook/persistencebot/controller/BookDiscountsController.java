@@ -61,7 +61,8 @@ public class BookDiscountsController {
     public Page<BookDiscountView> getBookDiscounts(@RequestParam(defaultValue = "") String query,
                                                    @RequestParam(required = false) String priceFrom,
                                                    @RequestParam(required = false) String priceTo,
-                                                   @RequestParam(required = false) String genre,
+                                                   @RequestParam(defaultValue = "") String genre,
+                                                   @RequestParam(defaultValue = "") String bookstore,
                                                    Pageable pageable) {
         log.info("Transaction: GET /api/book-discounts");
 
@@ -70,7 +71,7 @@ public class BookDiscountsController {
         if (arePricesSpecified(priceFrom, priceTo)) {
             Double from = Double.parseDouble(priceFrom);
             Double to = Double.parseDouble(priceTo);
-            bookDiscounts = bookDiscountsRepository.findAllTextualSearchBetweenPricesAndGenres(query, from, to, genre, pageable);
+            bookDiscounts = bookDiscountsRepository.findAllTextualSearchBetweenPricesAndGenres(query, from, to, genre, bookstore, pageable);
         } else {
             bookDiscounts = bookDiscountsRepository.findAllTextualSearch(query, pageable);
         }

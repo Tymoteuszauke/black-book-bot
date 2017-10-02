@@ -111,11 +111,11 @@ public class BookDiscountsControllerTest {
         discountList.add(discount2);
 
         Page page = new PageImpl(discountList);
-        when(repo.findAllTextualSearchBetweenPricesAndGenres(query, 1d, 100d, "1", pageable)).thenReturn(page);
+        when(repo.findAllTextualSearchBetweenPricesAndGenres(query, 1d, 100d,"1", null,  pageable)).thenReturn(page);
         when(repo.findAllTextualSearch(query, pageable)).thenReturn(page);
 
         // When
-        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, genre, pageable);
+        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, genre, null, pageable);
 
         // Then
         assertEquals(2, bookDiscounts.getContent().size());
@@ -130,7 +130,7 @@ public class BookDiscountsControllerTest {
         when(repo.findAllTextualSearch(query, pageable)).thenReturn(null);
 
         // When
-        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, genre, pageable);
+        Page<BookDiscountView> bookDiscounts = controller.getBookDiscounts(query, priceFrom, priceTo, genre, null, pageable);
 
         // Then
         assertEquals(Collections.EMPTY_LIST, bookDiscounts.getContent());

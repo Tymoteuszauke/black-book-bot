@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,9 @@ public class GenreController {
         return genreRepository
                 .findAll()
                 .stream()
-                .map(genre -> new GenreView(genre.getId(), genre.getName())).collect(Collectors.toList());
+                .map(genre -> new GenreView(genre.getId(), genre.getName()))
+                .sorted(Comparator.comparing(GenreView::getName))
+                .collect(Collectors.toList());
+
     }
 }
