@@ -37,7 +37,6 @@ public class Scraper implements Collector {
         int counter = 0;
         while (promotionsAreOnPage) {
             if (counter == 4) {
-                promotionsAreOnPage = false;
                 break;
             }
             counter++;
