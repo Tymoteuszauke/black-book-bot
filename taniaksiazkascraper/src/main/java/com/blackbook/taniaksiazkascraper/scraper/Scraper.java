@@ -34,13 +34,16 @@ public class Scraper implements Collector {
         List<BookDiscountData> discountData = new LinkedList<>();
         int pageId = 1;
         boolean promotionsAreOnPage = true;
-
+        int counter = 0;
         while (promotionsAreOnPage) {
+            if (counter == 4) {
+                break;
+            }
+            counter++;
             String promotionPageUrl = String.format(collectorData.getBaseUrl(), pageId);
             Document document = connector.getDocumentFromWebPage(promotionPageUrl);
             Elements books = document.select(".product-container");
             books.forEach(book -> discountData.add(detailsReader.readDiscountDataProperties(connector, book)));
-
             if (checker.isLastPage(document)) {
                 promotionsAreOnPage = false;
             } else {

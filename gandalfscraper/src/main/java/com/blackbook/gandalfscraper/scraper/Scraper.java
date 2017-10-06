@@ -51,7 +51,7 @@ public class Scraper implements Collector {
         return bookElements.stream()
                 .parallel()
                 .map(bookElement -> {
-                    String bookUrl = collectorData.getBaseUrl() + extractBookUrl(bookElement);
+                    String bookUrl = extractBookUrl(bookElement);
                     BookPage bookDoc = new BookPage(webConnector.connect(bookUrl));
                     return BookDiscountDataCreator.createBookDiscountDataFrom(bookDoc, bookUrl);
                 })

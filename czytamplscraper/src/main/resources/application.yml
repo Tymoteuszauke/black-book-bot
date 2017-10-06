@@ -2,7 +2,7 @@ server:
   port: 8103
 
 endpoints:
-  persistence-api: http://localhost:8101
+  persistence-api: http://persistence-bot:8101
 
 const:
   pages-limit: 3

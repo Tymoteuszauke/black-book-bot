@@ -3,18 +3,18 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://blackbookdb.ce3tk7fr9nov.eu-central-1.rds.amazonaws.com:3306/blackbook?characterEncoding=utf-8
+#    driverClassName: org.h2.Driver
+    username: bbb_user
+    password: book1234567890
   jpa:
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
-        use_sql_comments: true
+#        show_sql: true
+#        format_sql: true
+#        use_sql_comments: true
   output:
     ansi:
     enabled: DETECT
@@ -23,7 +23,7 @@ logging:
   level:
     org:
       hibernate:
-        type: trace
+#        type: trace
 
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

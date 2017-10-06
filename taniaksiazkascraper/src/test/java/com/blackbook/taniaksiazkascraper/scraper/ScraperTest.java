@@ -22,8 +22,8 @@ public class ScraperTest {
     private PromoDetailsReader mockReader;
     private Document document;
     private Document lastDocument;
-    private final String TEST_URL = "http://www.taniaksiazka.pl/tanie-ksiazki/page-1";
-    private final String TEST_LAST_URL = "http://www.taniaksiazka.pl/tanie-ksiazki/page-2";
+    private final String TEST_URL = "https://www.taniaksiazka.pl/tanie-ksiazki/page-1";
+    private final String TEST_LAST_URL = "https://www.taniaksiazka.pl/tanie-ksiazki/page-2";
     private final File PROMOTIONS_HTML_FILE = new File("src/test/resources/promotions_page.html");
     private final File PROMOTIONS_LAST_PAGE_HTML_FILE = new File("src/test/resources/promotions_last_page.html");
 

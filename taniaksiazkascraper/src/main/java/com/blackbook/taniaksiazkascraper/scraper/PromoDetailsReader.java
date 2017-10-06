@@ -3,6 +3,8 @@ package com.blackbook.taniaksiazkascraper.scraper;
 import com.blackbook.utils.model.CollectorsData;
 import com.blackbook.utils.model.creationmodel.BookData;
 import com.blackbook.utils.model.creationmodel.BookDiscountData;
+import javafx.scene.layout.Pane;
+import joptsimple.internal.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PromoDetailsReader {
 
-    private static final String BOOKSTORE_URL = "http://www.taniaksiazka.pl";
+    private static final String BOOKSTORE_URL = "https://www.taniaksiazka.pl";
 
     BookDiscountData readDiscountDataProperties(Connector connector, Element book) {
         String detailsUrl = BOOKSTORE_URL + readBookDetailsPagePath(book);
@@ -46,12 +48,21 @@ public class PromoDetailsReader {
                 .replaceAll("[a-żA-Ż]", "")
                 .replaceAll(",", ".")
                 .trim();
-        return Double.valueOf(price);
+        try{
+            return Double.valueOf(price);
+        } catch (NumberFormatException e){
+            log.error(e.getLocalizedMessage());
+            return 0d;
+        }
     }
 
     private String readPromoDetails(Document detailsPage) {
-        String promoDetails = detailsPage.select(".book-price-bg").select("#p-discount").text();
-        return "-" + promoDetails.substring(promoDetails.indexOf('(') + 1, promoDetails.indexOf(')')).trim();
+        try {
+            String promoDetails = detailsPage.select(".book-price-bg").select("#p-discount").text();
+            return "-" + promoDetails.substring(promoDetails.indexOf('(') + 1, promoDetails.indexOf(')')).trim();
+        } catch (StringIndexOutOfBoundsException e) {
+            return Strings.EMPTY;
+        }
     }
 
     private String readAuthors(Document detailsPage) {

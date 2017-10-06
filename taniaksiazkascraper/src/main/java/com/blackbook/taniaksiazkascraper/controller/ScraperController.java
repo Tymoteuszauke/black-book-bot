@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @RestController
@@ -25,7 +27,7 @@ public class ScraperController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<SimpleResponse<String>> postBookDiscounts() throws IOException {
-        log.info("Transaction: POST /api/taniaksiazka-scraper");
+        log.info("Transaction: POST /api/taniaksiazka-scraper " + DateTimeFormatter.ofPattern("dd:MM:yyyy HH:mm").format(LocalDateTime.now()));
         scraperService.saveResultsInDatabase();
         return ResponseEntity.ok(new SimpleResponse<>("Taniaksiazka.pl scraper started!"));
     }

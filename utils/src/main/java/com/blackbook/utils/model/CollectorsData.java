@@ -8,7 +8,7 @@ public enum CollectorsData {
     GANDALF_SCRAPER(5, "http://www.gandalf.com.pl"),
     GOOGLE_CRAWLER(4, "https://www.googleapis.com/books/v1/volumes?q="),
     MATRAS_SCRAPER(1, "http://www.matras.pl/ksiazki/promocje,k,53"),
-    TANIA_KSIAZKA_SCRAPER(3, "http://www.taniaksiazka.pl/tanie-ksiazki/page-%d");
+    TANIA_KSIAZKA_SCRAPER(3, "https://www.taniaksiazka.pl/tanie-ksiazki/page-%d");
 
     private int bookStoreId;
     private String baseUrl;

@@ -10,7 +10,7 @@ import java.io.IOException;
 public class Connector {
     Document getDocumentFromWebPage(String url) {
         try {
-            return Jsoup.connect(url).get();
+            return Jsoup.connect(url).validateTLSCertificates(false).get();
         } catch (IOException e) {
             throw new IllegalArgumentException("Cannot connect with url: " + url);
         }
