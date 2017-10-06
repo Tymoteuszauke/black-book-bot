@@ -19,6 +19,8 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,6 +40,7 @@ import java.util.function.Consumer;
 @Slf4j
 @Service
 @EnableAsync
+@EnableScheduling
 public class TaniaksiazkaScraperService implements BotService {
 
     private static final long DELAY_BEFORE_SECOND_TRY = 5;
@@ -58,7 +61,9 @@ public class TaniaksiazkaScraperService implements BotService {
 
     @Async
     @Override
+    @Scheduled(cron = "0 40 1 * * *")
     public void saveResultsInDatabase() {
+        log.info("Scraper has been started ");
         final ClientHttpRequestFactory requestFactory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         final RestTemplate restTemplate = new RestTemplate(requestFactory);
         final LogEvent.LogEventBuilder logEventBuilder = LogEvent.builder();

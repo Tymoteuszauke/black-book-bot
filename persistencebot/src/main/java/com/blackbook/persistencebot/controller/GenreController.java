@@ -28,7 +28,7 @@ public class GenreController {
                 .findAll()
                 .stream()
                 .map(genre -> new GenreView(genre.getId(), genre.getName()))
-                .sorted(Comparator.comparing(GenreView::getName))
+//                .sorted(Comparator.comparing(GenreView::getName))
                 .collect(Collectors.toList());
 
     }

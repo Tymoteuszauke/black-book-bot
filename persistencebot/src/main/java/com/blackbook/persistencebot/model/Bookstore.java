@@ -1,5 +1,6 @@
 package com.blackbook.persistencebot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Bookstore {
     @Column(name = "details")
     private String details;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "bookstore")
     List<BookDiscount> bookDiscounts;
 }
